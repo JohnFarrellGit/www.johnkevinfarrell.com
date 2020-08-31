@@ -44,6 +44,7 @@ export default [
   {
     id: 6,
     icon: <AiFillGithub className="service-icon" />,
+    title: 'Git',
     description:
       "Every project I've worked on professionally has used git for version control, I also use git for my personal projects, " +
       'you can of course check out my GitHub.'
