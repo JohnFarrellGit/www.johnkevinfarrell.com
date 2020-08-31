@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'gatsby'
 import Title from './Title'
 
 const Articles = () => {
@@ -11,9 +10,6 @@ const Articles = () => {
           return <Blog key={blog.id} {...blog} />
         })} */}
       </div>
-      <Link to="/blog" className="btn center-btn">
-        Blog
-      </Link>
     </section>
   )
 }
