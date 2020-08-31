@@ -14,13 +14,6 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'content',
-        path: `${__dirname}/src/content`
-      }
-    },
-    {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
@@ -56,14 +49,6 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
-    {
-      resolve: `gatsby-source-strapi`,
-      options: {
-        apiURL: `http://localhost:1337`,
-        queryLimit: 1000, // Default to 100
-        contentTypes: [`skills`, `jobs`]
-      }
-    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
