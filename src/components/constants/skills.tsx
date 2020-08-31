@@ -1,5 +1,6 @@
 import React from 'react'
 import { SiJavascript, SiTypescript, SiReact, SiJava, SiSpring } from 'react-icons/si'
+import { AiFillGithub } from 'react-icons/ai'
 
 export default [
   {
@@ -39,5 +40,12 @@ export default [
     description:
       "I've used Spring whilst working on professional web applications, Spring made the backend/server-side development " +
       'simple with its many pre-configurations.'
+  },
+  {
+    id: 6,
+    icon: <AiFillGithub className="service-icon" />,
+    description:
+      "Every project I've worked on professionally has used git for version control, I also use git for my personal projects, " +
+      'you can of course check out my GitHub.'
   }
 ]
