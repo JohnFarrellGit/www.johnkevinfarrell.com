@@ -1,21 +1,17 @@
-import * as React from 'react'
-import { Link } from 'gatsby'
+import React from 'react'
+import Layout from '../components/Layout'
+import SEO from '../components/SEO'
+import Hero from '../components/Hero'
+import Skills from '../components/Skills'
+import Jobs from '../components/Jobs'
 
-import Page from '../components/Page'
-import Container from '../components/Container'
-import IndexLayout from '../layouts'
-
-const IndexPage = () => (
-  <IndexLayout>
-    <Page>
-      <Container>
-        <h1>Hi people</h1>
-        <p>Welcome to your new Gatsby site.</p>
-        <p>Now go build something great.</p>
-        <Link to="/page-2/">Go to page 2</Link>
-      </Container>
-    </Page>
-  </IndexLayout>
-)
-
-export default IndexPage
+export default () => {
+  return (
+    <Layout>
+      <SEO title="JohnFarrellDev" description="Home page for John Farrell Dev website" />
+      <Hero />
+      <Skills />
+      <Jobs />
+    </Layout>
+  )
+}

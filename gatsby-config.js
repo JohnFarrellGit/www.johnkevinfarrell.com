@@ -1,16 +1,16 @@
-'use strict'
-
 module.exports = {
   siteMetadata: {
-    title: 'gatsby-starter-typescript-plus',
-    description: 'A starter kit for TypeScript-based Gatsby projects with sensible defaults.',
-    keywords: 'gatsbyjs, gatsby, javascript, sample, something',
-    siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',
+    title: 'Website of John Farrell - software developer',
+    description: "John Farrell's website for sharing of software projects and articles.",
+    keywords: 'gatsbyjs, gatsby, javascript, John Farrell, software developer, software engineer, code, web development',
+    siteUrl: 'https://www.JohnFarrell.dev',
     author: {
-      name: 'Resi Respati',
+      name: 'John Farrell',
       url: 'https://twitter.com/resir014',
       email: 'resir014@gmail.com'
-    }
+    },
+    image: '/twitter-img.png',
+    twitterUsername: 'JohnFarrellDev'
   },
   plugins: [
     {
@@ -55,6 +55,29 @@ module.exports = {
     'gatsby-plugin-typescript',
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
-    'gatsby-plugin-react-helmet'
+    'gatsby-plugin-react-helmet',
+    {
+      resolve: `gatsby-source-strapi`,
+      options: {
+        apiURL: `http://localhost:1337`,
+        queryLimit: 1000, // Default to 100
+        contentTypes: [`skills`, `jobs`]
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `assets`,
+        path: `${__dirname}/src/assets/`
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /assets/
+        }
+      }
+    }
   ]
 }
