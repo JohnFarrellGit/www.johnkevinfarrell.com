@@ -406,7 +406,7 @@ Hero
 .hero {
   margin-top: -5rem;
   padding-top: 5rem;
-  height: 110vh;
+  height: 100vh;
   background: var(--clr-primary-10);
   position: relative;
 }
@@ -974,7 +974,6 @@ Contact Page
   margin-bottom: 1.25rem;
   background: var(--clr-grey-10);
   border-radius: var(--radius);
-  text-transform: uppercase;
   letter-spacing: var(--spacing);
 }
 .form-control::placeholder {
