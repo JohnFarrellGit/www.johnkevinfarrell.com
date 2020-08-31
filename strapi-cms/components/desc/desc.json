@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_desc_descs",
+  "info": {
+    "name": "desc",
+    "icon": "address-book"
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "string"
+    }
+  }
+}
