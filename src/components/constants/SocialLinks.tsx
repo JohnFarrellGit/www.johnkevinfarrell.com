@@ -10,7 +10,7 @@ const data = [
   {
     id: 2,
     icon: <FaLinkedin className="social-icon" />,
-    url: 'https://www.linkedin.com/in/john-farrell-28017a80/'
+    url: 'www.linkedin.com/in/jJohnFarrellDev'
   },
   {
     id: 3,
