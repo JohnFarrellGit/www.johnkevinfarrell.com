@@ -682,7 +682,7 @@ Projects
 .about-stack span {
   display: inline-block;
   background: var(--clr-grey-9);
-  color: var(--clr-grey-5);
+  color: var(--clr-grey-3);
   margin-right: 0.5rem;
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius);
