@@ -17,9 +17,9 @@ const Skills = () => {
               <div className="underline" />
               <p>{description}</p>
               {link && (
-                <Link to={link.url} className="btn">
+                <a href={link.url} className="btn">
                   {link.display}
-                </Link>
+                </a>
               )}
             </article>
           )
