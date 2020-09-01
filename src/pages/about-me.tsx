@@ -1,10 +1,9 @@
 import React from 'react'
 import Layout from '../components/Layout'
 import Title from '../components/Title'
+import SEO from '../components/SEO'
 
 const About = () => {
-  // const {title, info, image, stack} = nodes[0]
-
   const info =
     "Hi, I'm John Farrell a professional software developer. I started this programming journey in 2016 teaching myself a little bit of " +
     'Python following the completion of my BSc in Biomedical Science. It became my ambition to become a software engineer so I enrolled ' +
@@ -37,6 +36,7 @@ const About = () => {
 
   return (
     <Layout>
+      <SEO title="About Me" description="Information about John Farrell" />
       <section className="about-page">
         <div className="section-center about-center">
           <article className="about-text">
