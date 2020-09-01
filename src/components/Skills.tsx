@@ -13,7 +13,7 @@ const Skills = () => {
           return (
             <article key={id} className="skill">
               {icon}
-              <h4>{title}</h4>
+              <h3>{title}</h3>
               <div className="underline" />
               <p>{description}</p>
               {link && (
