@@ -46,7 +46,11 @@ export default [
     icon: <AiFillGithub className="skill-icon" />,
     title: 'Git',
     description:
-      "Every project I've worked on professionally has used git for version control, I also use git for my personal projects, " +
-      'you can of course check out my GitHub.'
+      "Every project I've worked on professionally has used Git for version control, I also use Git for my personal projects, " +
+      'you can of course check out my GitHub.',
+    link: {
+      url: 'https://github.com/JohnFarrellDev/',
+      display: 'GitHub'
+    }
   }
 ]
