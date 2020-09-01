@@ -5,7 +5,7 @@ import { AiFillGithub } from 'react-icons/ai'
 export default [
   {
     id: 1,
-    icon: <SiJavascript className="service-icon" />,
+    icon: <SiJavascript className="skill-icon" />,
     title: 'JavaScript',
     description:
       'JavaScript is a language I have been using professionally for over a year, I love it because I love the internet. ' +
@@ -13,7 +13,7 @@ export default [
   },
   {
     id: 2,
-    icon: <SiTypescript className="service-icon" />,
+    icon: <SiTypescript className="skill-icon" />,
     title: 'TypeScript',
     description:
       'TypeScript is fantastic as it makes my development experience a lot easier, the static type checking helps reduce ' +
@@ -21,7 +21,7 @@ export default [
   },
   {
     id: 3,
-    icon: <SiReact className="service-icon" />,
+    icon: <SiReact className="skill-icon" />,
     title: 'React',
     description:
       'React is my current favourite web framework (I have used Angular and Vue professionally), I find modern functional React makes ' +
@@ -29,13 +29,13 @@ export default [
   },
   {
     id: 4,
-    icon: <SiJava className="service-icon" />,
+    icon: <SiJava className="skill-icon" />,
     title: 'Java',
     description: 'I find Java great for large scale enterprise development. I am interested in alternatives though (Python, Go, C, C++, C#)'
   },
   {
     id: 5,
-    icon: <SiSpring className="service-icon" />,
+    icon: <SiSpring className="skill-icon" />,
     title: 'Spring',
     description:
       "I've used Spring whilst working on professional web applications, Spring made the backend/server-side development " +
@@ -43,7 +43,7 @@ export default [
   },
   {
     id: 6,
-    icon: <AiFillGithub className="service-icon" />,
+    icon: <AiFillGithub className="skill-icon" />,
     title: 'Git',
     description:
       "Every project I've worked on professionally has used git for version control, I also use git for my personal projects, " +
