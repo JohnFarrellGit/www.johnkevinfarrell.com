@@ -11,7 +11,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
     <nav className="navbar">
       <div className="nav-center">
         <div className="nav-header">
-          <button type="button" className="toggle-btn">
+          <button type="button" className="toggle-btn" aria-label="open sidebar">
             <FaAlignRight onClick={toggleSidebar} />
           </button>
         </div>
