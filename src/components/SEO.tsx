@@ -28,8 +28,6 @@ interface SEOProps {
 }
 
 const SEO = ({ title, description }: SEOProps) => {
-  console.log('favicon', favicon)
-
   const { site } = useStaticQuery(query)
 
   const { siteDescription, siteTitle, siteUrl, image, twitterUsername } = site.siteMetadata
