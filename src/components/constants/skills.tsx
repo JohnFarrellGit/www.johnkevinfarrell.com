@@ -8,7 +8,7 @@ export default [
     icon: <SiJavascript className="service-icon" />,
     title: 'JavaScript',
     description:
-      'JavaScript is a language I have been using professionally for over a year, I love it because I love the internet.' +
+      'JavaScript is a language I have been using professionally for over a year, I love it because I love the internet. ' +
       'I love the internet because it is the most user friendly way to share information or build applications.'
   },
   {
