@@ -6,10 +6,10 @@ module.exports = {
     siteUrl: 'https://www.JohnFarrell.dev',
     author: {
       name: 'John Farrell',
-      url: 'https://twitter.com/resir014',
-      email: 'resir014@gmail.com'
+      url: 'hhttps://www.JohnFarrell.dev',
+      email: 'JohnFarrell@fastmail.com'
     },
-    image: '/twitter-img.png',
+    image: '/favicon.png',
     twitterUsername: 'JohnFarrellDev'
   },
   plugins: [

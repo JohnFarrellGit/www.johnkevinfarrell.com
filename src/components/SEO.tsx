@@ -37,6 +37,7 @@ const SEO = ({ title, description }: SEOProps) => {
         lang: 'en'
       }}
       title={`${title} | ${siteTitle}`}
+      link={[{ rel: 'shortcut icon', type: 'image/png', href: '/favicon.ico' }]}
     >
       <meta name="description" content={description || siteDescription} />
       <meta name="image" content={image} />
