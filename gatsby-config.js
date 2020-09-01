@@ -27,6 +27,7 @@ module.exports = {
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
           `gatsby-plugin-sitemap`,
+          `gatsby-plugin-robots-txt`,
           {
             resolve: 'gatsby-remark-images',
             options: {
