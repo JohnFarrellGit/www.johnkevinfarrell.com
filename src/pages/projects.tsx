@@ -6,7 +6,7 @@ import SEO from '../components/SEO'
 const ProjectsPage = () => {
   return (
     <Layout>
-      <SEO title="Projects" description="Projects created by John Farrell" />
+      <SEO title="Projects" description="Software engineering projects created by John Farrell" />
       <section className="projects-page">
         <Projects />
       </section>

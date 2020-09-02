@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Website of John Farrell - software developer',
+    title: 'John Farrell | Professional Software Engineer | Web Developer',
     description: "John Farrell's website for sharing of software projects and articles.",
     keywords: 'gatsbyjs, gatsby, javascript, John Farrell, software developer, software engineer, code, web development',
     siteUrl: 'https://www.JohnFarrell.dev',

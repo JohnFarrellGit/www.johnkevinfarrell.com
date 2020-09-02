@@ -23,13 +23,11 @@ const query = graphql`
 `
 
 interface SEOProps {
-  title: string
+  title?: string
   description: string
 }
 
 const SEO = ({ title, description }: SEOProps) => {
-  console.log('favicon', favicon)
-
   const { site } = useStaticQuery(query)
 
   const { siteDescription, siteTitle, siteUrl, image, twitterUsername } = site.siteMetadata
@@ -39,7 +37,7 @@ const SEO = ({ title, description }: SEOProps) => {
       htmlAttributes={{
         lang: 'en'
       }}
-      title={`${title} | ${siteTitle}`}
+      title={title ? `${title} | ${siteTitle}` : `${siteTitle}`}
     >
       <meta name="description" content={description || siteDescription} />
       <meta name="image" content={image} />
