@@ -6,7 +6,7 @@ import SEO from '../components/SEO'
 const ArticlesPage = () => {
   return (
     <Layout>
-      <SEO title="Articles" description="Articles written by John Farrell" />
+      <SEO title="Articles" description="Articles (mostly about software engineering) written by John Farrell" />
       <section className="blog-page">
         <ArticlesComponent />
       </section>

@@ -8,12 +8,7 @@ import Jobs from '../components/Jobs'
 export default () => {
   return (
     <Layout>
-      <SEO
-        title="JohnFarrellDev"
-        description={
-          "Home page for John Farrell, John Farrell is a software engineer, this site shares John Farrell's projects and articles."
-        }
-      />
+      <SEO description="Home page for John Farrell, John Farrell is a professional software engineer with expertise in web development." />
       <Hero />
       <Skills />
       <Jobs />
