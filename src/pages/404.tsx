@@ -6,7 +6,7 @@ import SEO from '../components/SEO'
 const Error = () => {
   return (
     <Layout>
-      <SEO title="404" description="404 page" />
+      <SEO title="404" description="404 error page" />
       <main className="error-page">
         <div className="error-container">
           <h1>Oops, it's a dead end</h1>
