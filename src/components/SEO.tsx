@@ -23,7 +23,7 @@ const query = graphql`
 `
 
 interface SEOProps {
-  title: string
+  title?: string
   description: string
 }
 
@@ -37,7 +37,7 @@ const SEO = ({ title, description }: SEOProps) => {
       htmlAttributes={{
         lang: 'en'
       }}
-      title={`${title} | ${siteTitle}`}
+      title={title ? `${title} | ${siteTitle}` : `${siteTitle}`}
     >
       <meta name="description" content={description || siteDescription} />
       <meta name="image" content={image} />
