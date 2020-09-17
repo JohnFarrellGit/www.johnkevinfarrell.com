@@ -1,5 +1,5 @@
 import React from 'react'
-import { SiJavascript, SiTypescript, SiReact, SiJava, SiSpring } from 'react-icons/si'
+import { SiJavascript, SiTypescript, SiReact, SiJava, SiSpring, SiNodeDotJs } from 'react-icons/si'
 import { AiFillGithub } from 'react-icons/ai'
 
 export default [
@@ -29,12 +29,20 @@ export default [
   },
   {
     id: 4,
+    icon: <SiNodeDotJs className="skill-icon" />,
+    title: 'Node',
+    description:
+      "I'm a big fan of the node ecosystem. I love using one language across the whole development stack. I find with node I can get a " +
+      "project started extremely quickly. It's also nice that when working in a team everybody knows the languages used across the stack."
+  },
+  {
+    id: 5,
     icon: <SiJava className="skill-icon" />,
     title: 'Java',
     description: 'I find Java great for large scale enterprise development. I am interested in alternatives though (Python, Go, C, C++, C#)'
   },
   {
-    id: 5,
+    id: 6,
     icon: <SiSpring className="skill-icon" />,
     title: 'Spring',
     description:
@@ -42,7 +50,7 @@ export default [
       'simple with its many pre-configurations.'
   },
   {
-    id: 6,
+    id: 7,
     icon: <AiFillGithub className="skill-icon" />,
     title: 'Git',
     description:

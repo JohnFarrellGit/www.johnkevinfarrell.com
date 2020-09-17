@@ -26,10 +26,14 @@ const About = () => {
     },
     {
       id: 4,
-      title: 'Java'
+      title: 'Node'
     },
     {
       id: 5,
+      title: 'Java'
+    },
+    {
+      id: 6,
       title: 'Spring'
     }
   ]
