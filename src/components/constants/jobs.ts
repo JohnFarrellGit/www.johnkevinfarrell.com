@@ -44,7 +44,7 @@ export default [
     responsibilities: [
       {
         id: 1,
-        description: 'Worked on a large scale cloud industrilisation project',
+        description: 'Worked on a large scale cloud industrialisation project',
         technology: ['C#, AWS']
       }
     ]
