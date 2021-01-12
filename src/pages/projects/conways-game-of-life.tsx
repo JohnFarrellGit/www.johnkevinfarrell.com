@@ -3,6 +3,7 @@ import Layout from '../../components/Layout'
 import SEO from '../../components/SEO'
 import styled from 'styled-components';
 import useInterval from '../../common/hooks/useInterval';
+import Title from '../../components/Title';
 
 const neighbourCoords: [number, number][] = [
   [-1, 1],
@@ -14,6 +15,12 @@ const neighbourCoords: [number, number][] = [
   [1, 0],
   [1, -1]
 ]
+
+// add ability to go back and forward through steps
+// can only go back if already played, can always go forward
+// add slider for setting rows and columns
+// make display responsive
+// change colours
 
 const ConwaysGameOfLife = () => {
 
@@ -71,6 +78,7 @@ const ConwaysGameOfLife = () => {
     <Layout>
       <SEO title="Game of Life by John Conway" description="Simple implementation of John Conway's game of life" />
       <Main>
+        <p style={{ textAlign: 'center' }}>John Conway's Game of Life</p>
         <GameContainer>
           <div>
             <Controls>
@@ -95,7 +103,6 @@ const ConwaysGameOfLife = () => {
 export default ConwaysGameOfLife;
 
 const GameContainer = styled.div`
-  width: 90%;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
