@@ -70,20 +70,24 @@ const ConwaysGameOfLife = () => {
   return (
     <Layout>
       <SEO title="Game of Life by John Conway" description="Simple implementation of John Conway's game of life" />
-      <main>
+      <Main>
         <GameContainer>
-          <button onClick={() => setIsPlaying(currPlayValue => !currPlayValue)}>{isPlaying ? 'Stop' : 'Start'}</button>
-          <GridContainer>
-            {
-              grid.map((columns, indexC) => columns.map((_, indexR) => {
-                return (
-                  <Cell key={`col - ${indexC} : row - ${indexR}`} alive={grid[indexC][indexR]} onClick={() => flipFunction(indexC, indexR)} />
-                )
-              }))
-            }
-          </GridContainer>
+          <div>
+            <Controls>
+              <button onClick={() => setIsPlaying(currPlayValue => !currPlayValue)}>{isPlaying ? 'Stop' : 'Start'}</button>
+            </Controls>
+            <GridContainer>
+              {
+                grid.map((columns, indexC) => columns.map((_, indexR) => {
+                  return (
+                    <Cell key={`col - ${indexC} : row - ${indexR}`} alive={grid[indexC][indexR]} onClick={() => flipFunction(indexC, indexR)} />
+                  )
+                }))
+              }
+            </GridContainer>
+          </div>
         </GameContainer>
-      </main>
+      </Main>
     </Layout>
   )
 }
@@ -92,9 +96,14 @@ export default ConwaysGameOfLife;
 
 const GameContainer = styled.div`
   width: 90%;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+`
+
+const Controls = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const GridContainer = styled.div`
@@ -111,4 +120,8 @@ const Cell = styled.div`
   height: 20px;
   border: solid 1px black;
   background-color: ${(props: CellI) => props.alive ? 'pink' : 'white'}
+`
+
+const Main = styled.main`
+  margin-bottom: 20px;
 `
