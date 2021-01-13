@@ -16,12 +16,13 @@ const neighbourCoords: [number, number][] = [
   [1, -1]
 ]
 
-// add ability to go back and forward through steps (capture the last step)
-// can only go back if already played, can always go forward
+// add ability to go back and forward through steps (capture the last step, can do this in stepback function)
+// can only go back if already played, can always go forward, just call gameTick
 // add slider for setting rows and columns
+// slider for speed
 // make display responsive
 // change colours
-// drag to highlight cells
+// drag to highlight cells to turn on or off(?)
 
 const ConwaysGameOfLife = () => {
 
@@ -80,7 +81,7 @@ const ConwaysGameOfLife = () => {
     addToHistory();
   }
 
-  useInterval(gametick, 5000);
+  useInterval(gametick, 1000);
 
   const stepForward = () => {
     if (steps >= history.length) {
@@ -110,7 +111,7 @@ const ConwaysGameOfLife = () => {
 
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[i].length; j++) {
-        const randomFlip = Math.random() > 0.25;
+        const randomFlip = Math.random() > 0.8;
         grid[i][j] = randomFlip;
       }
     }
