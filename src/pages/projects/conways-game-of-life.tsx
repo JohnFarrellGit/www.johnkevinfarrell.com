@@ -5,16 +5,7 @@ import styled from 'styled-components';
 import useInterval from '../../common/hooks/useInterval';
 import { FaPlay, FaStopCircle } from 'react-icons/fa';
 
-const neighbourCoords: [number, number][] = [
-  [-1, 1],
-  [-1, 0],
-  [-1, -1],
-  [0, 1],
-  [0, -1],
-  [1, 1],
-  [1, 0],
-  [1, -1]
-]
+
 
 // add ability to go back and forward through steps (capture the last step, can do this in stepback function)
 // can only go back if already played, can always go forward, just call gameTick
@@ -26,26 +17,55 @@ const neighbourCoords: [number, number][] = [
 
 const ConwaysGameOfLife = () => {
 
-  const [columns, setColumns] = useState(50);
-  const [rows, setRows] = useState(30);
-  const [grid, setGrid] = useState<boolean[][]>(Array(columns).fill(Array(rows).fill(false)));
+  const [columns,] = useState(50);
+  const [rows,] = useState(30);
+  const [grid, setGrid] = useState<boolean[]>(Array(columns * rows).fill(false));
   const [isPlaying, setIsPlaying] = useState(false);
   const [steps, setSteps] = useState(0);
-  const [history, setHistory] = useState<boolean[][][]>([])
+  const [history, setHistory] = useState<boolean[][]>([])
+  const [highlightNeighbours, setHighlightNeighbours] = useState(false);
 
   useEffect(() => {
-    setGrid(Array(rows).fill(Array(columns).fill(false)))
+    setGrid(Array(columns * rows).fill(false))
   }, [rows, columns])
 
-  const flipFunction = (column: number, row: number) => {
-    const gridCopy = JSON.parse(JSON.stringify(grid)) as boolean[][];
-    gridCopy[column][row] = !gridCopy[column][row];
+  const countNeighbours = (cellNumber: number) => {
+
+    const neighbourCoords: [number, number][] = [
+      [-1, 1],
+      [-1, 0],
+      [-1, -1],
+      [0, 1],
+      [0, -1],
+      [1, 1],
+      [1, 0],
+      [1, -1]
+    ];
+    let count = 0;
+
+    const gridN = []
+
+    for (let i = 0; i < neighbourCoords.length; i++) {
+      const [x, y] = neighbourCoords[i];
+      gridN.push(cellNumber + x + (y * 50))
+    }
+
+    for (let i = 0; i < gridN.length; i++) {
+      if (grid[gridN[i]]) count++;
+    }
+
+    return count;
+  };
+
+  const flipFunction = (cellNumber: number) => {
+    const gridCopy = [...grid]
+    gridCopy[cellNumber] = !gridCopy[cellNumber];
     setGrid(gridCopy);
   }
 
   const addToHistory = () => {
-    const gridCopy = JSON.parse(JSON.stringify(grid)) as boolean[][];
-    const historyCopy = JSON.parse(JSON.stringify(history)) as boolean[][][];
+    const gridCopy = [...grid]
+    const historyCopy = JSON.parse(JSON.stringify(history)) as boolean[][];
     historyCopy.push(gridCopy)
     setHistory(historyCopy);
     setSteps(steps + 1);
@@ -56,30 +76,44 @@ const ConwaysGameOfLife = () => {
       return;
     }
 
-    if (steps === 0) {
-      addToHistory();
-    }
+    // if (steps === 0) {
+    //   addToHistory();
+    // }
 
-    const gridCopy = [...grid]
-    grid.forEach((columns, indexC) => columns.forEach((_, indexR) => {
-      const isAlive = grid[indexC][indexR];
-      let neighboursAlive = 0;
-      for (let i = 0; i < neighbourCoords.length; i++) {
-        const [x, y] = neighbourCoords[i];
-        if (grid[indexC + x]?.[indexR + y]) {
-          neighboursAlive++;
-        }
+    const gridCopy = [...grid];
+
+    grid.forEach((_, cellIndex) => {
+      const isAlive = grid[cellIndex];
+      const aliveNeighbours = countNeighbours(cellIndex);
+
+      if (isAlive && ((aliveNeighbours < 2) || (aliveNeighbours > 3))) {
+        gridCopy[cellIndex] = false;
+      } else if (!isAlive && aliveNeighbours === 3) {
+        gridCopy[cellIndex] = true;
       }
-      if (isAlive && ((neighboursAlive < 2) || (neighboursAlive > 3))) {
-        gridCopy[indexC][indexR] = false;
-      } else if (!isAlive && neighboursAlive === 3) {
-        gridCopy[indexC][indexR] = true;
-      }
-    }))
+    })
 
     setGrid(gridCopy);
-    addToHistory();
+    // addToHistory();
   }
+
+  // const showNeighboursSwitch = () => {
+  //   setShowNeighBours(!showNeighBours);
+
+  //   const neighboursCopy = [...neighbours];
+
+  //   grid.forEach((rows, indexR) => rows.forEach((_, indexC) => {
+  //     let neighboursAlive = 0;
+  //     for (let i = 0; i < neighbourCoords.length; i++) {
+  //       const [x, y] = neighbourCoords[i];
+  //       if (grid[indexC + x]?.[indexR + y]) {
+  //         neighboursAlive++;
+  //       }
+  //     }
+  //     neighboursCopy[indexC][indexR] = neighboursAlive
+  //   }))
+  //   setNeighbours(neighboursCopy);
+  // }
 
   useInterval(gametick, 1000);
 
@@ -103,19 +137,20 @@ const ConwaysGameOfLife = () => {
   }
 
   const clear = () => {
-    setGrid(Array(50).fill(Array(30).fill(false)));
+    setGrid(Array(rows * columns).fill(false));
   }
 
   const random = () => {
-    const grid = new Array(50).fill(Array(30).fill(false));
-
-    for (let i = 0; i < grid.length; i++) {
-      for (let j = 0; j < grid[i].length; j++) {
-        const randomFlip = Math.random() > 0.8;
-        grid[i][j] = randomFlip;
-      }
+    const randomGrid: boolean[] = [];
+    for (let i = 0; i < columns * rows; i++) {
+      const randomChoice = Math.random() > 0.9;
+      randomGrid.push(randomChoice);
     }
-    setGrid(grid);
+    setGrid(randomGrid);
+  }
+
+  const showNeighboursHighlight = () => {
+    setHighlightNeighbours(!highlightNeighbours);
   }
 
   return (
@@ -131,14 +166,24 @@ const ConwaysGameOfLife = () => {
               <button onClick={stepForward}>Forward a Step</button>
               <button onClick={clear}>Clear</button>
               <button onClick={random}>Random</button>
+              {/* <button onClick={showNeighboursSwitch}>{showNeighBours ? 'remove neighbours' : 'show neighbours'}</button> */}
+              <button onClick={showNeighboursHighlight}>{highlightNeighbours ? 'stop highlighting' : 'highlight neighbours'}</button>
             </Controls>
             <GridContainer>
               {
-                grid.map((columns, indexC) => columns.map((_, indexR) => {
+                grid.map((cells, index) => {
                   return (
-                    <Cell key={`col - ${indexC} : row - ${indexR}`} alive={grid[indexC][indexR]} onClick={() => flipFunction(indexC, indexR)} />
+                    <Cell
+                      key={index} alive={grid[index]}
+                      onClick={() => flipFunction(index)}
+                    >
+                      {/* {index} */}
+                      {countNeighbours(index)}
+                      {/* {`${indexR} ${indexC}`} */}
+                      {/* {showNeighBours ? neighbours[indexR][indexC] : null} */}
+                    </Cell>
                   )
-                }))
+                })
               }
             </GridContainer>
           </div>
