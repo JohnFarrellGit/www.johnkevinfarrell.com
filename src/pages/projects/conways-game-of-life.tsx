@@ -23,7 +23,7 @@ const ConwaysGameOfLife = () => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [steps, setSteps] = useState(0)
   const [history, setHistory] = useState<boolean[][]>([])
-  const [highlightNeighbors, setHighlightNeighbors] = useState(false)
+  const [speed, setSpeed] = useState(5);
 
   useEffect(() => {
     setGrid(Array(columns * rows).fill(false))
@@ -109,7 +109,7 @@ const ConwaysGameOfLife = () => {
     }
   }
 
-  useInterval(playGameOfLife, 200)
+  useInterval(playGameOfLife, 1000 / speed)
 
   const stepForward = () => {
     if (steps < history.length) {
@@ -128,6 +128,7 @@ const ConwaysGameOfLife = () => {
 
   const clear = () => {
     setGrid(Array(rows * columns).fill(false))
+    setSteps(0)
   }
 
   const random = () => {
@@ -140,12 +141,8 @@ const ConwaysGameOfLife = () => {
     setSteps(0)
   }
 
-  const showNeighborsHighlight = () => {
-    setHighlightNeighbors(!highlightNeighbors)
-  }
-
-  const countSteps = () => {
-
+  const updateSpeed = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSpeed(Number(event.target.value))
   }
 
   return (
@@ -159,22 +156,20 @@ const ConwaysGameOfLife = () => {
               <button onClick={() => setIsPlaying(currPlayValue => !currPlayValue)} type="button">
                 {isPlaying ? <FaStopCircle /> : <FaPlay />}
               </button>
-              <button onClick={stepBackward} type="button">
+              {/* <button onClick={stepBackward} type="button">
                 Back a Step
               </button>
               <button onClick={stepForward} type="button">
                 Forward a Step
-              </button>
+              </button> */}
               <button onClick={clear} type="button">
                 Clear
               </button>
               <button onClick={random} type="button">
                 Random
               </button>
-              {/* <button onClick={showNeighborsSwitch} type="button">{showNeighbors ? 'remove neighbors' : 'show neighbors'}</button> */}
-              <button onClick={showNeighborsHighlight} type="button">
-                {highlightNeighbors ? 'stop highlighting' : 'highlight neighbors'}
-              </button>
+              Speed
+              <input type="range" min="1" max="10" step="1" value={speed} onChange={updateSpeed} />
               {`Steps Played ${steps}`}
             </Controls>
             <GridContainer>
