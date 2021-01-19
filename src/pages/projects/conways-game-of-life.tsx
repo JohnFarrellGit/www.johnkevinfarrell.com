@@ -109,7 +109,7 @@ const ConwaysGameOfLife = () => {
     }
   }
 
-  useInterval(playGameOfLife, 5)
+  useInterval(playGameOfLife, 200)
 
   const stepForward = () => {
     if (steps < history.length) {
