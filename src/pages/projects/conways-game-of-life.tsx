@@ -5,14 +5,16 @@ import Layout from '../../components/Layout'
 import SEO from '../../components/SEO'
 import useInterval from '../../common/hooks/useInterval'
 
-// add ability to go back and forward through steps (capture the last step, can do this in stepback function)
 // bug, end of a row overlaps into row below due to 1d array
+// number of steps counter
+// add ability to go back and forward through steps (capture the last step, can do this in stepback function)
 // can only go back if already played, can always go forward, just call gameTick
 // add slider for setting rows and columns
 // slider for speed
 // make display responsive
 // change colours
 // drag to highlight cells to turn on or off(?)
+// ability to select certain patterns to place
 
 const ConwaysGameOfLife = () => {
   const [columns] = useState(50)
@@ -68,11 +70,14 @@ const ConwaysGameOfLife = () => {
     setSteps(steps + 1)
   }
 
-  const gameTick = () => {
-    if (!isPlaying) {
-      return
+  const compareGridsForEquality = (arr1: boolean[], arr2: boolean[]) => {
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
     }
+    return true;
+  }
 
+  const gameTick = () => {
     // if (steps === 0) {
     //   addToHistory();
     // }
@@ -90,11 +95,21 @@ const ConwaysGameOfLife = () => {
       }
     })
 
+    if (!compareGridsForEquality(grid, gridCopy)) {
+      setSteps(steps + 1)
+    }
+
     setGrid(gridCopy)
     // addToHistory();
   }
 
-  useInterval(gameTick, 1000)
+  const playGameOfLife = () => {
+    if (isPlaying) {
+      gameTick();
+    }
+  }
+
+  useInterval(playGameOfLife, 5)
 
   const stepForward = () => {
     if (steps < history.length) {
@@ -122,10 +137,15 @@ const ConwaysGameOfLife = () => {
       randomGrid.push(randomChoice)
     }
     setGrid(randomGrid)
+    setSteps(0)
   }
 
   const showNeighborsHighlight = () => {
     setHighlightNeighbors(!highlightNeighbors)
+  }
+
+  const countSteps = () => {
+
   }
 
   return (
@@ -155,6 +175,7 @@ const ConwaysGameOfLife = () => {
               <button onClick={showNeighborsHighlight} type="button">
                 {highlightNeighbors ? 'stop highlighting' : 'highlight neighbors'}
               </button>
+              {`Steps Played ${steps}`}
             </Controls>
             <GridContainer>
               {grid.map((_, index) => {
