@@ -5,14 +5,13 @@ import Layout from '../../components/Layout'
 import SEO from '../../components/SEO'
 import useInterval from '../../common/hooks/useInterval'
 
-// bug, end of a row overlaps into row below due to 1d array
-// number of steps counter
+// TODOs
+
 // add ability to go back and forward through steps (capture the last step, can do this in stepback function)
 // can only go back if already played, can always go forward, just call gameTick
 // add slider for setting rows and columns
 // slider for speed
 // make display responsive
-// change colours
 // drag to highlight cells to turn on or off(?)
 // ability to select certain patterns to place
 
@@ -29,13 +28,17 @@ const ConwaysGameOfLife = () => {
     setGrid(Array(columns * rows).fill(false))
   }, [rows, columns])
 
-  const countNeighbors = (cellNumber: number) => {
-    const neighborCoords: [number, number][] = [
+  const countNeighbors = (cellNumber: number, rowLength: number) => {
+    const neighborCoordsLeft: [number, number][] = [
       [-1, 1],
       [-1, 0],
-      [-1, -1],
+      [-1, -1]
+    ]
+    const neighborCoordsMiddle: [number, number][] = [
       [0, 1],
-      [0, -1],
+      [0, -1]
+    ]
+    const neighborCoordsRight: [number, number][] = [
       [1, 1],
       [1, 0],
       [1, -1]
@@ -44,9 +47,21 @@ const ConwaysGameOfLife = () => {
 
     const gridN = []
 
-    for (let i = 0; i < neighborCoords.length; i++) {
-      const [x, y] = neighborCoords[i]
+    if (cellNumber % rowLength !== 0) {
+      for (let i = 0; i < neighborCoordsLeft.length; i++) {
+        const [x, y] = neighborCoordsLeft[i]
+        gridN.push(cellNumber + x + y * 50)
+      }
+    }
+    for (let i = 0; i < neighborCoordsMiddle.length; i++) {
+      const [x, y] = neighborCoordsMiddle[i]
       gridN.push(cellNumber + x + y * 50)
+    }
+    if ((cellNumber + 1) % rowLength !== 0) {
+      for (let i = 0; i < neighborCoordsRight.length; i++) {
+        const [x, y] = neighborCoordsRight[i]
+        gridN.push(cellNumber + x + y * 50)
+      }
     }
 
     for (let i = 0; i < gridN.length; i++) {
@@ -86,11 +101,12 @@ const ConwaysGameOfLife = () => {
 
     grid.forEach((_, cellIndex) => {
       const isAlive = grid[cellIndex]
-      const aliveNeighbors = countNeighbors(cellIndex)
+      const aliveNeighbors = countNeighbors(cellIndex, columns)
 
       if (isAlive && (aliveNeighbors < 2 || aliveNeighbors > 3)) {
         gridCopy[cellIndex] = false
-      } else if (!isAlive && aliveNeighbors === 3) {
+      }
+      if (!isAlive && aliveNeighbors === 3) {
         gridCopy[cellIndex] = true
       }
     })
@@ -178,7 +194,7 @@ const ConwaysGameOfLife = () => {
                   // eslint-disable-next-line react/no-array-index-key
                   <Cell key={index} alive={grid[index]} onClick={() => flipFunction(index)}>
                     {/* {index} */}
-                    {countNeighbors(index)}
+                    {countNeighbors(index, columns)}
                     {/* {`${indexR} ${indexC}`} */}
                     {/* {showNeighbors ? neighbors[indexR][indexC] : null} */}
                   </Cell>
