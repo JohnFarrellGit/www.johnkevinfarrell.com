@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { FaPlay, FaStopCircle } from 'react-icons/fa'
 import Layout from '../../components/Layout'
 import SEO from '../../components/SEO'
-import styled from 'styled-components';
-import useInterval from '../../common/hooks/useInterval';
-import { FaPlay, FaStopCircle } from 'react-icons/fa';
-
-
+import useInterval from '../../common/hooks/useInterval'
 
 // add ability to go back and forward through steps (capture the last step, can do this in stepback function)
 // can only go back if already played, can always go forward, just call gameTick
@@ -16,21 +14,19 @@ import { FaPlay, FaStopCircle } from 'react-icons/fa';
 // drag to highlight cells to turn on or off(?)
 
 const ConwaysGameOfLife = () => {
-
-  const [columns,] = useState(50);
-  const [rows,] = useState(30);
-  const [grid, setGrid] = useState<boolean[]>(Array(columns * rows).fill(false));
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [steps, setSteps] = useState(0);
+  const [columns] = useState(50)
+  const [rows] = useState(30)
+  const [grid, setGrid] = useState<boolean[]>([])
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [steps, setSteps] = useState(0)
   const [history, setHistory] = useState<boolean[][]>([])
-  const [highlightNeighbours, setHighlightNeighbours] = useState(false);
+  const [highlightNeighbours, setHighlightNeighbours] = useState(false)
 
   useEffect(() => {
     setGrid(Array(columns * rows).fill(false))
   }, [rows, columns])
 
   const countNeighbours = (cellNumber: number) => {
-
     const neighbourCoords: [number, number][] = [
       [-1, 1],
       [-1, 0],
@@ -40,60 +36,60 @@ const ConwaysGameOfLife = () => {
       [1, 1],
       [1, 0],
       [1, -1]
-    ];
-    let count = 0;
+    ]
+    let count = 0
 
     const gridN = []
 
     for (let i = 0; i < neighbourCoords.length; i++) {
-      const [x, y] = neighbourCoords[i];
-      gridN.push(cellNumber + x + (y * 50))
+      const [x, y] = neighbourCoords[i]
+      gridN.push(cellNumber + x + y * 50)
     }
 
     for (let i = 0; i < gridN.length; i++) {
-      if (grid[gridN[i]]) count++;
+      if (grid[gridN[i]]) count++
     }
 
-    return count;
-  };
+    return count
+  }
 
   const flipFunction = (cellNumber: number) => {
     const gridCopy = [...grid]
-    gridCopy[cellNumber] = !gridCopy[cellNumber];
-    setGrid(gridCopy);
+    gridCopy[cellNumber] = !gridCopy[cellNumber]
+    setGrid(gridCopy)
   }
 
   const addToHistory = () => {
     const gridCopy = [...grid]
-    const historyCopy = JSON.parse(JSON.stringify(history)) as boolean[][];
+    const historyCopy = JSON.parse(JSON.stringify(history)) as boolean[][]
     historyCopy.push(gridCopy)
-    setHistory(historyCopy);
-    setSteps(steps + 1);
+    setHistory(historyCopy)
+    setSteps(steps + 1)
   }
 
   const gametick = () => {
     if (!isPlaying) {
-      return;
+      return
     }
 
     // if (steps === 0) {
     //   addToHistory();
     // }
 
-    const gridCopy = [...grid];
+    const gridCopy = [...grid]
 
     grid.forEach((_, cellIndex) => {
-      const isAlive = grid[cellIndex];
-      const aliveNeighbours = countNeighbours(cellIndex);
+      const isAlive = grid[cellIndex]
+      const aliveNeighbours = countNeighbours(cellIndex)
 
-      if (isAlive && ((aliveNeighbours < 2) || (aliveNeighbours > 3))) {
-        gridCopy[cellIndex] = false;
+      if (isAlive && (aliveNeighbours < 2 || aliveNeighbours > 3)) {
+        gridCopy[cellIndex] = false
       } else if (!isAlive && aliveNeighbours === 3) {
-        gridCopy[cellIndex] = true;
+        gridCopy[cellIndex] = true
       }
     })
 
-    setGrid(gridCopy);
+    setGrid(gridCopy)
     // addToHistory();
   }
 
@@ -115,42 +111,41 @@ const ConwaysGameOfLife = () => {
   //   setNeighbours(neighboursCopy);
   // }
 
-  useInterval(gametick, 1000);
+  useInterval(gametick, 1000)
 
   const stepForward = () => {
     if (steps >= history.length) {
-      return;
     } else {
       console.log(history[steps + 1])
-      setGrid(history[steps + 1]);
-      setSteps(steps + 1);
+      setGrid(history[steps + 1])
+      setSteps(steps + 1)
     }
   }
 
   const stepBackward = () => {
-    console.log(steps);
+    console.log(steps)
     if (steps <= 0) {
-      return;
+      return
     }
-    setGrid(history[steps - 1]);
-    setSteps(steps - 1);
+    setGrid(history[steps - 1])
+    setSteps(steps - 1)
   }
 
   const clear = () => {
-    setGrid(Array(rows * columns).fill(false));
+    setGrid(Array(rows * columns).fill(false))
   }
 
   const random = () => {
-    const randomGrid: boolean[] = [];
+    const randomGrid: boolean[] = []
     for (let i = 0; i < columns * rows; i++) {
-      const randomChoice = Math.random() > 0.9;
-      randomGrid.push(randomChoice);
+      const randomChoice = Math.random() > 0.9
+      randomGrid.push(randomChoice)
     }
-    setGrid(randomGrid);
+    setGrid(randomGrid)
   }
 
   const showNeighboursHighlight = () => {
-    setHighlightNeighbours(!highlightNeighbours);
+    setHighlightNeighbours(!highlightNeighbours)
   }
 
   return (
@@ -170,21 +165,16 @@ const ConwaysGameOfLife = () => {
               <button onClick={showNeighboursHighlight}>{highlightNeighbours ? 'stop highlighting' : 'highlight neighbours'}</button>
             </Controls>
             <GridContainer>
-              {
-                grid.map((cells, index) => {
-                  return (
-                    <Cell
-                      key={index} alive={grid[index]}
-                      onClick={() => flipFunction(index)}
-                    >
-                      {/* {index} */}
-                      {countNeighbours(index)}
-                      {/* {`${indexR} ${indexC}`} */}
-                      {/* {showNeighBours ? neighbours[indexR][indexC] : null} */}
-                    </Cell>
-                  )
-                })
-              }
+              {grid.map((cells, index) => {
+                return (
+                  <Cell key={index} alive={grid[index]} onClick={() => flipFunction(index)}>
+                    {/* {index} */}
+                    {countNeighbours(index)}
+                    {/* {`${indexR} ${indexC}`} */}
+                    {/* {showNeighBours ? neighbours[indexR][indexC] : null} */}
+                  </Cell>
+                )
+              })}
             </GridContainer>
           </div>
         </GameContainer>
@@ -193,7 +183,7 @@ const ConwaysGameOfLife = () => {
   )
 }
 
-export default ConwaysGameOfLife;
+export default ConwaysGameOfLife
 
 const GameContainer = styled.div`
   margin-bottom: 20px;
@@ -208,7 +198,7 @@ const Controls = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(50, 20px)
+  grid-template-columns: repeat(50, 20px);
 `
 
 interface CellI {
@@ -219,7 +209,7 @@ const Cell = styled.div`
   width: 20px;
   height: 20px;
   border: solid 1px black;
-  background-color: ${(props: CellI) => props.alive ? '#24DC5B' : 'white'}
+  background-color: ${(props: CellI) => (props.alive ? '#24DC5B' : 'white')};
 `
 
 const Main = styled.main`
