@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 import Footer from './Footer'
 
 interface LayoutProps {
-  children: JSX.Element | JSX.Element[]
+  children: JSX.Element[]
 }
 
 const Layout = ({ children }: LayoutProps) => {
