@@ -18,7 +18,7 @@ import Title from '../../components/Title'
 
 // hold on mobile for flag
 // personal leaderboard/history (?), useLocalStorage, useIndexedDB
-// original sounds, useSound(), Josh W Comeau
+// original sounds, useSound(), Josh W Comeau - https://www.joshwcomeau.com/react/announcing-use-sound-react-hook/
 // clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
 
 // performance improvments (memorisation of components etc.)
@@ -375,7 +375,7 @@ const minesweeper = () => {
     flagsPlaced: 0
   })
 
-  useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
+  // useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
   const leftClickCell = (cellIndex: number) => {
     dispatch({ type: 'ClickCell', cellIndex })
