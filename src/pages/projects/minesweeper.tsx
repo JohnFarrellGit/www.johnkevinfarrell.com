@@ -10,21 +10,24 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// add a custom difficulty
-// fix styling for game status so text isn't hidden
+// responsive text sizing
 // responsive design (cell size, game size etc, flag and bomb size)
+// make the input size smaller
+// resolve issue of shifting game options as width grows
+// fix custom difficulty - doesn't seem to be working(?)
 // clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
 // right click spin, left click switch to kitties
-
+// if win reveal the whole board
+// if bomb highlight red then reveal board!
 // give instructions for the game and how to play
+
+// keyboard controls + accessibility
 
 // personal leaderboard/history (?), useLocalStorage, useIndexedDB
 // fix folder structure
 // original sounds, useSound(), Josh W Comeau
 // game to always be completable, no 50/50 problem (try and solve first, if not possible recreate?)
 // implement a hinter function
-
-
 
 // performance improvements (memorisation of components etc.)
 
@@ -458,7 +461,22 @@ const GameContainer = styled.div`
   border-bottom: #777 3px solid;
   border-left: #777 3px solid;
   min-width: 600px;
-  width: ${(props: GameContainerI) => `${(Number(props.columns) * 20) + 80}px`}
+  width: ${(props: GameContainerI) => `${(Number(props.columns) * 20) + 40}px`};
+
+  @media(max-width: 600px) {
+    min-width: 500px;
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 20)}px`};
+  }
+
+  @media(max-width: 500px) {
+    min-width: 400px;
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 20)}px`};
+  }
+
+  @media(max-width: 400px) {
+    min-width: 300px;
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 20)}px`};
+  }
 `
 
 interface GridContainerI {
@@ -474,20 +492,4 @@ const PlayingContainer = styled.div`
   display: flex;
   justify-content: center;
   background: #E5E5E5;
-`
-
-interface CellI {
-  isCovered: boolean;
-  isBomb: boolean;
-}
-
-const Cell = styled.div`
-  width: 20px;
-  height: 20px;
-  border: solid 1px white;
-  background-color: ${(props: CellI) => (props.isCovered ? 'gray' : props.isBomb ? 'red' : 'green')};
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  line-height: 20px;
 `

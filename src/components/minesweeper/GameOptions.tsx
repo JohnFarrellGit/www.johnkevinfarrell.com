@@ -121,7 +121,7 @@ export const GameOptions = ({ isPlaying, updateDifficulty }: GameOptionsI) => {
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   height: 50px;
   border-bottom: 2px solid #777;
   background-color: #BDBDBD;
