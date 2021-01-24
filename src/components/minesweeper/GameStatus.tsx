@@ -1,19 +1,51 @@
 import styled from '@emotion/styled'
 import React from 'react'
-import { Faces } from '../../pages/projects/minesweeper'
+import { Faces, FaceType } from '../../pages/projects/minesweeper'
 
 interface GameStatusI {
   bombsLeft: number;
   totalBombs: number;
+  faceType: FaceType;
   face: Faces;
   timePlayed: number;
+  leftClickFace: () => void;
+  rightClickFace: () => void
 }
 
-export const GameStatus = ({ bombsLeft, totalBombs, face, timePlayed }: GameStatusI) => {
+export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, leftClickFace, rightClickFace }: GameStatusI) => {
+
+  const mapRegularFaces = {
+    [Faces.Shock]: '😮',
+    [Faces.Blank]: '😶',
+    [Faces.Happy]: '🙂',
+    [Faces.Dizzy]: '😵',
+    [Faces.Celebration]: '🥳',
+    [Faces.Wacky]: '🤪'
+  }
+
+  const mapCatFaces = {
+    [Faces.Shock]: '🙀',
+    [Faces.Blank]: '🐱',
+    [Faces.Happy]: '😺',
+    [Faces.Dizzy]: '😾',
+    [Faces.Celebration]: '😸',
+    [Faces.Wacky]: '😹'
+  }
+
+  const displayFace = faceType === FaceType.Regular ? mapRegularFaces[face] : mapCatFaces[face]
+
+  const rightClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.preventDefault();
+    rightClickFace();
+  }
+
   return (
     <Container>
       <Bombs><Text>💣 {bombsLeft} / {totalBombs}</Text></Bombs>
-      <FaceDisplay><Text>{face}</Text></FaceDisplay>
+      <FaceDisplay
+        onClick={leftClickFace}
+        onContextMenu={rightClick}
+      ><Text>{displayFace}</Text></FaceDisplay>
       <Timer><Text>⏱️ {timePlayed.toString().padStart(3, '0')}</Text></Timer>
     </Container>
   )

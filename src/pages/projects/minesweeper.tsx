@@ -10,14 +10,13 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// responsive text sizing
+// responsive text sizing - we don't want overflowing game status on a small screen, maybe just hide it on a phone?
 // responsive design (cell size, game size etc, flag and bomb size)
 // make the input size smaller
 // resolve issue of shifting game options as width grows
 // fix custom difficulty - doesn't seem to be working(?)
 // clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
-// right click spin, left click switch to kitties
-// if win reveal the whole board
+// if win reveal the whole board - red are bombs, leave flags if flagged, show
 // if bomb highlight red then reveal board!
 // give instructions for the game and how to play
 
@@ -72,14 +71,18 @@ export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration
   }
 }
 
-// optional cat faces if you click the face to switch between
+export enum FaceType {
+  Regular,
+  Cat
+}
+
 export enum Faces {
-  Shock = '😮',
-  Blank = '😶',
-  Happy = '🙂',
-  Dizzy = '😵',
-  Celebration = '🥳',
-  Wacky = '🤪'
+  Shock,
+  Blank,
+  Happy,
+  Dizzy,
+  Celebration,
+  Wacky
 }
 
 const generateBoard = (rows: number, columns: number) => {
@@ -151,6 +154,7 @@ interface State {
   isDead: boolean;
   isWinner: boolean,
   face: Faces;
+  faceType: FaceType;
   timer: number;
 }
 
@@ -161,6 +165,7 @@ type Action =
   | { type: 'PlaceFlag', cellIndex: number }
   | { type: 'RemoveFlag', cellIndex: number }
   | { type: 'UpdateConfiguration', rows: number, columns: number, numberOfBombs: number }
+  | { type: 'UpdateFaceType' }
 
 // this function could possibly be more efficient?
 // board gets slow when it is large, maybe just due to dom updates...
@@ -361,6 +366,20 @@ const minesweeperReducer = (state: State, action: Action): State => {
       }
     }
 
+    case 'UpdateFaceType': {
+      if (state.faceType === FaceType.Regular) {
+        return {
+          ...state,
+          faceType: FaceType.Cat,
+        }
+      } else {
+        return {
+          ...state,
+          faceType: FaceType.Regular,
+        }
+      }
+    }
+
     default:
       return {
         ...state
@@ -380,6 +399,7 @@ const minesweeper = () => {
     isDead: false,
     isWinner: false,
     face: Faces.Blank,
+    faceType: FaceType.Regular,
     timer: 0,
     flagsPlaced: 0
   })
@@ -400,6 +420,14 @@ const minesweeper = () => {
 
   const updateDifficulty = (rows: number, columns: number, numberOfBombs: number) => {
     dispatch({ type: 'UpdateConfiguration', rows, columns, numberOfBombs })
+  }
+
+  const leftClickFace = () => {
+    dispatch({ type: 'UpdateFaceType' })
+  }
+
+  const rightClickFace = () => {
+    dispatch({ type: 'UpdateFaceType' })
   }
 
   const gameCells = useMemo(() => gameState.board.map((gameCell) => (
@@ -429,8 +457,11 @@ const minesweeper = () => {
           <GameStatus
             bombsLeft={gameState.numberOfBombs - gameState.flagsPlaced}
             totalBombs={gameState.numberOfBombs}
+            faceType={gameState.faceType}
             face={gameState.face}
             timePlayed={gameState.timer}
+            leftClickFace={leftClickFace}
+            rightClickFace={rightClickFace}
           />
           <PlayingContainer>
             <GridContainer columns={gameState.columns}>

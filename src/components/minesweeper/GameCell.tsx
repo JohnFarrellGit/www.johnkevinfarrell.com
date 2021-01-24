@@ -77,6 +77,7 @@ const CellContainer = styled.div`
                 props.neighborBombs === 7 ? 'black' : 'brown'
   )};
 
+// if not covered and is a bomb be red! or if we have won be red!
   background-color: ${(props: CellContainerI) => (props.isCovered ? '#BDBDBD' : '#C2C2C2')};
   display: flex;
   justify-content: center;
