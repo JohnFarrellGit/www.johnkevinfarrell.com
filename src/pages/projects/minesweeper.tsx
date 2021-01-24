@@ -10,19 +10,21 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// implement game options
+// implement game options // add a custom difficulty
+// clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
+// right click spin, left click switch to kitties
 // fix styling for game status so text isn't hidden
 // responsive design (cell size, game size etc, flag and bomb size)
+
+// personal leaderboard/history (?), useLocalStorage, useIndexedDB
+// original sounds, useSound(), Josh W Comeau
 // game to always be completable, no 50/50 problem (try and solve first, if not possible recreate?)
 // implement a hinter function
 
 // hold on mobile for flag
-// personal leaderboard/history (?), useLocalStorage, useIndexedDB
-// original sounds, useSound(), Josh W Comeau - https://www.joshwcomeau.com/react/announcing-use-sound-react-hook/
-// clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
 
-// performance improvments (memorisation of components etc.)
-// add a custom difficulty
+// performance improvements (memorisation of components etc.)
+
 export enum GameDifficulty {
   Beginner,
   Intermediate,
@@ -64,6 +66,7 @@ export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration
   }
 }
 
+// optional cat faces if you click the face to switch between
 export enum Faces {
   Shock = '😮',
   Blank = '😶',
@@ -230,7 +233,7 @@ const minesweeperReducer = (state: State, action: Action): State => {
 
     case 'HoldCell': {
 
-      if (state.isPlaying && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged)) {
+      if (state.isPlaying && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged) && state.isDead && state.isWinner) {
         return {
           ...state,
         }
@@ -375,7 +378,7 @@ const minesweeper = () => {
     flagsPlaced: 0
   })
 
-  // useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
+  useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
   const leftClickCell = (cellIndex: number) => {
     dispatch({ type: 'ClickCell', cellIndex })
@@ -405,11 +408,11 @@ const minesweeper = () => {
       holdCell={holdCell}
       key={gameCell.id}
     />
-  )), [gameState.board]);
+  )), [gameState.board])
 
   return (
     <Layout>
-      <SEO title="Minesweeper" description="Simple minesweeper clone" />
+      <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
       <Title title="Minesweeper" />
       <Main>
         <GameContainer>
