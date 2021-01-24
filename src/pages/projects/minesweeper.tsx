@@ -10,18 +10,21 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// implement game options // add a custom difficulty
-// clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
-// right click spin, left click switch to kitties
+// add a custom difficulty
 // fix styling for game status so text isn't hidden
 // responsive design (cell size, game size etc, flag and bomb size)
+// clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
+// right click spin, left click switch to kitties
+
+// give instructions for the game and how to play
 
 // personal leaderboard/history (?), useLocalStorage, useIndexedDB
+// fix folder structure
 // original sounds, useSound(), Josh W Comeau
 // game to always be completable, no 50/50 problem (try and solve first, if not possible recreate?)
 // implement a hinter function
 
-// hold on mobile for flag
+
 
 // performance improvements (memorisation of components etc.)
 
@@ -415,7 +418,7 @@ const minesweeper = () => {
       <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
       <Title title="Minesweeper" />
       <Main>
-        <GameContainer>
+        <GameContainer columns={gameState.columns}>
           <GameOptions
             isPlaying={gameState.isPlaying}
             updateDifficulty={updateDifficulty}
@@ -445,12 +448,17 @@ const Main = styled.main`
   justify-content: center;
 `
 
+interface GameContainerI {
+  columns: number;
+}
+
 const GameContainer = styled.div`
   border-top: #ccc 3px solid;
   border-right: #ccc 3px solid;
   border-bottom: #777 3px solid;
   border-left: #777 3px solid;
-  width: 80%;
+  min-width: 600px;
+  width: ${(props: GameContainerI) => `${(Number(props.columns) * 20) + 80}px`}
 `
 
 interface GridContainerI {

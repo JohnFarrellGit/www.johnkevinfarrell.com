@@ -60,6 +60,7 @@ const CellContainer = styled.div`
   box-sizing: border-box;
   width: 20px;
   height: 20px;
+  user-select: none;
 
   border-top: ${(props: CellContainerI) => (props.isCovered ? '2px solid white' : '1px solid #7B7B7B')};
   border-right: ${(props: CellContainerI) => (props.isCovered ? '2px solid #7B7B7B' : '1px solid #7B7B7B')};
