@@ -375,6 +375,8 @@ const minesweeper = () => {
     flagsPlaced: 0
   })
 
+  console.log("🚀 ~ file: minesweeper.tsx ~ line 365 ~ minesweeper ~ gameState", gameState)
+
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
   const leftClickCell = (cellIndex: number) => {
@@ -447,6 +449,7 @@ const GameContainer = styled.div`
   border-right: #ccc 3px solid;
   border-bottom: #777 3px solid;
   border-left: #777 3px solid;
+  width: 80%;
 `
 
 interface GridContainerI {
