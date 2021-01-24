@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useMemo, useReducer } from 'react'
 import styled from 'styled-components'
 import useInterval from '../../common/hooks/useInterval'
 import Layout from '../../components/Layout'
@@ -375,8 +375,6 @@ const minesweeper = () => {
     flagsPlaced: 0
   })
 
-  console.log("🚀 ~ file: minesweeper.tsx ~ line 365 ~ minesweeper ~ gameState", gameState)
-
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
   const leftClickCell = (cellIndex: number) => {
@@ -394,6 +392,20 @@ const minesweeper = () => {
   const updateDifficulty = (rows: number, columns: number, numberOfBombs: number) => {
     dispatch({ type: 'UpdateConfiguration', rows, columns, numberOfBombs })
   }
+
+  const gameCells = useMemo(() => gameState.board.map((gameCell) => (
+    <GameCell
+      isCovered={gameCell.isCovered}
+      isBomb={gameCell.isBomb}
+      isFlagged={gameCell.isFlagged}
+      neighborBombs={gameCell.neighborBombs}
+      id={gameCell.id}
+      leftClick={leftClickCell}
+      rightClick={rightClickCell}
+      holdCell={holdCell}
+      key={gameCell.id}
+    />
+  )), [gameState.board]);
 
   return (
     <Layout>
@@ -413,21 +425,7 @@ const minesweeper = () => {
           />
           <PlayingContainer>
             <GridContainer columns={gameState.columns}>
-              {gameState.board.map((gameCell) => (
-
-                <GameCell
-                  isCovered={gameCell.isCovered}
-                  isBomb={gameCell.isBomb}
-                  isFlagged={gameCell.isFlagged}
-                  neighborBombs={gameCell.neighborBombs}
-                  id={gameCell.id}
-                  leftClick={leftClickCell}
-                  rightClick={rightClickCell}
-                  holdCell={holdCell}
-                  key={gameCell.id}
-                />
-
-              ))}
+              {gameCells}
             </GridContainer>
           </PlayingContainer>
         </GameContainer>
