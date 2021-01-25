@@ -27,12 +27,10 @@ const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
       newResultsDifficulty.splice(i, 0, timer);
 
       newResults[difficultySetting] = newResultsDifficulty;
-      console.log("🚀 ~ file: PreviousResults.tsx ~ line 37 ~ useEffect ~ newResults", newResults)
       setLocalStorageValue(newResults)
     }
   }, [isWinner]);
 
-  // get game difficulty, display difficulty and underneath show 10 best times
   return (
     <ResultsContainer>
       <TimesContainer>

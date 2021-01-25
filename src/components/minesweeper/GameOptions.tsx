@@ -154,14 +154,20 @@ const Container = styled.div`
 const OptionItem = styled.div`
   label {
     color: black;
+    font-size: 1.25em;
   }
   input {
-    width: 100px;
+    width: 90px;
+    font-size: 1.25em;
     @media(max-width: 500px) {
       width: 80px;
     }
     @media(max-width: 500px) {
       width: 60px;
     }
+  }
+  select {
+    font-size: 1em;
+    height: 24px;
   }
 `

@@ -59,6 +59,7 @@ const Container = styled.div`
   * p {
     line-height: normal;
     vertical-align: middle;
+    margin: 5px 0px;
   }
   @media (max-width: 450px) {
     display: none;
@@ -66,7 +67,9 @@ const Container = styled.div`
 `
 
 const Bombs = styled.div`
-  width: 33%;
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
   padding-left: 10px;
   p {
     float: left;
@@ -74,17 +77,18 @@ const Bombs = styled.div`
 `
 
 const Timer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
   color: black;
-  width: 33%;
   padding-right: 10px;
-  p {
-    float: right;
-  }
 `
 
 const FaceDisplay = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
   cursor: pointer;
-  width: 33%;
 `
 
 const Text = styled.p`
