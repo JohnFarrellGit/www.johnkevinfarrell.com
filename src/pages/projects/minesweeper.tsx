@@ -12,23 +12,21 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// make the input size smaller for game controls
-// remember if cat face or normal face using localStorage
-// bug when changing to expert, click top left, is rows and columns mixed up??
-// responsive text sizing - we don't want overflowing game status on a small screen, maybe just hide it on a phone?
-// responsive design (cell size, game size etc, flag and bomb size)
+// localStorage - facetype, difficulty
+// responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
 // resolve issue of shifting game options as width grows
 // neighbor cell color plus do we want it to bolder text?
 // fix custom difficulty - doesn't seem to be working(?)
-// clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
-// if win reveal the whole board - red are bombs, leave flags if flagged, show
+// if win reveal the whole board - red are bombs, leave flags if flagged, show - fade them in?
 // if bomb highlight red the cell
+// or just uncover every cell
+
 // give instructions for the game and how to play
 
 // keyboard controls + accessibility
 
 
-// fix folder structure
+// improve folder structure
 // original sounds, useSound(), Josh W Comeau
 // game to always be completable, no 50/50 problem (try and solve first, if not possible recreate?)
 // implement a hinter function
@@ -42,15 +40,16 @@ import Title from '../../components/Title'
 
 // fixing custom stuff (especially when very low or high bomb count, seems broken with neighbors)
 // on won or lose changing difficulty causing incorrect bombs to display
+// bug when changing to expert, click top left, is rows and columns mixed up??
 
 const minesweeper = () => {
 
   const [gameState, dispatch] = useReducer(minesweeperReducer, {
-    rows: 15,
-    columns: 15,
-    gameDifficulty: GameDifficulty.Intermediate,
-    board: generateBoard(15, 15),
-    numberOfBombs: 20,
+    gameDifficulty: GameDifficulty.Beginner,
+    rows: 10,
+    columns: 10,
+    board: generateBoard(10, 10),
+    numberOfBombs: 10,
     isPlaying: false,
     isDead: false,
     isWinner: false,
@@ -86,10 +85,6 @@ const minesweeper = () => {
         dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows, columns, numberOfBombs })
       }
     }
-  }
-
-  const leftClickFace = () => {
-    dispatch({ type: 'UpdateFaceType' })
   }
 
   const rightClickFace = () => {
@@ -130,7 +125,6 @@ const minesweeper = () => {
             faceType={gameState.faceType}
             face={gameState.face}
             timePlayed={gameState.timer}
-            leftClickFace={leftClickFace}
             rightClickFace={rightClickFace}
           />
           <PlayingContainer>

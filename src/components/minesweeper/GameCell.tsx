@@ -68,16 +68,22 @@ const CellContainer = styled.div`
   border-left: ${(props: CellContainerI) => (props.isCovered ? '2px solid white' : '1px solid #7B7B7B')};
   border-bottom: ${(props: CellContainerI) => (props.isCovered ? '2px solid 7B7B7B' : '1px solid #7B7B7B')};
 
+  background-color: ${(props: CellContainerI) => (
+    props.isCovered ? '#BDBDBD' :
+      props.isBomb ? '#FF0000' : '#C2C2C2'
+  )};
 
-// if not covered and is a bomb be red! or if we have won be red!
-  background-color: ${(props: CellContainerI) => (props.isCovered ? '#BDBDBD' : '#C2C2C2')};
   display: flex;
   justify-content: center;
   cursor: pointer;
   line-height: 20px;
 
   :hover {
-    background-color: ${(props: CellContainerI) => (props.isCovered ? '#5C5C5C' : '#BDBDBD')};
+    background-color: ${(props: CellContainerI) => (
+    props.isCovered ? '#5C5C5C' :
+      props.isBomb ? '#FF0000' :
+        '#BDBDBD'
+  )};
   }
 `
 
@@ -93,12 +99,12 @@ const CellDisplay = styled.p`
   font-style: bold;
 
   color: ${(props: CellDisplayI) => (
-    props.neighborBombs === 1 ? 'blue' :
-      props.neighborBombs === 2 ? 'green' :
-        props.neighborBombs === 3 ? 'red' :
-          props.neighborBombs === 4 ? '#575793' :
-            props.neighborBombs === 5 ? 'yellow' :
-              props.neighborBombs === 6 ? 'white' :
-                props.neighborBombs === 7 ? 'black' : 'brown'
+    props.neighborBombs === 1 ? '#0000FF' :
+      props.neighborBombs === 2 ? '#006400' :
+        props.neighborBombs === 3 ? '#FF0000' :
+          props.neighborBombs === 4 ? '#FF8C00' :
+            props.neighborBombs === 5 ? '#8B4513' :
+              props.neighborBombs === 6 ? '#FF00FF' :
+                props.neighborBombs === 7 ? '#000000' : '#FFFFFF'
   )};
 `

@@ -104,7 +104,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           min={1}
           max={100}
           value={rows}
-          disabled={isPlaying}
+          disabled={isPlaying || true}
           style={{ display: 'block' }}
           onChange={changeRows}
           name="rows"
@@ -118,7 +118,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           min={1}
           max={100}
           value={columns}
-          disabled={isPlaying} // || difficulty !== GameDifficulty.Custom
+          disabled={isPlaying || true} // || difficulty !== GameDifficulty.Custom
           style={{ display: 'block' }}
           onChange={changeColumns}
           name="columns"
@@ -132,7 +132,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           min={1}
           max={(rows * columns) - 1}
           value={numberOfBombs}
-          disabled={isPlaying}
+          disabled={isPlaying || true}
           style={{ display: 'block' }}
           onChange={changeBombs}
           name="bombs"
@@ -148,7 +148,7 @@ const Container = styled.div`
   justify-content: space-around;
   border-bottom: 2px solid #777;
   background-color: #BDBDBD;
-  padding: 5px 0px;
+  padding: 0px 0px 5px 0px;
 `
 
 const OptionItem = styled.div`

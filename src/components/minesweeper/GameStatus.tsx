@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
-import React from 'react'
+import React, { useState } from 'react'
+import { keyframes } from 'styled-components'
 import { Faces, FaceType } from './reducer'
 
 interface GameStatusI {
@@ -8,11 +9,10 @@ interface GameStatusI {
   faceType: FaceType;
   face: Faces;
   timePlayed: number;
-  leftClickFace: () => void;
   rightClickFace: () => void
 }
 
-export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, leftClickFace, rightClickFace }: GameStatusI) => {
+export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, rightClickFace }: GameStatusI) => {
 
   const mapRegularFaces = {
     [Faces.Shock]: '😮',
@@ -32,20 +32,33 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
     [Faces.Wacky]: '😹'
   }
 
-  const displayFace = faceType === FaceType.Regular ? mapRegularFaces[face] : mapCatFaces[face]
+  const [spinningFace, setSpinningFace] = useState(false);
+
+  const displayFace = faceType === FaceType.Regular ? mapRegularFaces[face] : mapCatFaces[face];
+  const displayFaceSpinning = faceType === FaceType.Regular ? '🤪' : '😹';
 
   const rightClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();
     rightClickFace();
   }
 
+  const leftClick = () => {
+    setSpinningFace(true);
+    setTimeout(() => {
+      setSpinningFace(false);
+    }, 2000)
+  }
+
   return (
     <Container>
       <Bombs><Text>💣 {bombsLeft} / {totalBombs}</Text></Bombs>
       <FaceDisplay
-        onClick={leftClickFace}
+        onClick={leftClick}
         onContextMenu={rightClick}
-      ><Text>{displayFace}</Text></FaceDisplay>
+        spinningFace={spinningFace}
+      >
+        {!spinningFace ? <Text>{displayFace}</Text> : <Text>{displayFaceSpinning}</Text>}
+      </FaceDisplay>
       <Timer><Text>⏱️ {timePlayed.toString().padStart(3, '0')}</Text></Timer>
     </Container>
   )
@@ -59,7 +72,7 @@ const Container = styled.div`
   * p {
     line-height: normal;
     vertical-align: middle;
-    margin: 5px 0px;
+    margin: 2px 0px 2px 0px;
   }
   @media (max-width: 450px) {
     display: none;
@@ -84,16 +97,24 @@ const Timer = styled.div`
   padding-right: 10px;
 `
 
+interface FaceDisplayI {
+  spinningFace: boolean;
+}
+
 const FaceDisplay = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
   cursor: pointer;
+  p {
+    transform: ${(props: FaceDisplayI) => props.spinningFace ? `rotate(360deg)` : `rotate(0deg)`};
+  }
 `
 
 const Text = styled.p`
   text-align: center;
-
+  transition-duration: 4s;
+  transition-property: transform;
   color: black;
   user-select: none;
   font-size: 2em;
@@ -104,3 +125,8 @@ const Text = styled.p`
     font-size: 1.5em;
   }
 `
+
+
+// const Rotate = styled.div`
+//   animation: ${rotate} 2s ease infinite;
+// `;
