@@ -53,15 +53,19 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
 
 const Container = styled.div`
   background-color: #BDBDBD;
-  height: 50px;
   display: flex;
   justify-content: space-between;
   border-bottom: 2px solid #777;
+  * p {
+    line-height: normal;
+    vertical-align: middle;
+  }
+  @media (max-width: 450px) {
+    display: none;
+  }
 `
 
 const Bombs = styled.div`
-  height: 50px;
-  font-size: 2em;
   width: 33%;
   padding-left: 10px;
   p {
@@ -71,7 +75,6 @@ const Bombs = styled.div`
 
 const Timer = styled.div`
   color: black;
-  font-size: 2em;
   width: 33%;
   padding-right: 10px;
   p {
@@ -80,13 +83,20 @@ const Timer = styled.div`
 `
 
 const FaceDisplay = styled.div`
-  font-size: 2em;
   cursor: pointer;
   width: 33%;
 `
 
 const Text = styled.p`
   text-align: center;
+
   color: black;
   user-select: none;
+  font-size: 2em;
+  @media (max-width: 550px) {
+    font-size: 1.75em;
+  }
+  @media (max-width: 450px) {
+    font-size: 1.5em;
+  }
 `

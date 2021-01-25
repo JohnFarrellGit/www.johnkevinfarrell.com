@@ -81,22 +81,24 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
 
   return (
     <Container>
-      <div>
-        Difficulty:
+      <OptionItem>
+        <label htmlFor="difficulty">Difficulty</label>
         <select
           value={mapDifficultyToGameBoard[difficulty].display}
           onChange={handleDifficultyChange}
           disabled={isPlaying}
           style={{ display: 'block' }}
+          name="difficulty"
+          id="difficulty"
         >
           <option value={"Beginner"}>Beginner</option>
           <option value={"Intermediate"}>Intermediate</option>
           <option value={"Expert"}>Expert</option>
           {/* <option value={"Custom"}>Custom</option> */}
         </select>
-      </div>
-      <div>
-        Rows:
+      </OptionItem>
+      <OptionItem>
+        <label htmlFor="rows">Rows:</label>
         <input
           type="number"
           min={1}
@@ -105,10 +107,12 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           disabled={isPlaying}
           style={{ display: 'block' }}
           onChange={changeRows}
+          name="rows"
+          id="rows"
         />
-      </div>
-      <div>
-        Columns:
+      </OptionItem>
+      <OptionItem>
+        <label htmlFor="columns">Columns:</label>
         <input
           type="number"
           min={1}
@@ -117,10 +121,12 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           disabled={isPlaying} // || difficulty !== GameDifficulty.Custom
           style={{ display: 'block' }}
           onChange={changeColumns}
+          name="columns"
+          id="columns"
         />
-      </div>
-      <div>
-        Bombs:
+      </OptionItem>
+      <OptionItem>
+        <label htmlFor="bombs">Bombs:</label>
         <input
           type="number"
           min={1}
@@ -129,8 +135,10 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           disabled={isPlaying}
           style={{ display: 'block' }}
           onChange={changeBombs}
+          name="bombs"
+          id="bombs"
         />
-      </div>
+      </OptionItem>
     </Container>
   )
 }
@@ -138,8 +146,22 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
-  height: 50px;
   border-bottom: 2px solid #777;
   background-color: #BDBDBD;
-  width: 100%;
+  padding: 5px 0px;
+`
+
+const OptionItem = styled.div`
+  label {
+    color: black;
+  }
+  input {
+    width: 100px;
+    @media(max-width: 500px) {
+      width: 80px;
+    }
+    @media(max-width: 500px) {
+      width: 60px;
+    }
+  }
 `

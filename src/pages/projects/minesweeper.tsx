@@ -12,13 +12,13 @@ import Title from '../../components/Title'
 
 // TODO:
 
+// make the input size smaller for game controls
 // remember if cat face or normal face using localStorage
 // bug when changing to expert, click top left, is rows and columns mixed up??
 // responsive text sizing - we don't want overflowing game status on a small screen, maybe just hide it on a phone?
 // responsive design (cell size, game size etc, flag and bomb size)
-// make the input size smaller for game controls
 // resolve issue of shifting game options as width grows
-// nieghbor cell color plus do we want it to bolder text?
+// neighbor cell color plus do we want it to bolder text?
 // fix custom difficulty - doesn't seem to be working(?)
 // clicking face makes it spin and stick out tongue, use of bezier for cool looking spin
 // if win reveal the whole board - red are bombs, leave flags if flagged, show
