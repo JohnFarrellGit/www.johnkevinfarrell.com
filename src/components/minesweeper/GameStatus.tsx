@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import React from 'react'
-import { Faces, FaceType } from '../../pages/projects/minesweeper'
+import { Faces, FaceType } from './reducer'
 
 interface GameStatusI {
   bombsLeft: number;
@@ -88,4 +88,5 @@ const FaceDisplay = styled.div`
 const Text = styled.p`
   text-align: center;
   color: black;
+  user-select: none;
 `

@@ -1,66 +1,82 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { GameDifficulty, mapDifficultyToGameBoard } from '../../pages/projects/minesweeper'
+import { GameDifficulty } from './reducer'
 
-// allow user to update board size, numberOfBombs (easy, medium, custom)
+interface BoardConfiguration {
+  numberOfRows: number;
+  numberOfColumns: number;
+  numberOfBombs: number;
+  display: string;
+}
 
 interface GameOptionsI {
   isPlaying: boolean;
-  updateDifficulty: (numberOfRows: number, numberOfColumns: number, numberOfBombs: number) => void;
+  difficulty: GameDifficulty;
+  rows: number;
+  columns: number;
+  numberOfBombs: number;
+  updateDifficulty: (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => void;
 }
 
-export const GameOptions = ({ isPlaying, updateDifficulty }: GameOptionsI) => {
+export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty }: GameOptionsI) => {
 
-  const [difficulty, setDifficulty] = useState(GameDifficulty.Intermediate);
-  const [rows, setRows] = useState(15);
-  const [columns, setColumns] = useState(15);
-  const [numberOfBombs, setNumberOfBombs] = useState(40);
+  const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration> = {
+    [GameDifficulty.Beginner]: {
+      numberOfRows: 10,
+      numberOfColumns: 10,
+      numberOfBombs: 10,
+      display: 'Beginner'
+    },
+    [GameDifficulty.Intermediate]: {
+      numberOfRows: 15,
+      numberOfColumns: 15,
+      numberOfBombs: 40,
+      display: 'Intermediate'
+    },
+    [GameDifficulty.Expert]: {
+      numberOfRows: 16,
+      numberOfColumns: 30,
+      numberOfBombs: 1,
+      display: 'Expert'
+    }
+    // [GameDifficulty.Custom]: {
+    //   numberOfRows: 1,
+    //   numberOfColumns: 1,
+    //   numberOfBombs: 1,
+    //   display: 'Custom'
+    // }
+  }
 
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.target.value === 'Custom') {
-      setDifficulty(GameDifficulty.Custom);
-    } else {
-      if (event.target.value === 'Beginner') {
-        setDifficulty(GameDifficulty.Beginner);
-        setRows(10);
-        setColumns(10);
-        setNumberOfBombs(10);
-        updateDifficulty(10, 10, 10);
-      } else if (event.target.value === 'Intermediate') {
-        setDifficulty(GameDifficulty.Intermediate);
-        setRows(15);
-        setColumns(15);
-        setNumberOfBombs(40);
-        updateDifficulty(15, 15, 40);
-      } else if (event.target.value === 'Expert') {
-        setDifficulty(GameDifficulty.Expert);
-        setRows(16);
-        setColumns(30);
-        setNumberOfBombs(99);
-        updateDifficulty(16, 30, 99);
-      }
+    // if (event.target.value === 'Custom') {
+    //   setDifficulty(GameDifficulty.Custom);
+    // } else
+
+    if (event.target.value === 'Beginner') {
+      updateDifficulty(GameDifficulty.Beginner);
+    } else if (event.target.value === 'Intermediate') {
+      updateDifficulty(GameDifficulty.Intermediate);
+    } else if (event.target.value === 'Expert') {
+      updateDifficulty(GameDifficulty.Expert);
     }
   })
 
   const changeRows = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     if (value < 1 || value > 99) return;
-    setRows(value);
-    updateDifficulty(value, columns, numberOfBombs);
+    updateDifficulty(GameDifficulty.Custom, value, columns, numberOfBombs);
   }
 
   const changeColumns = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     if (value < 1 || value > 99) return;
-    setColumns(value);
-    updateDifficulty(rows, value, numberOfBombs);
+    updateDifficulty(GameDifficulty.Custom, rows, value, numberOfBombs);
   }
 
   const changeBombs = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     if (value < 1 || value > rows * columns - 1) return;
-    setNumberOfBombs(value);
-    updateDifficulty(rows, columns, value);
+    updateDifficulty(GameDifficulty.Custom, rows, columns, value);
   }
 
   return (
@@ -76,7 +92,7 @@ export const GameOptions = ({ isPlaying, updateDifficulty }: GameOptionsI) => {
           <option value={"Beginner"}>Beginner</option>
           <option value={"Intermediate"}>Intermediate</option>
           <option value={"Expert"}>Expert</option>
-          <option value={"Custom"}>Custom</option>
+          {/* <option value={"Custom"}>Custom</option> */}
         </select>
       </div>
       <div>
@@ -86,7 +102,7 @@ export const GameOptions = ({ isPlaying, updateDifficulty }: GameOptionsI) => {
           min={1}
           max={100}
           value={rows}
-          disabled={isPlaying || difficulty !== GameDifficulty.Custom}
+          disabled={isPlaying}
           style={{ display: 'block' }}
           onChange={changeRows}
         />
@@ -98,7 +114,7 @@ export const GameOptions = ({ isPlaying, updateDifficulty }: GameOptionsI) => {
           min={1}
           max={100}
           value={columns}
-          disabled={isPlaying || difficulty !== GameDifficulty.Custom}
+          disabled={isPlaying} // || difficulty !== GameDifficulty.Custom
           style={{ display: 'block' }}
           onChange={changeColumns}
         />
@@ -110,7 +126,7 @@ export const GameOptions = ({ isPlaying, updateDifficulty }: GameOptionsI) => {
           min={1}
           max={(rows * columns) - 1}
           value={numberOfBombs}
-          disabled={isPlaying || difficulty !== GameDifficulty.Custom}
+          disabled={isPlaying}
           style={{ display: 'block' }}
           onChange={changeBombs}
         />
