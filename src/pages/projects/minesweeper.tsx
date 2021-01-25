@@ -167,21 +167,21 @@ const GameContainer = styled.div`
   border-bottom: #777 3px solid;
   border-left: #777 3px solid;
   min-width: 600px;
-  width: ${(props: GameContainerI) => `${(Number(props.columns) * 20) + 40}px`};
+  width: ${(props: GameContainerI) => `${(Number(props.columns) * 30) + 60}px`};
 
   @media(max-width: 600px) {
     min-width: 500px;
-    width: ${(props: GameContainerI) => `${(Number(props.columns) * 20)}px`};
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30)}px`};
   }
 
   @media(max-width: 500px) {
     min-width: 400px;
-    width: ${(props: GameContainerI) => `${(Number(props.columns) * 20)}px`};
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30)}px`};
   }
 
   @media(max-width: 400px) {
     min-width: 300px;
-    width: ${(props: GameContainerI) => `${(Number(props.columns) * 20)}px`};
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30)}px`};
   }
 `
 
@@ -189,9 +189,10 @@ interface GridContainerI {
   columns: number;
 }
 
+// if number of columns * 30px is larger than
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: ${(props: GridContainerI) => `repeat(${props.columns}, 20px)`};
+  grid-template-columns: ${(props: GridContainerI) => `repeat(${props.columns}, 30px)`};
 `
 
 const PlayingContainer = styled.div`
