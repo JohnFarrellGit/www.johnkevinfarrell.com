@@ -107,13 +107,13 @@ const FaceDisplay = styled.div`
   justify-content: center;
   cursor: pointer;
   p {
-    transform: ${(props: FaceDisplayI) => props.spinningFace ? `rotate(360deg)` : `rotate(0deg)`};
+    transform: ${(props: FaceDisplayI) => props.spinningFace ? `rotate(720deg)` : `rotate(0deg)`};
   }
 `
 
 const Text = styled.p`
   text-align: center;
-  transition-duration: 4s;
+  transition-duration: 2s;
   transition-property: transform;
   color: black;
   user-select: none;
