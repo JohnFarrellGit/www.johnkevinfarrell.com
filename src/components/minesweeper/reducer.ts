@@ -86,8 +86,8 @@ interface State {
   rows: number,
   columns: number,
   board: Cell[];
-  gameDifficulty: GameDifficulty;
   numberOfBombs: number;
+  gameDifficulty: GameDifficulty;
   flagsPlaced: number;
   isPlaying: boolean;
   isDead: boolean;
@@ -117,7 +117,7 @@ type Action =
   | { type: 'ClickCell', cellIndex: number }
   | { type: 'PlaceFlag', cellIndex: number }
   | { type: 'RemoveFlag', cellIndex: number }
-  | { type: 'UpdateConfiguration', gameDifficulty: GameDifficulty, rows: number, columns: number, numberOfBombs: number }
+  | { type: 'UpdateConfiguration', gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number }
   | { type: 'UpdateFaceType' }
   | { type: 'AddToScores' }
 
@@ -138,7 +138,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
 
     case 'HoldCell': {
 
-      if (state.isPlaying && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged) && state.isDead && state.isWinner) {
+      if (state.isPlaying && state.board && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged) && state.isDead && state.isWinner) {
         return {
           ...state,
         }
@@ -151,9 +151,9 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     }
 
     case 'ClickCell': {
-      const newBoard = [...state.board];
+      const newBoard = [...state.board!];
 
-      if (state.isPlaying && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged)) {
+      if (state.isPlaying && state.board && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged)) {
         return {
           ...state,
           face: Faces.Happy
@@ -164,7 +164,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
       if (state.isDead || state.isWinner) {
         return {
           ...state,
-          board: generateBoard(state.rows, state.columns),
+          board: generateBoard(state.rows!, state.columns!),
           flagsPlaced: 0,
           isPlaying: false,
           isDead: false,
@@ -176,8 +176,8 @@ export const minesweeperReducer = (state: State, action: Action): State => {
       // handle if not started yet, create board then reveal changes
       if (!state.isPlaying) {
 
-        let bombsLeft = state.numberOfBombs;
-        const possibleBombLocations = state.board.map(el => el.id).filter(id => id !== action.cellIndex);
+        let bombsLeft = state.numberOfBombs || 0;
+        const possibleBombLocations = state.board ? state.board.map(el => el.id).filter(id => id !== action.cellIndex) : [];
 
         // fisher-yates random shuffling algorithm
         for (let i = possibleBombLocations.length - 1; i > 0; i--) {
@@ -223,13 +223,13 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     }
 
     case 'PlaceFlag': {
-      if (!state.board[action.cellIndex].isCovered || !state.isPlaying) {
+      if (state.board && !state.board[action.cellIndex].isCovered || !state.isPlaying) {
         return {
           ...state
         }
       }
 
-      const newBoard = [...state.board];
+      const newBoard = [...state.board!];
       const newCell = { ...newBoard[action.cellIndex] }
       newCell.isFlagged = !newBoard[action.cellIndex].isFlagged;
       newBoard[action.cellIndex] = newCell;
@@ -245,7 +245,9 @@ export const minesweeperReducer = (state: State, action: Action): State => {
         return {
           ...state
         }
-      } else {
+      }
+
+      if (action.gameDifficulty === GameDifficulty.Custom && action.rows && action.columns && action.numberOfBombs) {
         return {
           ...state,
           gameDifficulty: action.gameDifficulty,
@@ -253,8 +255,32 @@ export const minesweeperReducer = (state: State, action: Action): State => {
           columns: action.columns,
           numberOfBombs: action.numberOfBombs,
           board: generateBoard(action.columns, action.rows),
-          flagsPlaced: 0
+          flagsPlaced: 0,
+          timer: 0,
+          face: Faces.Blank,
+          isPlaying: false,
+          isDead: false,
+          isWinner: false
         }
+      }
+
+      let rows = action.gameDifficulty === GameDifficulty.Beginner ? 10 : action.gameDifficulty === GameDifficulty.Intermediate ? 15 : 30;
+      let columns = action.gameDifficulty === GameDifficulty.Beginner ? 10 : action.gameDifficulty === GameDifficulty.Intermediate ? 15 : 16;
+      let numberOfBombs = action.gameDifficulty === GameDifficulty.Beginner ? 10 : action.gameDifficulty === GameDifficulty.Intermediate ? 40 : 99;
+
+      return {
+        ...state,
+        gameDifficulty: action.gameDifficulty,
+        rows,
+        columns,
+        numberOfBombs,
+        board: generateBoard(rows, columns),
+        flagsPlaced: 0,
+        timer: 0,
+        face: Faces.Blank,
+        isPlaying: false,
+        isDead: false,
+        isWinner: false
       }
     }
 

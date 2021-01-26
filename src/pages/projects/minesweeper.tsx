@@ -4,7 +4,7 @@ import useInterval from '../../common/hooks/useInterval'
 import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage'
 import Layout from '../../components/Layout'
 import { GameCell } from '../../components/minesweeper/GameCell'
-import { GameOptions } from '../../components/minesweeper/GameOptions'
+import { GameOptions, mapDifficultyToGameBoard } from '../../components/minesweeper/GameOptions'
 import { GameStatus } from '../../components/minesweeper/GameStatus'
 import { PreviousResults } from '../../components/minesweeper/PreviousResults'
 import { Faces, FaceType, GameDifficulty, generateBoard, minesweeperReducer } from '../../components/minesweeper/reducer'
@@ -14,9 +14,14 @@ import Title from '../../components/Title'
 // TODO:
 
 // should no longer create columns, rows etc by default, need to get from difficulty programmatically, is a bug when we load from saved difficulty!
+// rows, columns have to be optional (only when making from custom!), we also no longer pass a board but return one!
+
+// bug when first click also wins game (if 1 bomb exists in custom for example)
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
 // https://engageinteractive.co.uk/blog/em-vs-rem-vs-px
+// we can flex column the options and status (instead of hiding status), we could also set a max columns of 25 * screenwidth?
+
 // resolve issue of shifting game options as width grows
 
 // give instructions for the game and how to play
@@ -62,10 +67,10 @@ const minesweeper = () => {
 
   const [gameState, dispatch] = useReducer(minesweeperReducer, {
     gameDifficulty: getGameDifficulty(),
-    rows: 10,
-    columns: 10,
-    board: generateBoard(10, 10),
-    numberOfBombs: 10,
+    rows: mapDifficultyToGameBoard[getGameDifficulty()].numberOfRows,
+    columns: mapDifficultyToGameBoard[getGameDifficulty()].numberOfColumns,
+    numberOfBombs: mapDifficultyToGameBoard[getGameDifficulty()].numberOfBombs,
+    board: generateBoard(mapDifficultyToGameBoard[getGameDifficulty()].numberOfRows, mapDifficultyToGameBoard[getGameDifficulty()].numberOfColumns),
     isPlaying: false,
     isDead: false,
     isWinner: false,
@@ -91,16 +96,12 @@ const minesweeper = () => {
 
   const updateDifficulty = (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => {
     setLocalStorageValue(gameDifficulty);
-    if (gameDifficulty === GameDifficulty.Beginner) {
-      dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows: 10, columns: 10, numberOfBombs: 10 })
-    } else if (gameDifficulty === GameDifficulty.Intermediate) {
-      dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows: 15, columns: 15, numberOfBombs: 40 })
-    } else if (gameDifficulty === GameDifficulty.Expert) {
-      dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows: 16, columns: 30, numberOfBombs: 99 })
-    } else {
+    if (gameDifficulty === GameDifficulty.Custom) {
       if (rows && columns && numberOfBombs) {
         dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows, columns, numberOfBombs })
       }
+    } else {
+      dispatch({ type: 'UpdateConfiguration', gameDifficulty })
     }
   }
 
@@ -109,7 +110,7 @@ const minesweeper = () => {
     dispatch({ type: 'UpdateFaceType' })
   }
 
-  const gameCells = useMemo(() => gameState.board.map((gameCell) => (
+  const gameCells = useMemo(() => gameState.board !== undefined ? gameState.board.map((gameCell) => (
     <GameCell
       isCovered={gameCell.isCovered}
       isBomb={gameCell.isBomb}
@@ -122,32 +123,32 @@ const minesweeper = () => {
       holdCell={holdCell}
       key={gameCell.id}
     />
-  )), [gameState.board])
+  )) : null, [gameState.board])
 
   return (
     <Layout>
       <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
       <Title title="Minesweeper" />
       <Main>
-        <GameContainer columns={gameState.columns}>
+        <GameContainer columns={gameState.columns !== undefined ? gameState.columns : 10}>
           <GameOptions
             isPlaying={gameState.isPlaying}
             difficulty={gameState.gameDifficulty}
-            rows={gameState.rows}
-            columns={gameState.columns}
-            numberOfBombs={gameState.numberOfBombs}
+            rows={gameState.rows !== undefined ? gameState.rows : 10}
+            columns={gameState.columns !== undefined ? gameState.columns : 10}
+            numberOfBombs={gameState.numberOfBombs !== undefined ? gameState.numberOfBombs : 10}
             updateDifficulty={updateDifficulty}
           />
           <GameStatus
-            bombsLeft={gameState.numberOfBombs - gameState.flagsPlaced}
-            totalBombs={gameState.numberOfBombs}
+            bombsLeft={(gameState.numberOfBombs !== undefined ? gameState.numberOfBombs : 10) - gameState.flagsPlaced}
+            totalBombs={gameState.numberOfBombs !== undefined ? gameState.numberOfBombs : 10}
             faceType={gameState.faceType}
             face={gameState.face}
             timePlayed={gameState.timer}
             rightClickFace={rightClickFace}
           />
           <PlayingContainer>
-            <GridContainer columns={gameState.columns}>
+            <GridContainer columns={gameState.columns !== undefined ? gameState.columns : 10}>
               {gameCells}
             </GridContainer>
           </PlayingContainer>
@@ -201,7 +202,7 @@ interface GridContainerI {
   columns: number;
 }
 
-// if number of columns * 30px is larger than
+// if number of columns * 30px is larger than screen width we have an issue, make cells smaller
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: ${(props: GridContainerI) => `repeat(${props.columns}, 30px)`};

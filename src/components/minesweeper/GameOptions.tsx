@@ -18,34 +18,35 @@ interface GameOptionsI {
   updateDifficulty: (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => void;
 }
 
+export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration> = {
+  [GameDifficulty.Beginner]: {
+    numberOfRows: 10,
+    numberOfColumns: 10,
+    numberOfBombs: 10,
+    display: 'Beginner'
+  },
+  [GameDifficulty.Intermediate]: {
+    numberOfRows: 15,
+    numberOfColumns: 15,
+    numberOfBombs: 40,
+    display: 'Intermediate'
+  },
+  [GameDifficulty.Expert]: {
+    numberOfRows: 30,
+    numberOfColumns: 16,
+    numberOfBombs: 99,
+    display: 'Expert'
+  }
+  // [GameDifficulty.Custom]: {
+  //   numberOfRows: 1,
+  //   numberOfColumns: 1,
+  //   numberOfBombs: 1,
+  //   display: 'Custom'
+  // }
+}
+
 export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty }: GameOptionsI) => {
 
-  const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration> = {
-    [GameDifficulty.Beginner]: {
-      numberOfRows: 10,
-      numberOfColumns: 10,
-      numberOfBombs: 10,
-      display: 'Beginner'
-    },
-    [GameDifficulty.Intermediate]: {
-      numberOfRows: 15,
-      numberOfColumns: 15,
-      numberOfBombs: 40,
-      display: 'Intermediate'
-    },
-    [GameDifficulty.Expert]: {
-      numberOfRows: 16,
-      numberOfColumns: 30,
-      numberOfBombs: 1,
-      display: 'Expert'
-    }
-    // [GameDifficulty.Custom]: {
-    //   numberOfRows: 1,
-    //   numberOfColumns: 1,
-    //   numberOfBombs: 1,
-    //   display: 'Custom'
-    // }
-  }
 
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
     // if (event.target.value === 'Custom') {

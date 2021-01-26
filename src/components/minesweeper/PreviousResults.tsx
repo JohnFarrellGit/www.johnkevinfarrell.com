@@ -4,8 +4,6 @@ import { convertSecondsToMinutesAndSeconds } from '../../common/functions/conver
 import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage';
 import { GameDifficulty } from './reducer';
 
-
-
 interface PreviousResultsI {
   isWinner: boolean;
   gameDifficulty: GameDifficulty;
