@@ -3,7 +3,7 @@ export const convertSecondsToMinutesAndSeconds = (seconds: number) => {
   let minutes = 0;
 
   while (seconds >= 60 * 60) {
-    hours--;
+    hours++;
     seconds -= 60 * 60;
   }
 
