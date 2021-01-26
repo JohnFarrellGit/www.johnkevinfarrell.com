@@ -67,16 +67,16 @@ export const Minesweeper = ({
   }
 
   const initialGameState = {
-    gameDifficulty: getGameDifficulty(),
-    rows: getNumberOfRows(),
-    columns: getNumberOfColumns(),
-    numberOfBombs: getNumberOfBombs(),
-    board: generateBoard(getNumberOfRows(), getNumberOfColumns()),
+    gameDifficulty: GameDifficulty.Beginner,
+    rows: 10,
+    columns: 10,
+    numberOfBombs: 10,
+    board: generateBoard(10, 10),
     isPlaying: false,
     isDead: false,
     isWinner: false,
     face: Faces.Blank,
-    faceType: getFaceType(),
+    faceType: FaceType.Regular,
     timer: 0,
     flagsPlaced: 0,
     display: false
@@ -156,7 +156,7 @@ export const Minesweeper = ({
       <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
       <Title title="Minesweeper" />
       <Main>
-        <GameContainer columns={gameState.columns !== undefined ? gameState.columns : 10}>
+        <GameContainer columns={gameState.columns}>
           <GameOptions
             isPlaying={gameState.isPlaying}
             difficulty={gameState.gameDifficulty}

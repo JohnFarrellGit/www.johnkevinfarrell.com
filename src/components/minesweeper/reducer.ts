@@ -346,7 +346,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
   }
 }
 
-export const generateBoard = (rows: number, columns: number) => {
+export const generateBoard = (rows: number, columns: number): Cell[] => {
   return new Array(rows * columns).fill(null).map((_, index) => ({
     isBomb: false,
     isCovered: true,
