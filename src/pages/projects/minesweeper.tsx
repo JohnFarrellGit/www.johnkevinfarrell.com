@@ -13,8 +13,7 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// localStorage - facetype, difficulty, track wins and losses
-// should no longer create columns, rows etc by default, need to get from difficulty programmatically
+// should no longer create columns, rows etc by default, need to get from difficulty programmatically, is a bug when we load from saved difficulty!
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
 // https://engageinteractive.co.uk/blog/em-vs-rem-vs-px
@@ -34,17 +33,15 @@ import Title from '../../components/Title'
 
 // performance improvements (memorisation of components etc.)
 
-// connect to strapi
+// connect site/projects page to strapi
 
 // BUGS
 
 // fix custom difficulty - doesn't seem to be working(?)
 // fixing custom stuff (especially when very low or high bomb count, seems broken with neighbors)
-// on won or lose changing difficulty causing incorrect bombs to display
 // bug when changing to expert, click top left, is rows and columns mixed up??
 
 const minesweeper = () => {
-
 
   const { localStorageValue: localDifficulty, setLocalStorageValue } = useLocalStorage(LocalStorageKeys.MinesweeperDifficulty);
   const { localStorageValue: localFaceType, setLocalStorageValue: setLocalFaceType } = useLocalStorage(LocalStorageKeys.MinesweeperFace);
@@ -117,6 +114,7 @@ const minesweeper = () => {
       isCovered={gameCell.isCovered}
       isBomb={gameCell.isBomb}
       isFlagged={gameCell.isFlagged}
+      isWinner={gameState.isWinner}
       neighborBombs={gameCell.neighborBombs}
       id={gameCell.id}
       leftClick={leftClickCell}
@@ -185,17 +183,17 @@ const GameContainer = styled.div`
 
   @media(max-width: 600px) {
     min-width: 500px;
-    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30)}px`};
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30) + 5}px`};
   }
 
   @media(max-width: 500px) {
     min-width: 400px;
-    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30)}px`};
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30) + 5}px`};
   }
 
   @media(max-width: 400px) {
     min-width: 300px;
-    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30)}px`};
+    width: ${(props: GameContainerI) => `${(Number(props.columns) * 30) + 5}px`};
   }
 `
 

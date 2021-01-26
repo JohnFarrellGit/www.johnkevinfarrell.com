@@ -33,14 +33,19 @@ const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
 
   return (
     <ResultsContainer>
-      <TimesContainer>
-        <TimesTitle>Best Times ({GameDifficulty[gameDifficulty]})</TimesTitle>
-        {
-          fastest10.map((res, index) => (
-            <Time key={index}>{index + 1}: {convertSecondsToMinutesAndSeconds(Number(res))}</Time>
-          ))
-        }
-      </TimesContainer>
+      <div>
+        <WinContainer>
+          <DisplayText>Win Count - {results[gameDifficulty].length}</DisplayText>
+        </WinContainer>
+        <TimesContainer>
+          <TimesTitle>Best Times ({GameDifficulty[gameDifficulty]})</TimesTitle>
+          {
+            fastest10.map((res, index) => (
+              <DisplayText key={index}>{index + 1}: {convertSecondsToMinutesAndSeconds(Number(res))}</DisplayText>
+            ))
+          }
+        </TimesContainer>
+      </div>
     </ResultsContainer>
   )
 }
@@ -54,8 +59,19 @@ const ResultsContainer = styled.div`
   background: #BDBDBD;
 `
 
+const WinContainer = styled.div`
+  padding: 5px 20px 5px 20px;
+  background-color: #E5E5E5;
+
+  border-top: #ccc 3px solid;
+  border-right: #ccc 3px solid;
+  border-left: #777 3px solid;
+
+  display: flex;
+  /* align-items: center; */
+`
 const TimesContainer = styled.div`
-  padding: 5px 20px 0px 20px;
+  padding: 5px 20px 5px 20px;
   background-color: #E5E5E5;
 
   border-top: #ccc 3px solid;
@@ -69,10 +85,7 @@ const TimesTitle = styled.p`
   margin-bottom: 5px;
 `
 
-const Time = styled.p`
+const DisplayText = styled.p`
   color: black;
   margin-bottom: 0px;
-  :last-child {
-    margin-bottom: 5px;
-  }
 `

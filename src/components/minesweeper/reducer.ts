@@ -252,7 +252,8 @@ export const minesweeperReducer = (state: State, action: Action): State => {
           rows: action.rows,
           columns: action.columns,
           numberOfBombs: action.numberOfBombs,
-          board: generateBoard(action.columns, action.rows)
+          board: generateBoard(action.columns, action.rows),
+          flagsPlaced: 0
         }
       }
     }

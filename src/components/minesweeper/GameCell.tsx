@@ -5,6 +5,7 @@ interface GameCellI {
   isCovered: boolean;
   isBomb: boolean;
   isFlagged: boolean;
+  isWinner: boolean;
   neighborBombs: number;
   id: number;
   leftClick: (cellIndex: number) => void;
@@ -12,7 +13,7 @@ interface GameCellI {
   rightClick: (cellIndex: number) => void;
 }
 
-export const GameCell = ({ isCovered, isBomb, isFlagged, neighborBombs, id, leftClick, holdCell, rightClick }: GameCellI) => {
+export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs, id, leftClick, holdCell, rightClick }: GameCellI) => {
 
   const leftClickCell = useCallback(() => {
     leftClick(id);
@@ -46,7 +47,7 @@ export const GameCell = ({ isCovered, isBomb, isFlagged, neighborBombs, id, left
         neighborBombs={neighborBombs}
       >
         {isFlagged && "🚩"}
-        {!isCovered && !isFlagged && isBomb && "💣"}
+        {!isCovered && !isFlagged && !isWinner && isBomb && "💣"}
         {!isCovered && !isBomb && neighborBombs !== 0 && neighborBombs}
       </CellDisplay>
     </CellContainer>
