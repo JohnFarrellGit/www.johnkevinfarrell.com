@@ -51,7 +51,7 @@ export const Minesweeper = ({
   const getNumberOfColumns = () => {
     const difficulty = getGameDifficulty()
     if (difficulty === GameDifficulty.Custom) {
-      return 10// get our rows
+      return 10// get our columns
     } else {
       return mapDifficultyToGameBoard[difficulty].numberOfColumns || 10;
     }
@@ -60,13 +60,13 @@ export const Minesweeper = ({
   const getNumberOfBombs = () => {
     const difficulty = getGameDifficulty()
     if (difficulty === GameDifficulty.Custom) {
-      return 10// get our rows
+      return 10// get our bombs
     } else {
       return mapDifficultyToGameBoard[difficulty].numberOfBombs || 10;
     }
   }
 
-  const [gameState, dispatch] = useReducer(minesweeperReducer, {
+  const initialGameState = {
     gameDifficulty: getGameDifficulty(),
     rows: getNumberOfRows(),
     columns: getNumberOfColumns(),
@@ -78,11 +78,21 @@ export const Minesweeper = ({
     face: Faces.Blank,
     faceType: getFaceType(),
     timer: 0,
-    flagsPlaced: 0
-  })
+    flagsPlaced: 0,
+    display: false
+  }
+
+  const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState)
 
   useEffect(() => {
-    dispatch({ type: 'Init', gameDifficulty: getGameDifficulty(), faceType: getFaceType() })
+    dispatch({
+      type: 'Init',
+      gameDifficulty: getGameDifficulty(),
+      rows: getNumberOfRows(),
+      columns: getNumberOfColumns(),
+      numberOfBombs: getNumberOfBombs(),
+      faceType: getFaceType()
+    })
   }, [])
 
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
@@ -115,7 +125,7 @@ export const Minesweeper = ({
     dispatch({ type: 'UpdateFaceType' })
   }
 
-  const gameCells = useMemo(() => gameState.board !== undefined ? gameState.board.map((gameCell) => (
+  const gameCells = useMemo(() => gameState.board !== undefined && gameState.display ? gameState.board.map((gameCell) => (
     <GameCell
       isCovered={gameCell.isCovered}
       isBomb={gameCell.isBomb}
@@ -139,21 +149,21 @@ export const Minesweeper = ({
           <GameOptions
             isPlaying={gameState.isPlaying}
             difficulty={gameState.gameDifficulty}
-            rows={gameState.rows !== undefined ? gameState.rows : 10}
-            columns={gameState.columns !== undefined ? gameState.columns : 10}
-            numberOfBombs={gameState.numberOfBombs !== undefined ? gameState.numberOfBombs : 10}
+            rows={gameState.rows}
+            columns={gameState.columns}
+            numberOfBombs={gameState.numberOfBombs}
             updateDifficulty={updateDifficulty}
           />
           <GameStatus
-            bombsLeft={(gameState.numberOfBombs !== undefined ? gameState.numberOfBombs : 10) - gameState.flagsPlaced}
-            totalBombs={gameState.numberOfBombs !== undefined ? gameState.numberOfBombs : 10}
+            bombsLeft={gameState.numberOfBombs - gameState.flagsPlaced}
+            totalBombs={gameState.numberOfBombs}
             faceType={gameState.faceType}
             face={gameState.face}
             timePlayed={gameState.timer}
             rightClickFace={rightClickFace}
           />
           <PlayingContainer>
-            <GridContainer columns={gameState.columns !== undefined ? gameState.columns : 10}>
+            <GridContainer columns={gameState.columns}>
               {gameCells}
             </GridContainer>
           </PlayingContainer>

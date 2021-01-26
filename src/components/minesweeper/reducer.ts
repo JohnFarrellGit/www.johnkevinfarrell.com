@@ -98,6 +98,7 @@ interface State {
   face: Faces;
   faceType: FaceType;
   timer: number;
+  display: boolean;
 }
 
 export enum FaceType {
@@ -147,7 +148,8 @@ export const minesweeperReducer = (state: State, action: Action): State => {
         isWinner: false,
         face: Faces.Blank,
         timer: 0,
-        flagsPlaced: 0
+        flagsPlaced: 0,
+        display: true
       }
     }
 
@@ -165,7 +167,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
 
     case 'HoldCell': {
 
-      if (state.isPlaying && state.board && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged) && state.isDead && state.isWinner) {
+      if (!state.isPlaying || state.isDead || state.isWinner || !state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged) {
         return {
           ...state,
         }
