@@ -44,7 +44,7 @@ export const Minesweeper = ({
     if (difficulty === GameDifficulty.Custom) {
       return 10// get our rows
     } else {
-      return mapDifficultyToGameBoard[difficulty].numberOfRows || 10;
+      return mapDifficultyToGameBoard[difficulty].rows;
     }
   }
 
@@ -53,7 +53,7 @@ export const Minesweeper = ({
     if (difficulty === GameDifficulty.Custom) {
       return 10// get our columns
     } else {
-      return mapDifficultyToGameBoard[difficulty].numberOfColumns || 10;
+      return mapDifficultyToGameBoard[difficulty].columns;
     }
   }
 
@@ -62,7 +62,7 @@ export const Minesweeper = ({
     if (difficulty === GameDifficulty.Custom) {
       return 10// get our bombs
     } else {
-      return mapDifficultyToGameBoard[difficulty].numberOfBombs || 10;
+      return mapDifficultyToGameBoard[difficulty].numberOfBombs;
     }
   }
 
@@ -85,14 +85,25 @@ export const Minesweeper = ({
   const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState)
 
   useEffect(() => {
-    dispatch({
-      type: 'Init',
-      gameDifficulty: getGameDifficulty(),
-      rows: getNumberOfRows(),
-      columns: getNumberOfColumns(),
-      numberOfBombs: getNumberOfBombs(),
-      faceType: getFaceType()
-    })
+    const gameDifficulty = getGameDifficulty();
+    if (gameDifficulty === GameDifficulty.Custom) {
+      dispatch({
+        type: 'Init',
+        gameDifficulty,
+        customDifficulty: {
+          rows: getNumberOfRows(),
+          columns: getNumberOfColumns(),
+          numberOfBombs: getNumberOfBombs(),
+        },
+        faceType: getFaceType()
+      })
+    } else {
+      dispatch({
+        type: 'Init',
+        gameDifficulty,
+        faceType: getFaceType()
+      })
+    }
   }, [])
 
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);

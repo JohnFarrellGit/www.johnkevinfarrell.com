@@ -1,9 +1,12 @@
 import React from 'react'
 import { MinesweeperWLocalStorage } from '../../components/minesweeper/MinesweeperWLocalStorage';
+
 // TODO:
 
 // should no longer create columns, rows etc by default, need to get from difficulty programmatically, is a bug when we load from saved difficulty!
 // rows, columns have to be optional (only when making from custom!), we also no longer pass a board but return one!
+
+// option to remove previous scores
 
 // bug when first click also wins game (if 1 bomb exists in custom for example)
 

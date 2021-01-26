@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { GameDifficulty } from './reducer'
 
 interface BoardConfiguration {
-  numberOfRows?: number;
-  numberOfColumns?: number;
-  numberOfBombs?: number;
+  rows: number;
+  columns: number;
+  numberOfBombs: number;
   display: string;
 }
 
@@ -20,27 +20,27 @@ interface GameOptionsI {
 
 export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration> = {
   [GameDifficulty.Beginner]: {
-    numberOfRows: 10,
-    numberOfColumns: 10,
+    rows: 10,
+    columns: 10,
     numberOfBombs: 10,
     display: 'Beginner'
   },
   [GameDifficulty.Intermediate]: {
-    numberOfRows: 15,
-    numberOfColumns: 15,
+    rows: 15,
+    columns: 15,
     numberOfBombs: 40,
     display: 'Intermediate'
   },
   [GameDifficulty.Expert]: {
-    numberOfRows: 16,
-    numberOfColumns: 30,
+    rows: 16,
+    columns: 30,
     numberOfBombs: 99,
     display: 'Expert'
   }
   , [GameDifficulty.Custom]: {
-    numberOfRows: undefined,
-    numberOfColumns: undefined,
-    numberOfBombs: undefined,
+    rows: 0,
+    columns: 0,
+    numberOfBombs: 0,
     display: 'Custom'
   }
 }

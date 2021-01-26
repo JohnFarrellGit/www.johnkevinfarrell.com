@@ -111,12 +111,11 @@ export enum Faces {
   Blank,
   Happy,
   Dizzy,
-  Celebration,
-  Wacky
+  Celebration
 }
 
 type Action =
-  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, rows?: number, columns?: number, numberOfBombs?: number }
+  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }
   | { type: 'UpdateTimer' }
   | { type: 'HoldCell', cellIndex: number }
   | { type: 'ClickCell', cellIndex: number }
@@ -130,9 +129,21 @@ export const minesweeperReducer = (state: State, action: Action): State => {
   switch (action.type) {
 
     case 'Init': {
-      const rows = action.gameDifficulty !== GameDifficulty.Custom ? (mapDifficultyToGameBoard[action.gameDifficulty]?.numberOfRows || 10) : (action.rows || 10);
-      const columns = action.gameDifficulty !== GameDifficulty.Custom ? (mapDifficultyToGameBoard[action.gameDifficulty]?.numberOfColumns || 10) : (action.columns || 10);
-      const numberOfBombs = action.gameDifficulty !== GameDifficulty.Custom ? (mapDifficultyToGameBoard[action.gameDifficulty]?.numberOfBombs || 10) : (action.numberOfBombs || 10);
+
+      let rows: number;
+      let columns: number;
+      let numberOfBombs: number;
+
+      if (action.customDifficulty !== undefined) {
+        rows = action.customDifficulty!.rows;
+        columns = action.customDifficulty!.rows;
+        numberOfBombs = action.customDifficulty!.rows;
+      } else {
+        rows = mapDifficultyToGameBoard[action.gameDifficulty].rows;
+        columns = mapDifficultyToGameBoard[action.gameDifficulty].columns;
+        numberOfBombs = mapDifficultyToGameBoard[action.gameDifficulty].numberOfBombs;
+      }
+
       const board = generateBoard(rows, columns);
 
       return {
@@ -293,9 +304,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
         }
       }
 
-      let rows = action.gameDifficulty === GameDifficulty.Beginner ? 10 : action.gameDifficulty === GameDifficulty.Intermediate ? 15 : 30;
-      let columns = action.gameDifficulty === GameDifficulty.Beginner ? 10 : action.gameDifficulty === GameDifficulty.Intermediate ? 15 : 16;
-      let numberOfBombs = action.gameDifficulty === GameDifficulty.Beginner ? 10 : action.gameDifficulty === GameDifficulty.Intermediate ? 40 : 99;
+      const { rows, columns, numberOfBombs } = mapDifficultyToGameBoard[action.gameDifficulty];
 
       return {
         ...state,

@@ -1,6 +1,5 @@
-import styled from '@emotion/styled'
 import React, { useState } from 'react'
-import { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { Faces, FaceType } from './reducer'
 
 interface GameStatusI {
@@ -19,8 +18,7 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
     [Faces.Blank]: '😶',
     [Faces.Happy]: '🙂',
     [Faces.Dizzy]: '😵',
-    [Faces.Celebration]: '🥳',
-    [Faces.Wacky]: '🤪'
+    [Faces.Celebration]: '🥳'
   }
 
   const mapCatFaces = {
@@ -28,8 +26,7 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
     [Faces.Blank]: '🐱',
     [Faces.Happy]: '😺',
     [Faces.Dizzy]: '😾',
-    [Faces.Celebration]: '😸',
-    [Faces.Wacky]: '😹'
+    [Faces.Celebration]: '😸'
   }
 
   const [spinningFace, setSpinningFace] = useState(false);
