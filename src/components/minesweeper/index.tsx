@@ -3,108 +3,70 @@ import { useMemo } from "react";
 import { useReducer } from "react";
 import styled from "styled-components";
 import useInterval from "../../common/hooks/useInterval";
+import { MinesweeperCustomSettings } from "../../common/hooks/useLocalStorage";
 import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell } from "./GameCell";
-import { GameOptions, mapDifficultyToGameBoard } from "./GameOptions";
+import { GameOptions } from "./GameOptions";
 import { GameStatus } from "./GameStatus";
+import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
 import { PreviousResults } from "./PreviousResults";
 import { Faces, FaceType, GameDifficulty, generateBoard, minesweeperReducer } from "./reducer";
+
+const initialGameState = {
+  gameDifficulty: GameDifficulty.Beginner,
+  rows: 1,
+  columns: 1,
+  numberOfBombs: 1,
+  board: generateBoard(1, 1),
+  isPlaying: false,
+  isDead: false,
+  isWinner: false,
+  face: Faces.Blank,
+  faceType: FaceType.Regular,
+  timer: 0,
+  flagsPlaced: 0,
+  display: false
+};
 
 interface MinesweeperI {
   localDifficulty: GameDifficulty;
   setLocalStorageValue: React.Dispatch<React.SetStateAction<GameDifficulty>>;
   localFaceType: FaceType;
   setLocalFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
-}
+  localCustomSettings: MinesweeperCustomSettings;
+  setLocalCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
+};
 
 export const Minesweeper = ({
   localDifficulty,
   setLocalStorageValue,
   localFaceType,
-  setLocalFaceType }: MinesweeperI) => {
+  setLocalFaceType,
+  localCustomSettings,
+  setLocalCustomSettings }: MinesweeperI) => {
 
-  const getGameDifficulty = () => {
-    if ((typeof localDifficulty === "number") && (localDifficulty >= 0) && (localDifficulty <= 3)) {
-      return localDifficulty;
-    }
-    return GameDifficulty.Beginner;
-  }
-
-  const getFaceType = () => {
-    if ((typeof localFaceType === "number") && (localFaceType >= 0) && (localFaceType <= 1)) {
-      return localFaceType;
-    }
-    return FaceType.Regular
-  }
-
-  const getNumberOfRows = () => {
-    const difficulty = getGameDifficulty()
-    if (difficulty === GameDifficulty.Custom) {
-      return 10// get our rows
-    } else {
-      return mapDifficultyToGameBoard[difficulty].rows;
-    }
-  }
-
-  const getNumberOfColumns = () => {
-    const difficulty = getGameDifficulty()
-    if (difficulty === GameDifficulty.Custom) {
-      return 10// get our columns
-    } else {
-      return mapDifficultyToGameBoard[difficulty].columns;
-    }
-  }
-
-  const getNumberOfBombs = () => {
-    const difficulty = getGameDifficulty()
-    if (difficulty === GameDifficulty.Custom) {
-      return 10// get our bombs
-    } else {
-      return mapDifficultyToGameBoard[difficulty].numberOfBombs;
-    }
-  }
-
-  const initialGameState = {
-    gameDifficulty: GameDifficulty.Beginner,
-    rows: 10,
-    columns: 10,
-    numberOfBombs: 10,
-    board: generateBoard(10, 10),
-    isPlaying: false,
-    isDead: false,
-    isWinner: false,
-    face: Faces.Blank,
-    faceType: FaceType.Regular,
-    timer: 0,
-    flagsPlaced: 0,
-    display: false
-  }
-
-  const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState)
+  const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
 
   useEffect(() => {
-    const gameDifficulty = getGameDifficulty();
+    const gameDifficulty = getGameDifficulty(localDifficulty);
+
     if (gameDifficulty === GameDifficulty.Custom) {
       dispatch({
         type: 'Init',
         gameDifficulty,
-        customDifficulty: {
-          rows: getNumberOfRows(),
-          columns: getNumberOfColumns(),
-          numberOfBombs: getNumberOfBombs(),
-        },
-        faceType: getFaceType()
+        customDifficulty: getCustomBoardConfig(gameDifficulty, localCustomSettings),
+        faceType: getFaceType(localFaceType)
       })
     } else {
       dispatch({
         type: 'Init',
         gameDifficulty,
-        faceType: getFaceType()
+        faceType: getFaceType(localFaceType)
       })
     }
-  }, [])
+  }, []);
 
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
@@ -124,6 +86,11 @@ export const Minesweeper = ({
     setLocalStorageValue(gameDifficulty);
     if (gameDifficulty === GameDifficulty.Custom) {
       if (rows && columns && numberOfBombs) {
+        setLocalCustomSettings({
+          rows,
+          columns,
+          numberOfBombs
+        });
         dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows, columns, numberOfBombs })
       }
     } else {
@@ -164,6 +131,7 @@ export const Minesweeper = ({
             columns={gameState.columns}
             numberOfBombs={gameState.numberOfBombs}
             updateDifficulty={updateDifficulty}
+            customSettings={localCustomSettings}
           />
           <GameStatus
             bombsLeft={gameState.numberOfBombs - gameState.flagsPlaced}

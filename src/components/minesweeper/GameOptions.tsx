@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { MinesweeperCustomSettings } from '../../common/hooks/useLocalStorage'
 import { GameDifficulty } from './reducer'
 
 interface BoardConfiguration {
@@ -16,6 +17,7 @@ interface GameOptionsI {
   columns: number;
   numberOfBombs: number;
   updateDifficulty: (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => void;
+  customSettings: MinesweeperCustomSettings;
 }
 
 export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration> = {
@@ -45,12 +47,11 @@ export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration
   }
 }
 
-export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty }: GameOptionsI) => {
+export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings }: GameOptionsI) => {
 
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Custom') {
-      // also need to pass rows and columns!
-      updateDifficulty(GameDifficulty.Custom);
+      updateDifficulty(GameDifficulty.Custom, customSettings.rows, customSettings.columns, customSettings.numberOfBombs);
     } else if (event.target.value === 'Beginner') {
       updateDifficulty(GameDifficulty.Beginner);
     } else if (event.target.value === 'Intermediate') {
@@ -61,21 +62,33 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
   })
 
   const changeRows = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    if (value < 1 || value > 99) return;
-    updateDifficulty(GameDifficulty.Custom, value, columns, numberOfBombs);
+    const rows = Number(event.target.value);
+    if (rows < 1 || rows > 99 || difficulty !== GameDifficulty.Custom) return;
+    let numberOfBombs: number;
+    if (customSettings.numberOfBombs >= rows * customSettings.columns) {
+      numberOfBombs = (rows * customSettings.columns) - 1;
+    } else {
+      numberOfBombs = customSettings.numberOfBombs;
+    }
+    updateDifficulty(GameDifficulty.Custom, rows, customSettings.columns, numberOfBombs);
   }
 
   const changeColumns = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    if (value < 1 || value > 99) return;
-    updateDifficulty(GameDifficulty.Custom, rows, value, numberOfBombs);
+    const columns = Number(event.target.value);
+    if (columns < 1 || columns > 99 || difficulty !== GameDifficulty.Custom) return;
+    let numberOfBombs: number;
+    if (customSettings.numberOfBombs >= customSettings.rows * columns) {
+      numberOfBombs = (customSettings.rows * columns) - 1;
+    } else {
+      numberOfBombs = customSettings.numberOfBombs;
+    }
+    updateDifficulty(GameDifficulty.Custom, customSettings.rows, columns, numberOfBombs);
   }
 
   const changeBombs = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    if (value < 1 || value > rows * columns - 1) return;
-    updateDifficulty(GameDifficulty.Custom, rows, columns, value);
+    const numberOfBombs = Number(event.target.value);
+    if (numberOfBombs < 1 || numberOfBombs > rows * columns - 1 || difficulty !== GameDifficulty.Custom) return;
+    updateDifficulty(GameDifficulty.Custom, customSettings.rows, customSettings.columns, numberOfBombs);
   }
 
   return (
@@ -93,7 +106,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           <option value={"Beginner"}>Beginner</option>
           <option value={"Intermediate"}>Intermediate</option>
           <option value={"Expert"}>Expert</option>
-          {/* <option value={"Custom"}>Custom</option> */}
+          <option value={"Custom"}>Custom</option>
         </select>
       </OptionItem>
       <OptionItem>
@@ -103,7 +116,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           min={1}
           max={100}
           value={rows}
-          disabled={isPlaying || true}
+          disabled={difficulty !== GameDifficulty.Custom || isPlaying}
           style={{ display: 'block' }}
           onChange={changeRows}
           name="rows"
@@ -117,7 +130,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           min={1}
           max={100}
           value={columns}
-          disabled={isPlaying || true} // || difficulty !== GameDifficulty.Custom
+          disabled={difficulty !== GameDifficulty.Custom || isPlaying}
           style={{ display: 'block' }}
           onChange={changeColumns}
           name="columns"
@@ -131,7 +144,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           min={1}
           max={(rows * columns) - 1}
           value={numberOfBombs}
-          disabled={isPlaying || true}
+          disabled={difficulty !== GameDifficulty.Custom || isPlaying}
           style={{ display: 'block' }}
           onChange={changeBombs}
           name="bombs"

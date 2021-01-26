@@ -12,10 +12,10 @@ interface PreviousResultsI {
 
 const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
   const { localStorageValue: results, setLocalStorageValue } = useLocalStorage(LocalStorageKeys.MinesweeperResults);
-  const fastest10 = results[gameDifficulty].slice(0, 10);
+  const fastest10 = results[gameDifficulty]?.slice(0, 10);
 
   useEffect(() => {
-    if (isWinner) {
+    if (isWinner && gameDifficulty !== GameDifficulty.Custom) {
       const newResults = { ...results };
       const difficultySetting = gameDifficulty;
       const newResultsDifficulty = [...newResults[difficultySetting]];
@@ -31,19 +31,24 @@ const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
 
   return (
     <ResultsContainer>
-      <div>
-        <WinContainer>
-          <DisplayText>Win Count - {results[gameDifficulty].length}</DisplayText>
-        </WinContainer>
-        <TimesContainer>
-          <TimesTitle>Best Times ({GameDifficulty[gameDifficulty]})</TimesTitle>
-          {
-            fastest10.map((res, index) => (
-              <DisplayText key={index}>{index + 1}: {convertSecondsToMinutesAndSeconds(Number(res))}</DisplayText>
-            ))
-          }
-        </TimesContainer>
-      </div>
+      {
+        gameDifficulty !== GameDifficulty.Custom ?
+          <div>
+            <WinContainer>
+              <DisplayText>Win Count - {results[gameDifficulty].length}</DisplayText>
+            </WinContainer>
+            <TimesContainer>
+              <TimesTitle>Best Times ({GameDifficulty[gameDifficulty]})</TimesTitle>
+              {
+                fastest10.map((res, index) => (
+                  <DisplayText key={index}>{index + 1}: {convertSecondsToMinutesAndSeconds(Number(res))}</DisplayText>
+                ))
+              }
+            </TimesContainer>
+          </div>
+          :
+          null
+      }
     </ResultsContainer>
   )
 }

@@ -135,22 +135,17 @@ export const minesweeperReducer = (state: State, action: Action): State => {
 
       if (action.customDifficulty !== undefined) {
         rows = action.customDifficulty!.rows;
-        columns = action.customDifficulty!.rows;
-        numberOfBombs = action.customDifficulty!.rows;
+        columns = action.customDifficulty!.columns;
+        numberOfBombs = action.customDifficulty!.numberOfBombs;
       } else {
         rows = mapDifficultyToGameBoard[action.gameDifficulty].rows;
         columns = mapDifficultyToGameBoard[action.gameDifficulty].columns;
         numberOfBombs = mapDifficultyToGameBoard[action.gameDifficulty].numberOfBombs;
       }
 
-      console.log("🚀 ~ file: reducer.ts ~ line 143 ~ minesweeperReducer ~ columns", columns)
-      console.log("🚀 ~ file: reducer.ts ~ line 142 ~ minesweeperReducer ~ rows", rows)
-
       const board = generateBoard(rows, columns);
-      console.log("🚀 ~ file: reducer.ts ~ line 147 ~ minesweeperReducer ~ board", board)
 
       return {
-        ...state,
         gameDifficulty: action.gameDifficulty,
         faceType: action.faceType,
         rows,

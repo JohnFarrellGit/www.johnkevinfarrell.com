@@ -122,8 +122,3 @@ const Text = styled.p`
     font-size: 1.5em;
   }
 `
-
-
-// const Rotate = styled.div`
-//   animation: ${rotate} 2s ease infinite;
-// `;

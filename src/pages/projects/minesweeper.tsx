@@ -3,14 +3,8 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // TODO:
 
-// should no longer create columns, rows etc by default, need to get from difficulty programmatically, is a bug when we load from saved difficulty!
-// rows, columns have to be optional (only when making from custom!), we also no longer pass a board but return one!
-
-// option to remove previous scores
-
-// bug when first click also wins game (if 1 bomb exists in custom for example)
-
-// bug when hydrate our local storage to display, flicker but also wrong number of columns - useffect(() => {}, []) have an init action ?
+// bug when first click also wins game (if 1 or grid cells - 1 bomb exists in custom for example)
+// test none or dodgy local storage values!
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
 // https://engageinteractive.co.uk/blog/em-vs-rem-vs-px
