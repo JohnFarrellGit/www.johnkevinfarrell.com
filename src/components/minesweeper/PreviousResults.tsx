@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
+import { convertSecondsToMinutesAndSeconds } from '../../common/functions/convertSecondsToMinutesAndSeconds';
 import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage';
 import { GameDifficulty } from './reducer';
 
@@ -17,7 +18,6 @@ const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
 
   useEffect(() => {
     if (isWinner) {
-      console.log("🚀 ~ file: PreviousResults.tsx ~ line 23 ~ useEffect ~ isWinner", isWinner)
       const newResults = { ...results };
       const difficultySetting = gameDifficulty;
       const newResultsDifficulty = [...newResults[difficultySetting]];
@@ -37,7 +37,7 @@ const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
         <TimesTitle>Best Times ({GameDifficulty[gameDifficulty]})</TimesTitle>
         {
           fastest10.map((res, index) => (
-            <Time key={index}>{index + 1}: {res}s</Time>
+            <Time key={index}>{index + 1}: {convertSecondsToMinutesAndSeconds(Number(res))}</Time>
           ))
         }
       </TimesContainer>

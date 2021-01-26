@@ -830,6 +830,7 @@ Footer
   text-align: center;
   display: grid;
   place-items: center;
+  margin-top: 2rem;
 }
 .footer p {
   margin-top: 0.5rem;

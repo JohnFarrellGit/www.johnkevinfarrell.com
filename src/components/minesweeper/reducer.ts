@@ -49,9 +49,20 @@ const revealCells = (cellIndex: number, board: Cell[]): {
     board[currentCellIndex] = newCell
   }
 
+  const hasWon = board.filter(cell => !cell.isCovered).length === board.length - board.filter(cell => cell.isBomb).length
+  if (hasWon) {
+    for (let i = 0; i < board.length; i++) {
+      board[i] = {
+        ...board[i],
+        isCovered: false
+      }
+    }
+  }
+
+
   return {
     board,
-    hasWon: board.filter(cell => !cell.isCovered).length === board.length - board.filter(cell => cell.isBomb).length,
+    hasWon,
     hasLost: false
   }
 }
@@ -212,11 +223,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     }
 
     case 'PlaceFlag': {
-      if (
-        !state.board[action.cellIndex].isCovered ||
-        !state.isPlaying ||
-        (state.numberOfBombs === state.flagsPlaced && !state.board[action.cellIndex].isFlagged)
-      ) {
+      if (!state.board[action.cellIndex].isCovered || !state.isPlaying) {
         return {
           ...state
         }

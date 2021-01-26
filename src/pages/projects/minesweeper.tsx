@@ -12,19 +12,14 @@ import Title from '../../components/Title'
 
 // TODO:
 
-// localStorage - facetype, difficulty
+// localStorage - facetype, difficulty, track wins and losses
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
+// https://engageinteractive.co.uk/blog/em-vs-rem-vs-px
 // resolve issue of shifting game options as width grows
-// neighbor cell color plus do we want it to bolder text?
-// fix custom difficulty - doesn't seem to be working(?)
-// if win reveal the whole board - red are bombs, leave flags if flagged, show - fade them in?
-// if bomb highlight red the cell
-// or just uncover every cell
 
 // give instructions for the game and how to play
 
 // keyboard controls + accessibility
-
 
 // improve folder structure
 // original sounds, useSound(), Josh W Comeau
@@ -35,9 +30,11 @@ import Title from '../../components/Title'
 // cell size needs to be slightly bigger, will impact responsive design and bomb/flag size
 
 // performance improvements (memorisation of components etc.)
+// convert seconds to minutes and seconds for best times
 
 // BUGS
 
+// fix custom difficulty - doesn't seem to be working(?)
 // fixing custom stuff (especially when very low or high bomb count, seems broken with neighbors)
 // on won or lose changing difficulty causing incorrect bombs to display
 // bug when changing to expert, click top left, is rows and columns mixed up??
@@ -146,7 +143,6 @@ const minesweeper = () => {
 export default minesweeper
 
 const Main = styled.main`
-  margin-bottom: 20px;
   display: flex;
   justify-content: center;
 `
