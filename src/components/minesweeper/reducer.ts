@@ -61,7 +61,6 @@ const revealCells = (cellIndex: number, board: Cell[]): {
     }
   }
 
-
   return {
     board,
     hasWon,
@@ -144,7 +143,11 @@ export const minesweeperReducer = (state: State, action: Action): State => {
         numberOfBombs = mapDifficultyToGameBoard[action.gameDifficulty].numberOfBombs;
       }
 
+      console.log("🚀 ~ file: reducer.ts ~ line 143 ~ minesweeperReducer ~ columns", columns)
+      console.log("🚀 ~ file: reducer.ts ~ line 142 ~ minesweeperReducer ~ rows", rows)
+
       const board = generateBoard(rows, columns);
+      console.log("🚀 ~ file: reducer.ts ~ line 147 ~ minesweeperReducer ~ board", board)
 
       return {
         ...state,

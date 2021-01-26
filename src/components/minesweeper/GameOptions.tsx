@@ -36,8 +36,8 @@ export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration
     columns: 30,
     numberOfBombs: 99,
     display: 'Expert'
-  }
-  , [GameDifficulty.Custom]: {
+  },
+  [GameDifficulty.Custom]: {
     rows: 0,
     columns: 0,
     numberOfBombs: 0,
