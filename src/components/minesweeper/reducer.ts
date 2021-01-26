@@ -79,7 +79,8 @@ interface Cell {
 export enum GameDifficulty {
   Beginner,
   Intermediate,
-  Expert
+  Expert,
+  Custom
 }
 
 interface State {
