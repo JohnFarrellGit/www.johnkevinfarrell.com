@@ -3,7 +3,6 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // TODO:
 
-// bug when first click also wins game (if 1 or grid cells - 1 bomb exists in custom for example)
 // test none or dodgy local storage values!
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns

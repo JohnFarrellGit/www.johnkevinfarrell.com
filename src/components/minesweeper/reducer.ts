@@ -202,7 +202,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
       if (state.isDead || state.isWinner) {
         return {
           ...state,
-          board: generateBoard(state.rows!, state.columns!),
+          board: generateBoard(state.rows, state.columns),
           flagsPlaced: 0,
           isPlaying: false,
           isDead: false,
@@ -235,12 +235,13 @@ export const minesweeperReducer = (state: State, action: Action): State => {
         }
 
         const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard);
+        console.log("🚀 ~ file: reducer.ts ~ line 238 ~ minesweeperReducer ~ boardWithCellsRevealed", boardWithCellsRevealed)
 
         return {
           ...state,
           board: boardWithCellsRevealed.board,
           flagsPlaced: 0,
-          isPlaying: true,
+          isPlaying: boardWithCellsRevealed.hasWon ? false : true,
           isDead: boardWithCellsRevealed.hasLost,
           isWinner: boardWithCellsRevealed.hasWon,
           face: Faces.Happy,
