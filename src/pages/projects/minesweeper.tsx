@@ -7,11 +7,12 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // bug when first click also wins game (if 1 bomb exists in custom for example)
 
-// bug when hydrate our local storage to display, flicker but also wrong number of columns
+// bug when hydrate our local storage to display, flicker but also wrong number of columns - useffect(() => {}, []) have an init action ?
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
 // https://engageinteractive.co.uk/blog/em-vs-rem-vs-px
 // we can flex column the options and status (instead of hiding status), we could also set a max columns of 25 * screenwidth?
+// make expert tall instead of wide (same for custom I guess)
 
 // resolve issue of shifting game options as width grows
 

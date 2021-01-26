@@ -1,3 +1,5 @@
+import { mapDifficultyToGameBoard } from "./GameOptions";
+
 const revealCells = (cellIndex: number, board: Cell[]): {
   board: Cell[],
   hasWon: boolean,
@@ -113,6 +115,7 @@ export enum Faces {
 }
 
 type Action =
+  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, rows?: number, columns?: number, numberOfBombs?: number }
   | { type: 'UpdateTimer' }
   | { type: 'HoldCell', cellIndex: number }
   | { type: 'ClickCell', cellIndex: number }
@@ -124,6 +127,29 @@ type Action =
 
 export const minesweeperReducer = (state: State, action: Action): State => {
   switch (action.type) {
+
+    case 'Init': {
+      const rows = action.gameDifficulty !== GameDifficulty.Custom ? (mapDifficultyToGameBoard[action.gameDifficulty]?.numberOfRows || 10) : (action.rows || 10);
+      const columns = action.gameDifficulty !== GameDifficulty.Custom ? (mapDifficultyToGameBoard[action.gameDifficulty]?.numberOfColumns || 10) : (action.columns || 10);
+      const numberOfBombs = action.gameDifficulty !== GameDifficulty.Custom ? (mapDifficultyToGameBoard[action.gameDifficulty]?.numberOfBombs || 10) : (action.numberOfBombs || 10);
+      const board = generateBoard(rows, columns);
+
+      return {
+        ...state,
+        gameDifficulty: action.gameDifficulty,
+        faceType: action.faceType,
+        rows,
+        columns,
+        numberOfBombs,
+        board,
+        isPlaying: false,
+        isDead: false,
+        isWinner: false,
+        face: Faces.Blank,
+        timer: 0,
+        flagsPlaced: 0
+      }
+    }
 
     case 'UpdateTimer': {
       if (state.isPlaying) {

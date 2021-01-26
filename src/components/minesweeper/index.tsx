@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMemo } from "react";
 import { useReducer } from "react";
 import styled from "styled-components";
@@ -81,7 +81,9 @@ export const Minesweeper = ({
     flagsPlaced: 0
   })
 
-  // instead of this annoying incorrect values have a useEffect, dispatch some type init with our localStorageValues
+  useEffect(() => {
+    dispatch({ type: 'Init', gameDifficulty: getGameDifficulty(), faceType: getFaceType() })
+  }, [])
 
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
@@ -203,7 +205,7 @@ interface GridContainerI {
   columns: number;
 }
 
-// if number of columns * 30px is larger than screen width we have an issue, make cells smaller
+// if number of columns * 30px is larger than screen width we have an issue, make cells smaller, make grid vertical
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: ${(props: GridContainerI) => `repeat(${props.columns}, 30px)`};

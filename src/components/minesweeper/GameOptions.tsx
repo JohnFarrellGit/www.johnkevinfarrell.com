@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { GameDifficulty } from './reducer'
 
 interface BoardConfiguration {
-  numberOfRows: number;
-  numberOfColumns: number;
-  numberOfBombs: number;
+  numberOfRows?: number;
+  numberOfColumns?: number;
+  numberOfBombs?: number;
   display: string;
 }
 
@@ -32,28 +32,26 @@ export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration
     display: 'Intermediate'
   },
   [GameDifficulty.Expert]: {
-    numberOfRows: 30,
-    numberOfColumns: 16,
+    numberOfRows: 16,
+    numberOfColumns: 30,
     numberOfBombs: 99,
     display: 'Expert'
   }
-  // [GameDifficulty.Custom]: {
-  //   numberOfRows: 1,
-  //   numberOfColumns: 1,
-  //   numberOfBombs: 1,
-  //   display: 'Custom'
-  // }
+  , [GameDifficulty.Custom]: {
+    numberOfRows: undefined,
+    numberOfColumns: undefined,
+    numberOfBombs: undefined,
+    display: 'Custom'
+  }
 }
 
 export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty }: GameOptionsI) => {
 
-
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
-    // if (event.target.value === 'Custom') {
-    //   setDifficulty(GameDifficulty.Custom);
-    // } else
-
-    if (event.target.value === 'Beginner') {
+    if (event.target.value === 'Custom') {
+      // also need to pass rows and columns!
+      updateDifficulty(GameDifficulty.Custom);
+    } else if (event.target.value === 'Beginner') {
       updateDifficulty(GameDifficulty.Beginner);
     } else if (event.target.value === 'Intermediate') {
       updateDifficulty(GameDifficulty.Intermediate);
