@@ -45,8 +45,8 @@ export const GameCell = ({ isCovered, isBomb, isFlagged, neighborBombs, id, left
       <CellDisplay
         neighborBombs={neighborBombs}
       >
-        {isCovered && isFlagged && "🚩"}
-        {!isCovered && isBomb && "💣"}
+        {isFlagged && "🚩"}
+        {!isCovered && !isFlagged && isBomb && "💣"}
         {!isCovered && !isBomb && neighborBombs !== 0 && neighborBombs}
       </CellDisplay>
     </CellContainer>
@@ -70,7 +70,7 @@ const CellContainer = styled.div`
 
   background-color: ${(props: CellContainerI) => (
     props.isCovered ? '#BDBDBD' :
-      props.isBomb ? '#FF0000' : '#C2C2C2'
+      props.isBomb ? '#FF6666' : '#C2C2C2'
   )};
 
   display: flex;
@@ -81,7 +81,7 @@ const CellContainer = styled.div`
   :hover {
     background-color: ${(props: CellContainerI) => (
     props.isCovered ? '#5C5C5C' :
-      props.isBomb ? '#FF0000' :
+      props.isBomb ? '#FF6666' :
         '#BDBDBD'
   )};
   }

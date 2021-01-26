@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { GameDifficulty } from '../../components/minesweeper/reducer';
-
-
+import { FaceType, GameDifficulty } from '../../components/minesweeper/reducer';
 
 interface MinesweeperResults {
   [GameDifficulty.Beginner]: number[];
@@ -10,11 +8,15 @@ interface MinesweeperResults {
 }
 
 export enum LocalStorageKeys {
-  MinesweeperResults = 'results'
+  MinesweeperResults = 'minesweeper-results',
+  MinesweeperDifficulty = 'minesweeper-difficulty',
+  MinesweeperFace = 'minesweeper-face',
 }
 
 export interface LocalStorage {
   [LocalStorageKeys.MinesweeperResults]: MinesweeperResults;
+  [LocalStorageKeys.MinesweeperDifficulty]: GameDifficulty;
+  [LocalStorageKeys.MinesweeperFace]: FaceType;
 }
 
 interface LocalStorageReturnType<T extends keyof LocalStorage> {
@@ -29,7 +31,9 @@ export const useLocalStorage = <T extends keyof LocalStorage>(key: T): LocalStor
       [GameDifficulty.Beginner]: [],
       [GameDifficulty.Intermediate]: [],
       [GameDifficulty.Expert]: []
-    }
+    },
+    [LocalStorageKeys.MinesweeperDifficulty]: GameDifficulty.Beginner,
+    [LocalStorageKeys.MinesweeperFace]: FaceType.Regular
   }
 
   const [value, setValue] = useState(() => {

@@ -1,6 +1,7 @@
 import React, { useMemo, useReducer } from 'react'
 import styled from 'styled-components'
 import useInterval from '../../common/hooks/useInterval'
+import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage'
 import Layout from '../../components/Layout'
 import { GameCell } from '../../components/minesweeper/GameCell'
 import { GameOptions } from '../../components/minesweeper/GameOptions'
@@ -13,6 +14,8 @@ import Title from '../../components/Title'
 // TODO:
 
 // localStorage - facetype, difficulty, track wins and losses
+// should no longer create columns, rows etc by default, need to get from difficulty programmatically
+
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
 // https://engageinteractive.co.uk/blog/em-vs-rem-vs-px
 // resolve issue of shifting game options as width grows
@@ -30,7 +33,8 @@ import Title from '../../components/Title'
 // cell size needs to be slightly bigger, will impact responsive design and bomb/flag size
 
 // performance improvements (memorisation of components etc.)
-// convert seconds to minutes and seconds for best times
+
+// connect to strapi
 
 // BUGS
 
@@ -41,8 +45,26 @@ import Title from '../../components/Title'
 
 const minesweeper = () => {
 
+
+  const { localStorageValue: localDifficulty, setLocalStorageValue } = useLocalStorage(LocalStorageKeys.MinesweeperDifficulty);
+  const { localStorageValue: localFaceType, setLocalStorageValue: setLocalFaceType } = useLocalStorage(LocalStorageKeys.MinesweeperFace);
+
+  const getGameDifficulty = () => {
+    if ((typeof localDifficulty === "number") && (localDifficulty >= 0) && (localDifficulty <= 2)) {
+      return localDifficulty;
+    }
+    return GameDifficulty.Beginner;
+  }
+
+  const getFaceType = () => {
+    if ((typeof localFaceType === "number") && (localFaceType >= 0) && (localFaceType <= 1)) {
+      return localFaceType;
+    }
+    return FaceType.Regular
+  }
+
   const [gameState, dispatch] = useReducer(minesweeperReducer, {
-    gameDifficulty: GameDifficulty.Beginner,
+    gameDifficulty: getGameDifficulty(),
     rows: 10,
     columns: 10,
     board: generateBoard(10, 10),
@@ -51,7 +73,7 @@ const minesweeper = () => {
     isDead: false,
     isWinner: false,
     face: Faces.Blank,
-    faceType: FaceType.Regular,
+    faceType: getFaceType(),
     timer: 0,
     flagsPlaced: 0
   })
@@ -71,6 +93,7 @@ const minesweeper = () => {
   }
 
   const updateDifficulty = (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => {
+    setLocalStorageValue(gameDifficulty);
     if (gameDifficulty === GameDifficulty.Beginner) {
       dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows: 10, columns: 10, numberOfBombs: 10 })
     } else if (gameDifficulty === GameDifficulty.Intermediate) {
@@ -85,6 +108,7 @@ const minesweeper = () => {
   }
 
   const rightClickFace = () => {
+    setLocalFaceType(gameState.faceType === FaceType.Regular ? FaceType.Cat : FaceType.Regular);
     dispatch({ type: 'UpdateFaceType' })
   }
 

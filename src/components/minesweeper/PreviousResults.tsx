@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import { convertSecondsToMinutesAndSeconds } from '../../common/functions/convertSecondsToMinutesAndSeconds';
+import { convertSecondsToMinutesAndSeconds } from '../../common/functions/convertSecondsToHoursMinutesAndSeconds';
 import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage';
 import { GameDifficulty } from './reducer';
 
