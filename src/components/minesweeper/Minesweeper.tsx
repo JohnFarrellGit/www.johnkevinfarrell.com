@@ -7,7 +7,7 @@ import SEO from "../SEO";
 import Title from "../Title";
 import { generateBoard } from "./functions";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
-import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
+import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions/getLocalStorage";
 import { minesweeperReducer } from "./reducer";
 import { Faces, FaceType, GameDifficulty } from "./types";
 

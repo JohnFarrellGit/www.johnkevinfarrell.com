@@ -1,6 +1,6 @@
-import { MinesweeperCustomSettings } from "../../common/hooks/useLocalStorage";
-import { mapDifficultyToGameBoard } from "./constants";
-import { FaceType, GameDifficulty } from "./types";
+import { MinesweeperCustomSettings } from "../../../common/hooks/useLocalStorage";
+import { mapDifficultyToGameBoard } from "../constants";
+import { FaceType, GameDifficulty } from "../types";
 
 export const getGameDifficulty = (gameDifficulty: GameDifficulty): GameDifficulty => {
   if ((typeof gameDifficulty === "number") && (gameDifficulty >= 0) && (gameDifficulty <= 3)) {

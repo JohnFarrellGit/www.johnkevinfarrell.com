@@ -21,11 +21,15 @@ export enum LocalStorageKeys {
   MinesweeperCustomSettings = 'minesweeper-custom-settings'
 }
 
-export interface LocalStorage {
+interface Minesweeper {
   [LocalStorageKeys.MinesweeperResults]: MinesweeperResults;
   [LocalStorageKeys.MinesweeperDifficulty]: GameDifficulty;
   [LocalStorageKeys.MinesweeperFace]: FaceType;
   [LocalStorageKeys.MinesweeperCustomSettings]: MinesweeperCustomSettings;
+}
+
+export interface LocalStorage extends Minesweeper {
+
 }
 
 interface LocalStorageReturnType<T extends keyof LocalStorage> {
@@ -33,22 +37,22 @@ interface LocalStorageReturnType<T extends keyof LocalStorage> {
   setLocalStorageValue: React.Dispatch<React.SetStateAction<LocalStorage[T]>>;
 }
 
-export const useLocalStorage = <T extends keyof LocalStorage>(key: T): LocalStorageReturnType<T> => {
+const LOCAL_STORAGE_DEFAULTS = {
+  [LocalStorageKeys.MinesweeperResults]: {
+    [GameDifficulty.Beginner]: [],
+    [GameDifficulty.Intermediate]: [],
+    [GameDifficulty.Expert]: []
+  },
+  [LocalStorageKeys.MinesweeperDifficulty]: GameDifficulty.Beginner,
+  [LocalStorageKeys.MinesweeperFace]: FaceType.Regular,
+  [LocalStorageKeys.MinesweeperCustomSettings]: {
+    rows: 30,
+    columns: 30,
+    numberOfBombs: 200
+  }
+};
 
-  const LOCAL_STORAGE_DEFAULTS = {
-    [LocalStorageKeys.MinesweeperResults]: {
-      [GameDifficulty.Beginner]: [],
-      [GameDifficulty.Intermediate]: [],
-      [GameDifficulty.Expert]: []
-    },
-    [LocalStorageKeys.MinesweeperDifficulty]: GameDifficulty.Beginner,
-    [LocalStorageKeys.MinesweeperFace]: FaceType.Regular,
-    [LocalStorageKeys.MinesweeperCustomSettings]: {
-      rows: 30,
-      columns: 30,
-      numberOfBombs: 200
-    }
-  };
+export const useLocalStorage = <T extends keyof LocalStorage>(key: T): LocalStorageReturnType<T> => {
 
   const [value, setValue] = useState(() => {
     if (isLocalStorageAvailable()) {

@@ -3,8 +3,6 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // TODO:
 
-// sometimes changing rows or columns then making game leaves us with a malformed board, are rows and columns being passed incorrectly somewhere?
-
 // test none or dodgy local storage values!
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
@@ -18,19 +16,18 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // ability to auto flag, ability to auto reveal
 
-// improve folder structure
 // original sounds, useSound(), Josh W Comeau
 // game to always be completable, no 50/50 problem (try and solve first, if not possible recreate?)
 // implement a hinter function
-
-// make text non selectable for game options
-// cell size needs to be slightly bigger, will impact responsive design and bomb/flag size
 
 // performance improvements (memorisation of components etc.) stop timer update updating everything
 
 // connect site/projects page to strapi
 
 // BUGS
+
+// sometimes changing rows or columns then making game leaves us with a malformed board, are rows and columns being passed incorrectly somewhere?
+// recreate, go to custom, set numberOfRows low, then set it high and then reveal cells
 
 // fix custom difficulty - doesn't seem to be working(?)
 // fixing custom stuff (especially when very low or high bomb count, seems broken with neighbors)
