@@ -1,6 +1,6 @@
 import React from 'react'
-import { Minesweeper } from './Minesweeper';
 import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage';
+import { MinesweeperWReducer } from './MinesweeperWReducer';
 
 export const MinesweeperWLocalStorage = () => {
 
@@ -9,7 +9,7 @@ export const MinesweeperWLocalStorage = () => {
   const { localStorageValue: localCustomSettings, setLocalStorageValue: setLocalCustomSettings } = useLocalStorage(LocalStorageKeys.MinesweeperCustomSettings);
 
   return (
-    <Minesweeper
+    <MinesweeperWReducer
       localDifficulty={localDifficulty}
       setLocalStorageValue={setLocalStorageValue}
       localFaceType={localFaceType}

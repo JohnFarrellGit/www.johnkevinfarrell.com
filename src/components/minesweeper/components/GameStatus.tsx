@@ -14,6 +14,8 @@ interface GameStatusI {
 
 export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, rightClickFace }: GameStatusI) => {
 
+  console.log("game status")
+
   const [spinningFace, setSpinningFace] = useState(false);
 
   const displayFace = faceType === FaceType.Regular ? mapRegularFaces[face] : mapCatFaces[face];

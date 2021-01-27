@@ -9,9 +9,9 @@ export const init = (action: { type: 'Init', gameDifficulty: GameDifficulty, fac
   let numberOfBombs: number;
 
   if (action.customDifficulty !== undefined) {
-    rows = action.customDifficulty!.rows;
-    columns = action.customDifficulty!.columns;
-    numberOfBombs = action.customDifficulty!.numberOfBombs;
+    rows = action.customDifficulty.rows;
+    columns = action.customDifficulty.columns;
+    numberOfBombs = action.customDifficulty.numberOfBombs;
   } else {
     rows = mapDifficultyToGameBoard[action.gameDifficulty].rows;
     columns = mapDifficultyToGameBoard[action.gameDifficulty].columns;

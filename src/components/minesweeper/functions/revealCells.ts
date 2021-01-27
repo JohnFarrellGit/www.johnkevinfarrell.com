@@ -20,14 +20,13 @@ export const revealCells = (cellIndex: number, board: Cell[]): {
   }
 
   const queue: number[] = [cellIndex];
-  const visitedCells: Set<number> = new Set();
+  const visitedCells: Set<number> = new Set([cellIndex]);
 
   while (queue.length > 0) {
     const currentCellIndex = queue.pop() as number;
     if (board[currentCellIndex] === undefined || !board[currentCellIndex].isCovered || board[currentCellIndex].isFlagged) {
       continue;
     }
-    visitedCells.add(currentCellIndex);
 
     const newCell = {
       ...board[currentCellIndex],
@@ -43,6 +42,7 @@ export const revealCells = (cellIndex: number, board: Cell[]): {
     if (newCell.neighborBombs === 0) {
       for (let i = 0; i < newCell.neighbors.length; i++) {
         if (!visitedCells.has(newCell.neighbors[i])) {
+          visitedCells.add(currentCellIndex);
           queue.push(newCell.neighbors[i]);
         }
       }

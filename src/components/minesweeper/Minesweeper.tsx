@@ -1,32 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useReducer } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import useInterval from "../../common/hooks/useInterval";
 import { MinesweeperCustomSettings } from "../../common/hooks/useLocalStorage";
 import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
-import { generateBoard } from "./functions";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions/getLocalStorage";
-import { minesweeperReducer } from "./reducer";
-import { Faces, FaceType, GameDifficulty } from "./types";
-
-const initialGameState = {
-  gameDifficulty: GameDifficulty.Beginner,
-  rows: 1,
-  columns: 1,
-  numberOfBombs: 1,
-  board: generateBoard(1, 1),
-  isPlaying: false,
-  isDead: false,
-  isWinner: false,
-  face: Faces.Blank,
-  faceType: FaceType.Regular,
-  timer: 0,
-  flagsPlaced: 0,
-  display: false
-};
-
+import { Action, State } from "./reducer";
+import { FaceType, GameDifficulty } from "./types";
 interface MinesweeperI {
   localDifficulty: GameDifficulty;
   setLocalStorageValue: React.Dispatch<React.SetStateAction<GameDifficulty>>;
@@ -34,6 +16,8 @@ interface MinesweeperI {
   setLocalFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
   localCustomSettings: MinesweeperCustomSettings;
   setLocalCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
+  gameState: State;
+  dispatch: React.Dispatch<Action>;
 };
 
 export const Minesweeper = ({
@@ -42,9 +26,10 @@ export const Minesweeper = ({
   localFaceType,
   setLocalFaceType,
   localCustomSettings,
-  setLocalCustomSettings }: MinesweeperI) => {
-
-  const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
+  setLocalCustomSettings,
+  gameState,
+  dispatch
+}: MinesweeperI) => {
 
   useEffect(() => {
     const gameDifficulty = getGameDifficulty(localDifficulty);
@@ -65,7 +50,6 @@ export const Minesweeper = ({
     }
   }, []);
 
-  // move this into a parent component and the whole reducer functionality, stop re-render all of this every second!
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
   const leftClickCell = useCallback((cellIndex: number) => {
@@ -101,36 +85,56 @@ export const Minesweeper = ({
     dispatch({ type: 'UpdateFaceType' });
   }, []);
 
-  const gameCells = useMemo(() => gameState.display ? gameState.board.map((gameCell) => (
-    <GameCell
-      isCovered={gameCell.isCovered}
-      isBomb={gameCell.isBomb}
-      isFlagged={gameCell.isFlagged}
-      isWinner={gameState.isWinner}
-      neighborBombs={gameCell.neighborBombs}
-      id={gameCell.id}
-      leftClick={leftClickCell}
-      rightClick={rightClickCell}
-      holdCell={holdCell}
-      key={gameCell.id}
+  const gameCells = useMemo(() => gameState.display ?
+    <PlayingContainer>
+      <GridContainer columns={gameState.columns}>
+        {
+          gameState.board.map((gameCell) => (
+            <GameCell
+              isCovered={gameCell.isCovered}
+              isBomb={gameCell.isBomb}
+              isFlagged={gameCell.isFlagged}
+              isWinner={gameState.isWinner}
+              neighborBombs={gameCell.neighborBombs}
+              id={gameCell.id}
+              leftClick={leftClickCell}
+              rightClick={rightClickCell}
+              holdCell={holdCell}
+              key={gameCell.id}
+            />
+          ))
+        }
+      </GridContainer>
+    </PlayingContainer>
+    : null, [gameState.board])
+
+  const seo = useMemo(() => (
+    <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
+  ), []);
+
+  const title = useMemo(() => (
+    <Title title="Minesweeper" />
+  ), []);
+
+  const gameOptions = useMemo(() => (
+    <GameOptions
+      isPlaying={gameState.isPlaying}
+      difficulty={gameState.gameDifficulty}
+      rows={gameState.rows}
+      columns={gameState.columns}
+      numberOfBombs={gameState.numberOfBombs}
+      updateDifficulty={updateDifficulty}
+      customSettings={localCustomSettings}
     />
-  )) : null, [gameState.board])
+  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs]);
 
   return (
     <Layout>
-      <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
-      <Title title="Minesweeper" />
+      {seo}
+      {title}
       <Main>
         <GameContainer columns={gameState.columns}>
-          <GameOptions
-            isPlaying={gameState.isPlaying}
-            difficulty={gameState.gameDifficulty}
-            rows={gameState.rows}
-            columns={gameState.columns}
-            numberOfBombs={gameState.numberOfBombs}
-            updateDifficulty={updateDifficulty}
-            customSettings={localCustomSettings}
-          />
+          {gameOptions}
           <GameStatus
             bombsLeft={gameState.numberOfBombs - gameState.flagsPlaced}
             totalBombs={gameState.numberOfBombs}
@@ -139,11 +143,7 @@ export const Minesweeper = ({
             timePlayed={gameState.timer}
             rightClickFace={rightClickFace}
           />
-          <PlayingContainer>
-            <GridContainer columns={gameState.columns}>
-              {gameCells}
-            </GridContainer>
-          </PlayingContainer>
+          {gameCells}
           <PreviousResults
             isWinner={gameState.isWinner}
             gameDifficulty={gameState.gameDifficulty}
@@ -153,7 +153,7 @@ export const Minesweeper = ({
       </Main>
     </Layout>
   )
-}
+};
 
 const Main = styled.main`
   display: flex;

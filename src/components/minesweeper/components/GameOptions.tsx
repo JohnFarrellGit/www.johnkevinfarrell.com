@@ -16,6 +16,8 @@ interface GameOptionsI {
 
 export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings }: GameOptionsI) => {
 
+  console.log("game options")
+
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Custom') {
       updateDifficulty(GameDifficulty.Custom, customSettings.rows, customSettings.columns, customSettings.numberOfBombs);

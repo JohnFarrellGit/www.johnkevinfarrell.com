@@ -1,19 +1,18 @@
 import { State } from "..";
 
 export const placeFlag = (state: State, action: { type: 'PlaceFlag', cellIndex: number }) => {
-  if (state.board && !state.board[action.cellIndex].isCovered || !state.isPlaying) {
+  if (!state.board[action.cellIndex].isCovered) {
     return {
       ...state
     };
   };
 
-  const newBoard = [...state.board!];
-  const newCell = { ...newBoard[action.cellIndex] };
-  newCell.isFlagged = !newBoard[action.cellIndex].isFlagged;
-  newBoard[action.cellIndex] = newCell;
+  const newBoard = [...state.board];
+  newBoard[action.cellIndex].isFlagged = !newBoard[action.cellIndex].isFlagged;
+
   return {
     ...state,
-    flagsPlaced: state.flagsPlaced + (newCell.isFlagged ? 1 : -1),
-    board: newBoard
+    board: newBoard,
+    flagsPlaced: state.flagsPlaced + (newBoard[action.cellIndex].isFlagged ? 1 : -1),
   };
 };
