@@ -1,18 +1,15 @@
-import React, { useEffect } from "react";
-import { useMemo } from "react";
-import { useReducer } from "react";
+import React, { useCallback, useEffect, useMemo, useReducer } from "react";
 import styled from "styled-components";
 import useInterval from "../../common/hooks/useInterval";
 import { MinesweeperCustomSettings } from "../../common/hooks/useLocalStorage";
 import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
-import { GameCell } from "./GameCell";
-import { GameOptions } from "./GameOptions";
-import { GameStatus } from "./GameStatus";
+import { generateBoard } from "./functions";
+import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
-import { PreviousResults } from "./PreviousResults";
-import { Faces, FaceType, GameDifficulty, generateBoard, minesweeperReducer } from "./reducer";
+import { minesweeperReducer } from "./reducer";
+import { Faces, FaceType, GameDifficulty } from "./types";
 
 const initialGameState = {
   gameDifficulty: GameDifficulty.Beginner,
@@ -68,21 +65,22 @@ export const Minesweeper = ({
     }
   }, []);
 
+  // move this into a parent component and the whole reducer functionality, stop re-render all of this every second!
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
-  const leftClickCell = (cellIndex: number) => {
+  const leftClickCell = useCallback((cellIndex: number) => {
     dispatch({ type: 'ClickCell', cellIndex })
-  }
+  }, []);
 
-  const rightClickCell = (cellIndex: number) => {
+  const rightClickCell = useCallback((cellIndex: number) => {
     dispatch({ type: 'PlaceFlag', cellIndex })
-  }
+  }, []);
 
-  const holdCell = (cellIndex: number) => {
+  const holdCell = useCallback((cellIndex: number) => {
     dispatch({ type: 'HoldCell', cellIndex })
-  }
+  }, []);
 
-  const updateDifficulty = (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => {
+  const updateDifficulty = useCallback((gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => {
     setLocalStorageValue(gameDifficulty);
     if (gameDifficulty === GameDifficulty.Custom) {
       if (rows && columns && numberOfBombs) {
@@ -91,19 +89,19 @@ export const Minesweeper = ({
           columns,
           numberOfBombs
         });
-        dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows, columns, numberOfBombs })
+        dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows, columns, numberOfBombs });
       }
     } else {
-      dispatch({ type: 'UpdateConfiguration', gameDifficulty })
+      dispatch({ type: 'UpdateConfiguration', gameDifficulty });
     }
-  }
+  }, []);
 
-  const rightClickFace = () => {
+  const rightClickFace = useCallback(() => {
     setLocalFaceType(gameState.faceType === FaceType.Regular ? FaceType.Cat : FaceType.Regular);
-    dispatch({ type: 'UpdateFaceType' })
-  }
+    dispatch({ type: 'UpdateFaceType' });
+  }, []);
 
-  const gameCells = useMemo(() => gameState.board !== undefined && gameState.display ? gameState.board.map((gameCell) => (
+  const gameCells = useMemo(() => gameState.display ? gameState.board.map((gameCell) => (
     <GameCell
       isCovered={gameCell.isCovered}
       isBomb={gameCell.isBomb}

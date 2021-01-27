@@ -1,14 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MinesweeperCustomSettings } from '../../common/hooks/useLocalStorage'
-import { GameDifficulty } from './reducer'
-
-interface BoardConfiguration {
-  rows: number;
-  columns: number;
-  numberOfBombs: number;
-  display: string;
-}
+import { MinesweeperCustomSettings } from '../../../common/hooks/useLocalStorage'
+import { mapDifficultyToGameBoard } from '../constants'
+import { GameDifficulty } from '../types'
 
 interface GameOptionsI {
   isPlaying: boolean;
@@ -18,33 +12,6 @@ interface GameOptionsI {
   numberOfBombs: number;
   updateDifficulty: (gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => void;
   customSettings: MinesweeperCustomSettings;
-}
-
-export const mapDifficultyToGameBoard: Record<GameDifficulty, BoardConfiguration> = {
-  [GameDifficulty.Beginner]: {
-    rows: 10,
-    columns: 10,
-    numberOfBombs: 10,
-    display: 'Beginner'
-  },
-  [GameDifficulty.Intermediate]: {
-    rows: 15,
-    columns: 15,
-    numberOfBombs: 40,
-    display: 'Intermediate'
-  },
-  [GameDifficulty.Expert]: {
-    rows: 16,
-    columns: 30,
-    numberOfBombs: 99,
-    display: 'Expert'
-  },
-  [GameDifficulty.Custom]: {
-    rows: 0,
-    columns: 0,
-    numberOfBombs: 0,
-    display: 'Custom'
-  }
 }
 
 export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings }: GameOptionsI) => {
@@ -167,6 +134,7 @@ const OptionItem = styled.div`
   label {
     color: black;
     font-size: 1.25em;
+    user-select: none;
   }
   input {
     width: 90px;

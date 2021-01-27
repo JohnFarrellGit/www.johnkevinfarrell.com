@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaceType, GameDifficulty } from '../../components/minesweeper/reducer';
+import { FaceType, GameDifficulty } from '../../components/minesweeper/types';
 
 interface MinesweeperResults {
   [GameDifficulty.Beginner]: number[];
@@ -46,7 +46,7 @@ export const useLocalStorage = <T extends keyof LocalStorage>(key: T): LocalStor
     [LocalStorageKeys.MinesweeperCustomSettings]: {
       rows: 30,
       columns: 30,
-      numberOfBombs: 30
+      numberOfBombs: 200
     }
   };
 

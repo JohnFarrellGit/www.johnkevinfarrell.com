@@ -1,5 +1,5 @@
 import React from 'react'
-import { Minesweeper } from '.';
+import { Minesweeper } from './Minesweeper';
 import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage';
 
 export const MinesweeperWLocalStorage = () => {
@@ -17,6 +17,5 @@ export const MinesweeperWLocalStorage = () => {
       localCustomSettings={localCustomSettings}
       setLocalCustomSettings={setLocalCustomSettings}
     />
-  )
-}
-
+  );
+};

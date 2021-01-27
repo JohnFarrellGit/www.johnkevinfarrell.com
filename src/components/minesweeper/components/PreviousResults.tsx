@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import { convertSecondsToMinutesAndSeconds } from '../../common/functions/convertSecondsToHoursMinutesAndSeconds';
-import { LocalStorageKeys, useLocalStorage } from '../../common/hooks/useLocalStorage';
-import { GameDifficulty } from './reducer';
+import { convertSecondsToMinutesAndSeconds } from '../../../common/functions/convertSecondsToHoursMinutesAndSeconds';
+import { LocalStorageKeys, useLocalStorage } from '../../../common/hooks/useLocalStorage';
+import { GameDifficulty } from '../types';
 
-interface PreviousResultsI {
+interface ResultsI {
   isWinner: boolean;
   gameDifficulty: GameDifficulty;
   timer: number;
 }
 
-const Results = ({ isWinner, gameDifficulty, timer }: PreviousResultsI) => {
+const Results = ({ isWinner, gameDifficulty, timer }: ResultsI) => {
   const { localStorageValue: results, setLocalStorageValue } = useLocalStorage(LocalStorageKeys.MinesweeperResults);
   const fastest10 = results[gameDifficulty]?.slice(0, 10);
 
@@ -60,7 +60,7 @@ const ResultsContainer = styled.div`
   display: flex;
   justify-content: center;
   background: #BDBDBD;
-`
+`;
 
 const WinContainer = styled.div`
   padding: 5px 20px 5px 20px;
@@ -72,7 +72,8 @@ const WinContainer = styled.div`
 
   display: flex;
   /* align-items: center; */
-`
+`;
+
 const TimesContainer = styled.div`
   padding: 5px 20px 5px 20px;
   background-color: #E5E5E5;
@@ -80,15 +81,15 @@ const TimesContainer = styled.div`
   border-top: #ccc 3px solid;
   border-right: #ccc 3px solid;
   border-left: #777 3px solid;
-`
+`;
 
 const TimesTitle = styled.p`
   color: black;
   border-bottom: 1px solid black;
   margin-bottom: 5px;
-`
+`;
 
 const DisplayText = styled.p`
   color: black;
   margin-bottom: 0px;
-`
+`;

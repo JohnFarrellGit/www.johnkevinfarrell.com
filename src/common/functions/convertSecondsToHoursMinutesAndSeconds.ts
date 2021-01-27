@@ -1,22 +1,17 @@
 export const convertSecondsToMinutesAndSeconds = (seconds: number) => {
-  let hours = 0;
-  let minutes = 0;
 
-  while (seconds >= 60 * 60) {
-    hours++;
-    seconds -= 60 * 60;
-  }
-
-  while (seconds >= 60) {
-    minutes++;
-    seconds -= 60;
-  }
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor(seconds % 3600 / 60);
+  seconds = Math.floor(seconds % 3600 % 60);
+  const hoursD = hours.toString().slice(0, 2);
+  const minutesD = minutes.toString().slice(0, 2);
+  const secondsD = seconds.toString().slice(0, 2);
 
   if (hours > 0) {
-    return `${hours}h ${minutes}m ${seconds}s`
+    return `${hoursD}h ${minutesD}m ${secondsD}s`;
   } else if (minutes > 0) {
-    return `${minutes}m ${seconds}s`
+    return `${minutesD}m ${secondsD}s`;
   } else {
-    return `${seconds}s`
+    return `${secondsD}s`;
   }
-}
+};

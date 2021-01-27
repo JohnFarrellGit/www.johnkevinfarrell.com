@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Faces, FaceType } from './reducer'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { mapCatFaces, mapRegularFaces } from '../constants';
+import { Faces, FaceType } from '../types';
 
 interface GameStatusI {
   bombsLeft: number;
@@ -8,26 +9,10 @@ interface GameStatusI {
   faceType: FaceType;
   face: Faces;
   timePlayed: number;
-  rightClickFace: () => void
-}
+  rightClickFace: () => void;
+};
 
 export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, rightClickFace }: GameStatusI) => {
-
-  const mapRegularFaces = {
-    [Faces.Shock]: '😮',
-    [Faces.Blank]: '😶',
-    [Faces.Happy]: '🙂',
-    [Faces.Dizzy]: '😵',
-    [Faces.Celebration]: '🥳'
-  }
-
-  const mapCatFaces = {
-    [Faces.Shock]: '🙀',
-    [Faces.Blank]: '🐱',
-    [Faces.Happy]: '😺',
-    [Faces.Dizzy]: '😾',
-    [Faces.Celebration]: '😸'
-  }
 
   const [spinningFace, setSpinningFace] = useState(false);
 
@@ -37,14 +22,14 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
   const rightClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();
     rightClickFace();
-  }
+  };
 
   const leftClick = () => {
     setSpinningFace(true);
     setTimeout(() => {
       setSpinningFace(false);
-    }, 2000)
-  }
+    }, 2000);
+  };
 
   return (
     <Container>
@@ -58,8 +43,8 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
       </FaceDisplay>
       <Timer><Text>⏱️ {timePlayed.toString().padStart(3, '0')}</Text></Timer>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   background-color: #BDBDBD;
@@ -74,7 +59,7 @@ const Container = styled.div`
   @media (max-width: 450px) {
     display: none;
   }
-`
+`;
 
 const Bombs = styled.div`
   flex: 1;
@@ -84,7 +69,7 @@ const Bombs = styled.div`
   p {
     float: left;
   }
-`
+`;
 
 const Timer = styled.div`
   flex: 1;
@@ -92,11 +77,11 @@ const Timer = styled.div`
   justify-content: flex-end;
   color: black;
   padding-right: 10px;
-`
+`;
 
 interface FaceDisplayI {
   spinningFace: boolean;
-}
+};
 
 const FaceDisplay = styled.div`
   flex: 1;
@@ -106,7 +91,7 @@ const FaceDisplay = styled.div`
   p {
     transform: ${(props: FaceDisplayI) => props.spinningFace ? `rotate(720deg)` : `rotate(0deg)`};
   }
-`
+`;
 
 const Text = styled.p`
   text-align: center;
@@ -121,4 +106,4 @@ const Text = styled.p`
   @media (max-width: 450px) {
     font-size: 1.5em;
   }
-`
+`;

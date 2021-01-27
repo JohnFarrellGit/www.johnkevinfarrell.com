@@ -3,6 +3,8 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // TODO:
 
+// sometimes changing rows or columns then making game leaves us with a malformed board, are rows and columns being passed incorrectly somewhere?
+
 // test none or dodgy local storage values!
 
 // responsive design (cell size, game size etc, flag and bomb size) - can our cell size and other responsive change based on number of columns
@@ -14,7 +16,7 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // give instructions for the game and how to play
 
-// keyboard controls + accessibility
+// ability to auto flag, ability to auto reveal
 
 // improve folder structure
 // original sounds, useSound(), Josh W Comeau
