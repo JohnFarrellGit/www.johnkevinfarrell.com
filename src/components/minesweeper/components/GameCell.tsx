@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
+import useSound from 'use-sound';
+import { PlayFunction } from 'use-sound/dist/types';
+import clackSfx from '../../../static/sounds/clack.mp3';
 
 interface GameCellI {
   id: number;
@@ -11,11 +14,13 @@ interface GameCellI {
   leftClick: (cellIndex: number) => void;
   holdCell: (cellIndex: number) => void;
   rightClick: (cellIndex: number) => void;
+  play: PlayFunction
 }
 
-export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs, id, leftClick, holdCell, rightClick }: GameCellI) => {
+export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs, id, leftClick, holdCell, rightClick, play }: GameCellI) => {
 
   const leftClickCell = useCallback(() => {
+    play();
     leftClick(id);
   }, []);
 

@@ -9,6 +9,8 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 // we can flex column the options and status (instead of hiding status), we could also set a max columns of 25 * screenwidth?
 // make expert tall instead of wide (same for custom I guess)
 
+// laggy as we hold down up or down on custom settings, maybe if we make neighbors after click it will be faster? (plus debounce the input change)
+
 // resolve issue of shifting game options as width grows
 
 // give instructions for the game and how to play
