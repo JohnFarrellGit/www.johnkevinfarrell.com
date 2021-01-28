@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 interface GameCellI {
+  id: number;
   isCovered: boolean;
   isBomb: boolean;
   isFlagged: boolean;
   isWinner: boolean;
   neighborBombs: number;
-  id: number;
   leftClick: (cellIndex: number) => void;
   holdCell: (cellIndex: number) => void;
   rightClick: (cellIndex: number) => void;
@@ -51,13 +51,13 @@ export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs
         {!isCovered && !isBomb && neighborBombs !== 0 && neighborBombs}
       </CellDisplay>
     </CellContainer>
-  )
-}
+  );
+};
 
 interface CellContainerI {
   isCovered: boolean;
   isBomb: boolean;
-}
+};
 
 const CellContainer = styled.div`
   width: 30px;
@@ -71,26 +71,27 @@ const CellContainer = styled.div`
 
   background-color: ${(props: CellContainerI) => (
     props.isCovered ? '#BDBDBD' :
-      props.isBomb ? '#FF6666' : '#C2C2C2'
+      props.isBomb ? '#FF6666'
+        : '#C2C2C2'
   )};
 
   display: flex;
   justify-content: center;
   cursor: pointer;
-  line-height: 20px;
+  line-height: 30px;
 
   :hover {
     background-color: ${(props: CellContainerI) => (
     props.isCovered ? '#5C5C5C' :
       props.isBomb ? '#FF6666' :
-        '#BDBDBD'
+        '#C2C2C2'
   )};
   }
-`
+`;
 
 interface CellDisplayI {
   neighborBombs: number;
-}
+};
 
 const CellDisplay = styled.p`
   vertical-align: middle;

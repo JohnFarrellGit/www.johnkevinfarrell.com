@@ -6,7 +6,7 @@ import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
-import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions/getLocalStorage";
+import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
 import { Action, State } from "./reducer";
 import { FaceType, GameDifficulty } from "./types";
 interface MinesweeperI {
@@ -108,9 +108,12 @@ export const Minesweeper = ({
     </PlayingContainer>
     : null, [gameState.board])
 
-  const seo = useMemo(() => (
-    <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
-  ), []);
+  const seo = useMemo(() => {
+    console.log("seo")
+    return (
+      <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
+    )
+  }, []);
 
   const title = useMemo(() => (
     <Title title="Minesweeper" />

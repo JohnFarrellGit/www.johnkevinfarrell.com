@@ -17,7 +17,7 @@ export const updateConfiguration = (state: State, action: { type: 'UpdateConfigu
       rows: action.rows,
       columns: action.columns,
       numberOfBombs: action.numberOfBombs,
-      board: generateBoard(action.columns, action.rows),
+      board: generateBoard(action.rows, action.columns),
       flagsPlaced: 0,
       timer: 0,
       face: Faces.Blank,

@@ -1,8 +1,8 @@
 export interface Cell {
+  id: number;
   isBomb: boolean;
   isCovered: boolean;
   isFlagged: boolean;
-  id: number;
   neighbors: number[];
   neighborBombs: number;
 }

@@ -5,7 +5,8 @@ export const revealCells = (cellIndex: number, board: Cell[]): {
   hasWon: boolean,
   hasLost: boolean
 } => {
-  if (board[cellIndex]?.isBomb) {
+
+  if (board[cellIndex].isBomb) {
     const newCell = {
       ...board[cellIndex],
       isCovered: false
@@ -20,13 +21,10 @@ export const revealCells = (cellIndex: number, board: Cell[]): {
   }
 
   const queue: number[] = [cellIndex];
-  const visitedCells: Set<number> = new Set([cellIndex]);
+  const visitedCells: Set<number> = new Set([cellIndex, ...board.filter(el => !el.isCovered || el.isFlagged).map(el => el.id)]);
 
   while (queue.length > 0) {
     const currentCellIndex = queue.pop() as number;
-    if (board[currentCellIndex] === undefined || !board[currentCellIndex].isCovered || board[currentCellIndex].isFlagged) {
-      continue;
-    }
 
     const newCell = {
       ...board[currentCellIndex],
@@ -42,7 +40,7 @@ export const revealCells = (cellIndex: number, board: Cell[]): {
     if (newCell.neighborBombs === 0) {
       for (let i = 0; i < newCell.neighbors.length; i++) {
         if (!visitedCells.has(newCell.neighbors[i])) {
-          visitedCells.add(currentCellIndex);
+          visitedCells.add(newCell.neighbors[i]);
           queue.push(newCell.neighbors[i]);
         }
       }

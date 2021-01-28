@@ -7,7 +7,7 @@ export const generateBoard = (rows: number, columns: number): Cell[] => {
     isCovered: true,
     isFlagged: false,
     id: index,
-    neighbors: generateNeighbors(index, columns),
+    neighbors: generateNeighbors(index, columns, rows),
     neighborBombs: 0
   }))
 }

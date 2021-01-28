@@ -14,8 +14,6 @@ interface GameStatusI {
 
 export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, rightClickFace }: GameStatusI) => {
 
-  console.log("game status")
-
   const [spinningFace, setSpinningFace] = useState(false);
 
   const displayFace = faceType === FaceType.Regular ? mapRegularFaces[face] : mapCatFaces[face];
@@ -51,15 +49,13 @@ export const GameStatus = ({ bombsLeft, totalBombs, faceType, face, timePlayed, 
 const Container = styled.div`
   background-color: #BDBDBD;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   border-bottom: 2px solid #777;
   * p {
     line-height: normal;
     vertical-align: middle;
     margin: 2px 0px 2px 0px;
-  }
-  @media (max-width: 450px) {
-    display: none;
   }
 `;
 

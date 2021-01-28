@@ -16,8 +16,6 @@ interface GameOptionsI {
 
 export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings }: GameOptionsI) => {
 
-  console.log("game options")
-
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value === 'Custom') {
       updateDifficulty(GameDifficulty.Custom, customSettings.rows, customSettings.columns, customSettings.numberOfBombs);
@@ -126,7 +124,7 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
   border-bottom: 2px solid #777;
   background-color: #BDBDBD;
   padding: 0px 0px 5px 0px;
@@ -141,15 +139,10 @@ const OptionItem = styled.div`
   input {
     width: 90px;
     font-size: 1.25em;
-    @media(max-width: 500px) {
-      width: 80px;
-    }
-    @media(max-width: 500px) {
-      width: 60px;
-    }
+    height: 1.75em;
   }
   select {
     font-size: 1em;
-    height: 24px;
+    height: 2em;
   }
 `

@@ -27,15 +27,6 @@ import { MinesweeperWLocalStorage } from '../../components/minesweeper/Minesweep
 
 // connect site/projects page to strapi
 
-// BUGS
-
-// sometimes changing rows or columns then making game leaves us with a malformed board, are rows and columns being passed incorrectly somewhere?
-// recreate, go to custom, set numberOfRows low, then set it high and then reveal cells
-
-// fix custom difficulty - doesn't seem to be working(?)
-// fixing custom stuff (especially when very low or high bomb count, seems broken with neighbors)
-// bug when changing to expert, click top left, is rows and columns mixed up??
-
 const minesweeper = () => {
   return (
     <MinesweeperWLocalStorage />
