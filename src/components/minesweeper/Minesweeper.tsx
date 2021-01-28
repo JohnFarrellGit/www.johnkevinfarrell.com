@@ -9,6 +9,7 @@ import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components
 import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
 import { Action, State } from "./reducer";
 import { FaceType, GameDifficulty } from "./types";
+
 interface MinesweeperI {
   localDifficulty: GameDifficulty;
   setLocalStorageValue: React.Dispatch<React.SetStateAction<GameDifficulty>>;
@@ -108,12 +109,9 @@ export const Minesweeper = ({
     </PlayingContainer>
     : null, [gameState.board])
 
-  const seo = useMemo(() => {
-    console.log("seo")
-    return (
-      <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
-    )
-  }, []);
+  const seo = useMemo(() => (
+    <SEO title="Minesweeper" description="Simple Minesweeper Clone" />
+  ), []);
 
   const title = useMemo(() => (
     <Title title="Minesweeper" />
@@ -131,6 +129,15 @@ export const Minesweeper = ({
     />
   ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs]);
 
+  const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
+    <PreviousResults
+      isWinner={gameState.isWinner}
+      gameDifficulty={gameState.gameDifficulty}
+      timer={gameState.timer}
+    /> :
+    null
+    , [gameState.isWinner, gameState.gameDifficulty]);
+
   return (
     <Layout>
       {seo}
@@ -147,11 +154,7 @@ export const Minesweeper = ({
             rightClickFace={rightClickFace}
           />
           {gameCells}
-          <PreviousResults
-            isWinner={gameState.isWinner}
-            gameDifficulty={gameState.gameDifficulty}
-            timer={gameState.timer}
-          />
+          {previousResults}
         </GameContainer>
       </Main>
     </Layout>

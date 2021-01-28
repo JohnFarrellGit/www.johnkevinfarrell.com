@@ -7,10 +7,10 @@ import { Faces, FaceType, GameDifficulty } from './types';
 
 const initialGameState = {
   gameDifficulty: GameDifficulty.Beginner,
-  rows: 1,
-  columns: 1,
-  numberOfBombs: 1,
-  board: generateBoard(1, 1),
+  rows: 10,
+  columns: 10,
+  numberOfBombs: 10,
+  board: generateBoard(10, 10),
   isPlaying: false,
   isDead: false,
   isWinner: false,

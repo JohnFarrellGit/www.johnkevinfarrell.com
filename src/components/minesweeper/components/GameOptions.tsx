@@ -66,7 +66,6 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           value={mapDifficultyToGameBoard[difficulty].display}
           onChange={handleDifficultyChange}
           disabled={isPlaying}
-          style={{ display: 'block' }}
           name="difficulty"
           id="difficulty"
         >
@@ -84,7 +83,6 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           max={100}
           value={rows}
           disabled={difficulty !== GameDifficulty.Custom || isPlaying}
-          style={{ display: 'block' }}
           onChange={changeRows}
           name="rows"
           id="rows"
@@ -98,7 +96,6 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           max={100}
           value={columns}
           disabled={difficulty !== GameDifficulty.Custom || isPlaying}
-          style={{ display: 'block' }}
           onChange={changeColumns}
           name="columns"
           id="columns"
@@ -112,7 +109,6 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
           max={(rows * columns) - 1}
           value={numberOfBombs}
           disabled={difficulty !== GameDifficulty.Custom || isPlaying}
-          style={{ display: 'block' }}
           onChange={changeBombs}
           name="bombs"
           id="bombs"
@@ -140,9 +136,14 @@ const OptionItem = styled.div`
     width: 90px;
     font-size: 1.25em;
     height: 1.75em;
+    display: block;
+    box-sizing: border-box;
   }
   select {
     font-size: 1em;
     height: 2em;
+    display: block;
+    box-sizing: border-box;
   }
+  padding-left: 10px;
 `
