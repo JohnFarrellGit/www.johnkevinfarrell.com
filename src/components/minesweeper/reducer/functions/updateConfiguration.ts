@@ -1,16 +1,15 @@
 import { State } from "..";
 import { mapDifficultyToGameBoard } from "../../constants";
 import { generateBoard } from "../../functions";
-import { Cell, Faces, GameDifficulty } from "../../types";
+import { Faces, GameDifficulty } from "../../types";
 
-
-const allBoards: Record<number, Record<number, Cell[]>> = {};
-for (let rows = 1; rows <= 100; rows++) {
-  allBoards[rows] = {};
-  for (let columns = 1; columns <= 100; columns++) {
-    allBoards[rows][columns] = generateBoard(rows, columns);
-  }
-};
+// const allBoards: Record<number, Record<number, Cell[]>> = {};
+// for (let rows = 1; rows <= 100; rows++) {
+//   allBoards[rows] = {};
+//   for (let columns = 1; columns <= 100; columns++) {
+//     allBoards[rows][columns] = generateBoard(rows, columns);
+//   }
+// };
 
 export const updateConfiguration = (state: State, action: { type: 'UpdateConfiguration', gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number }) => {
   if (state.isPlaying) {
@@ -26,7 +25,7 @@ export const updateConfiguration = (state: State, action: { type: 'UpdateConfigu
       rows: action.rows,
       columns: action.columns,
       numberOfBombs: action.numberOfBombs,
-      board: allBoards[action.rows][action.columns],
+      board: generateBoard(action.rows, action.columns),
       flagsPlaced: 0,
       timer: 0,
       face: Faces.Blank,
@@ -44,7 +43,7 @@ export const updateConfiguration = (state: State, action: { type: 'UpdateConfigu
     rows,
     columns,
     numberOfBombs,
-    board: allBoards[rows][columns],
+    board: generateBoard(rows, columns),
     flagsPlaced: 0,
     timer: 0,
     face: Faces.Blank,
