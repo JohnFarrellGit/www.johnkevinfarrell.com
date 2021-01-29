@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
-import useSound from 'use-sound';
-import clackSfx from '../../static/sounds/clack.mp3';
 
 import useInterval from "../../common/hooks/useInterval";
 import { MinesweeperCustomSettings } from "../../common/hooks/useLocalStorage";
@@ -35,14 +33,11 @@ export const Minesweeper = ({
   dispatch
 }: MinesweeperI) => {
 
-  const x = useSound(clackSfx)[0];
-
   useEffect(() => {
 
     const gameDifficulty = getGameDifficulty(localDifficulty);
 
     if (gameDifficulty === GameDifficulty.Custom) {
-      x();
       dispatch({
         type: 'Init',
         gameDifficulty,
