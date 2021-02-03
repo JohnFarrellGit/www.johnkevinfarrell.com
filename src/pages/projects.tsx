@@ -22,6 +22,7 @@ const ProjectsPage = ({ data: { allContentfulProject: { totalCount, projects } }
           published: string,
           projectImage: {
             fluid: FluidObject;
+            ariaLabel: string;
           }
         }
       }[]
@@ -55,6 +56,7 @@ export const query = graphql`
             fluid(maxWidth: 500) {
               srcSetWebp
             }
+            ariaLabel: description
           }
         }
       }

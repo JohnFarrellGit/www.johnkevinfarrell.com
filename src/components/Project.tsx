@@ -9,14 +9,15 @@ interface ProjectProps {
   github: string
   slug: string
   projectImage: FluidObject;
+  ariaLabel: string;
   index: number
 }
 
-const Project = ({ description, title, github, slug, projectImage, index }: ProjectProps) => {
+const Project = ({ description, title, github, slug, projectImage, ariaLabel, index }: ProjectProps) => {
   return (
     <Link to={slug}>
       <article className="project">
-        <Image fluid={projectImage} className="project-img" />
+        <Image fluid={projectImage} className="project-img" alt={ariaLabel} />
         <div className="project-info">
           <span className="project-number">0{index + 1}.</span>
           <h3>{title}</h3>

@@ -16,6 +16,7 @@ export interface ProjectI {
       published: string,
       projectImage: {
         fluid: FluidObject;
+        ariaLabel: string;
       }
     }
   }[]
@@ -36,6 +37,7 @@ const Projects = ({ projects }: ProjectI) => {
             github={project.node.github}
             slug={project.node.slug}
             projectImage={project.node.projectImage.fluid}
+            ariaLabel={project.node.projectImage.ariaLabel}
           />
         })}
       </div>
