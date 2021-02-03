@@ -28,7 +28,6 @@ const ProjectsPage = ({ data: { allContentfulProject: { totalCount, projects } }
     }
   }
 }) => {
-  console.log("🚀 ~ file: projects.tsx ~ line 17 ~ ProjectsPage ~ edges", projects)
   return (
     <Layout>
       <SEO title="Projects" description="Software engineering projects created by John Farrell" />

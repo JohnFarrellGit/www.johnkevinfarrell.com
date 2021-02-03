@@ -13,7 +13,6 @@ interface ProjectProps {
 }
 
 const Project = ({ description, title, github, slug, projectImage, index }: ProjectProps) => {
-  console.log("🚀 ~ file: Project.tsx ~ line 16 ~ Project ~ slug", slug)
   return (
     <Link to={slug}>
       <article className="project">

@@ -22,9 +22,7 @@ export interface ProjectI {
   totalCount: number;
 }
 
-const Projects = ({ totalCount, projects }: ProjectI) => {
-  console.log("🚀 ~ file: Projects.tsx ~ line 26 ~ Projects ~ projects", projects)
-  console.log("🚀 ~ file: Projects.tsx ~ line 16 ~ Projects ~ projects", totalCount)
+const Projects = ({ projects }: ProjectI) => {
   return (
     <section className="section projects">
       <Title title="Projects" />
