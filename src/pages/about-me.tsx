@@ -2,53 +2,42 @@ import React from 'react'
 import Layout from '../components/Layout'
 import Title from '../components/Title'
 import SEO from '../components/SEO'
+import { graphql } from 'gatsby'
+import Image, { FluidObject } from 'gatsby-image'
 
-const About = () => {
-  const info =
-    "Hi, I'm John Farrell a professional software developer. I started this programming journey in 2016 teaching myself a little bit of " +
-    'Python following the completion of my BSc in Biomedical Science. It became my ambition to become a software engineer so I enrolled ' +
-    'in a masters degree in Computer Science at the University of Kent. After graduating I worked at Tata Consultancy Services ' +
-    'where I had the opportunity to be involved in a large scale cloud industrilisation project. I then became interested in web ' +
-    'development and joined CACI IIG where I have worked since developing web applications for our customers.'
-
-  const stack = [
-    {
-      id: 1,
-      title: 'JavaScript'
-    },
-    {
-      id: 2,
-      title: 'TypeScript'
-    },
-    {
-      id: 3,
-      title: 'React'
-    },
-    {
-      id: 4,
-      title: 'Node'
-    },
-    {
-      id: 5,
-      title: 'Java'
-    },
-    {
-      id: 6,
-      title: 'Spring'
+const About = ({ data: { allContentfulAboutMe: { edges } } }: {
+  data: {
+    allContentfulAboutMe: {
+      edges: {
+        node: {
+          photo: {
+            fluid: FluidObject;
+            description: string;
+          },
+          technicalSkills: string[],
+          description: {
+            description: string;
+          }
+        }
+      }[]
     }
-  ]
+  }
+}) => {
+
+  const aboutMeData = edges[0];
 
   return (
     <Layout>
       <SEO title="About Me" description="Information about John Farrell" />
       <section className="about-page">
         <div className="section-center about-center">
+          <Image fluid={aboutMeData.node.photo.fluid} className="about-img" alt={aboutMeData.node.photo.description} />
           <article className="about-text">
             <Title title="About Me" />
-            <p>{info}</p>
+            <p>{aboutMeData.node.description.description}</p>
             <div className="about-stack">
-              {stack.map(item => {
-                return <span key={item.id}>{item.title}</span>
+              {aboutMeData.node.technicalSkills.map((skill, index) => {
+                return <span key={index}>{skill}</span>
               })}
             </div>
           </article>
@@ -57,5 +46,26 @@ const About = () => {
     </Layout>
   )
 }
+
+export const query = graphql`
+  {
+    allContentfulAboutMe {
+      edges {
+        node {
+          technicalSkills
+          description {
+            description
+          }
+          photo {
+            fluid {
+              srcSetWebp
+            }
+            description
+          }
+        }
+      }
+    }
+  }
+`
 
 export default About

@@ -53,7 +53,7 @@ export const query = graphql`
           title
           published
           projectImage {
-            fluid(maxWidth: 500) {
+            fluid {
               srcSetWebp
             }
             ariaLabel: description
