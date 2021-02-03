@@ -1,41 +1,38 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Image from 'gatsby-image'
+import Image, { FluidObject } from 'gatsby-image'
 import { FaGithubSquare, FaShareSquare } from 'react-icons/fa'
+import { Link } from 'gatsby'
 
 interface ProjectProps {
   description: string
   title: string
   github: string
-  stack: { id: string; title: string }[]
-  url: string
-  image: any
+  slug: string
+  projectImage: FluidObject;
   index: number
 }
 
-const Project = ({ description, title, github, stack, url, image, index }: ProjectProps) => {
+const Project = ({ description, title, github, slug, projectImage, index }: ProjectProps) => {
+  console.log("🚀 ~ file: Project.tsx ~ line 16 ~ Project ~ slug", slug)
   return (
-    <article className="project">
-      <Image fluid={image.childImageSharp.fluid} className="project-img" />
-      <div className="project-info">
-        <span className="project-number">0{index + 1}.</span>
-        <h3>{title}</h3>
-        <p className="project-desc">{description}</p>
-        <div className="project-stack">
-          {stack.map(stackItem => {
-            return <span key={stackItem.id}>{stackItem.title}</span>
-          })}
+    <Link to={slug}>
+      <article className="project">
+        <Image fluid={projectImage} className="project-img" />
+        <div className="project-info">
+          <span className="project-number">0{index + 1}.</span>
+          <h3>{title}</h3>
+          <p className="project-desc">{description}</p>
+          <div className="project-links">
+            <a href={github}>
+              <FaGithubSquare className="project-icon" />
+            </a>
+            <Link to={slug}>
+              <FaShareSquare className="project-icon" />
+            </Link>
+          </div>
         </div>
-        <div className="project-links">
-          <a href={github}>
-            <FaGithubSquare className="project-icon" />
-          </a>
-          <a href={url}>
-            <FaShareSquare className="project-icon" />
-          </a>
-        </div>
-      </div>
-    </article>
+      </article>
+    </Link>
   )
 }
 
