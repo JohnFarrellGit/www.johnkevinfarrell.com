@@ -5,7 +5,7 @@ import Layout from '../components/Layout'
 import Projects from '../components/Projects'
 import SEO from '../components/SEO'
 
-const ProjectsPage = ({ data: { allContentfulProject: { totalCount, projects } } }: {
+const ProjectsPage = ({ data: { allContentfulProject: { projects } } }: {
   data: {
     allContentfulProject: {
       totalCount: number;
@@ -17,13 +17,12 @@ const ProjectsPage = ({ data: { allContentfulProject: { totalCount, projects } }
           github: string;
           id: string;
           slug: string;
-          url: string;
           title: string;
-          published: string,
           projectImage: {
             fluid: FluidObject;
-            ariaLabel: string;
-          }
+            alt: string;
+          },
+          tags: string[];
         }
       }[]
     }
@@ -33,7 +32,7 @@ const ProjectsPage = ({ data: { allContentfulProject: { totalCount, projects } }
     <Layout>
       <SEO title="Projects" description="Software engineering projects created by John Farrell" />
       <section className="projects-page">
-        <Projects totalCount={totalCount} projects={projects} />
+        <Projects projects={projects} />
       </section>
     </Layout>
   )
@@ -51,16 +50,15 @@ export const query = graphql`
           id
           slug
           title
-          published
           projectImage {
             fluid {
               srcSetWebp
             }
-            ariaLabel: description
+            alt: description
           }
+          tags
         }
       }
-      totalCount
     }
   }
 `

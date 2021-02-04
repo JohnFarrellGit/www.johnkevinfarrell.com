@@ -13,14 +13,13 @@ export interface ProjectI {
       id: string;
       slug: string;
       title: string;
-      published: string,
       projectImage: {
         fluid: FluidObject;
-        ariaLabel: string;
-      }
+        alt: string;
+      };
+      tags: string[]
     }
   }[]
-  totalCount: number;
 }
 
 const Projects = ({ projects }: ProjectI) => {
@@ -37,7 +36,8 @@ const Projects = ({ projects }: ProjectI) => {
             github={project.node.github}
             slug={project.node.slug}
             projectImage={project.node.projectImage.fluid}
-            ariaLabel={project.node.projectImage.ariaLabel}
+            tags={project.node.tags}
+            alt={project.node.projectImage.alt}
           />
         })}
       </div>

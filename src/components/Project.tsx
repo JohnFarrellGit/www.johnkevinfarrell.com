@@ -10,10 +10,11 @@ interface ProjectProps {
   slug: string
   projectImage: FluidObject;
   ariaLabel: string;
-  index: number
+  index: number;
+  tags: string[];
 }
 
-const Project = ({ description, title, github, slug, projectImage, ariaLabel, index }: ProjectProps) => {
+const Project = ({ description, title, github, slug, projectImage, ariaLabel, index, tags }: ProjectProps) => {
   return (
     <Link to={slug}>
       <article className="project">
@@ -22,6 +23,15 @@ const Project = ({ description, title, github, slug, projectImage, ariaLabel, in
           <span className="project-number">0{index + 1}.</span>
           <h3>{title}</h3>
           <p className="project-desc">{description}</p>
+          <div className="project-stack">
+            {
+              tags.map((tagItem, index) => {
+                return (
+                  <span key={index}>{tagItem}</span>
+                )
+              })
+            }
+          </div>
           <div className="project-links">
             <a href={github}>
               <FaGithubSquare className="project-icon" />
