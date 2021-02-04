@@ -6,7 +6,7 @@ import Skills from '../components/Skills'
 import Jobs from '../components/Jobs'
 import { graphql } from 'gatsby'
 
-export default ({ data: { allContentfulTechnicalSkills: { edges } } }: {
+export default ({ data }: {
   data: {
     allContentfulTechnicalSkills: {
       edges: {
@@ -21,6 +21,15 @@ export default ({ data: { allContentfulTechnicalSkills: { edges } } }: {
           }
         }
       }[]
+    },
+    allContentfulPreviousWork: {
+      work: {
+        companyName: string;
+        jobRoles?: string[];
+        jobTitle: string;
+        startDate: string;
+        endDate?: string;
+      }[]
     }
   }
 }) => {
@@ -29,7 +38,7 @@ export default ({ data: { allContentfulTechnicalSkills: { edges } } }: {
       <SEO description="Home page for John Farrell, John Farrell is a professional software engineer with expertise in web development." />
       <Hero />
       <Skills />
-      <Jobs />
+      <Jobs allContentfulPreviousWork={data.allContentfulPreviousWork} />
     </Layout>
   )
 }
@@ -48,6 +57,15 @@ export const query = graphql`
             }
           }
         }
+      }
+    },
+    allContentfulPreviousWork {
+      work: nodes {
+        companyName
+        jobRoles
+        jobTitle
+        startDate
+        endDate
       }
     }
   }
