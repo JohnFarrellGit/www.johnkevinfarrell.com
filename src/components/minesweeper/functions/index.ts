@@ -1,7 +1,7 @@
 
 import { generateBoard } from "./generateBoard";
 import { generateNeighbors } from "./generateNeighbors";
-import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
+import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
 import { revealCells } from "./revealCells";
 
 export {
@@ -10,5 +10,6 @@ export {
   generateBoard,
   getGameDifficulty,
   getFaceType,
-  getCustomBoardConfig
+  getCustomBoardConfig,
+  getAutoReveal
 }

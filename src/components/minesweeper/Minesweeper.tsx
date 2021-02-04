@@ -7,7 +7,7 @@ import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
-import { getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
+import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
 import { Action, State } from "./reducer";
 import { FaceType, GameDifficulty } from "./types";
 
@@ -46,13 +46,15 @@ export const Minesweeper = ({
         type: 'Init',
         gameDifficulty,
         customDifficulty: getCustomBoardConfig(gameDifficulty, localCustomSettings),
-        faceType: getFaceType(localFaceType)
+        faceType: getFaceType(localFaceType),
+        autoReveal: getAutoReveal(localAutoReveal)
       })
     } else {
       dispatch({
         type: 'Init',
         gameDifficulty,
-        faceType: getFaceType(localFaceType)
+        faceType: getFaceType(localFaceType),
+        autoReveal: getAutoReveal(localAutoReveal)
       })
     }
   }, []);
@@ -93,7 +95,7 @@ export const Minesweeper = ({
   }, []);
 
   const switchAutoReveal = useCallback(() => {
-    setLocalAutoReveal(!gameState.autoReveal);
+    setLocalAutoReveal((prev) => !prev);
     dispatch({ type: 'AutoReveal' });
   }, []);
 

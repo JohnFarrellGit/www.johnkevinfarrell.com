@@ -62,3 +62,10 @@ const getNumberOfBombs = (gameDifficulty: GameDifficulty, customSettings: Minesw
     return mapDifficultyToGameBoard[difficulty].numberOfBombs;
   }
 }
+
+export const getAutoReveal = (autoReveal: boolean): boolean => {
+  if (typeof autoReveal !== 'boolean') {
+    return true;
+  }
+  return autoReveal;
+}

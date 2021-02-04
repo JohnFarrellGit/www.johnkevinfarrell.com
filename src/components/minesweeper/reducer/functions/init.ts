@@ -3,7 +3,7 @@ import { generateBoard } from "../../functions";
 import { mapDifficultyToGameBoard } from "../../constants";
 import { Faces, FaceType, GameDifficulty } from "../../types";
 
-export const init = (action: { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }): State => {
+export const init = (action: { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, autoReveal: boolean, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }): State => {
   let rows: number;
   let columns: number;
   let numberOfBombs: number;
@@ -34,6 +34,6 @@ export const init = (action: { type: 'Init', gameDifficulty: GameDifficulty, fac
     timer: 0,
     flagsPlaced: 0,
     display: true,
-    autoReveal: true
+    autoReveal: action.autoReveal
   };
 };
