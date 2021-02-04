@@ -4,6 +4,7 @@ import { MinesweeperCustomSettings } from '../../../common/hooks/useLocalStorage
 import { mapDifficultyToGameBoard } from '../constants'
 import { GameDifficulty } from '../types'
 import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi'
+import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im'
 interface GameOptionsI {
   isPlaying: boolean;
   difficulty: GameDifficulty;
@@ -14,9 +15,11 @@ interface GameOptionsI {
   customSettings: MinesweeperCustomSettings;
   switchAutoReveal: () => void;
   autoReveal: boolean;
+  switchAutoFlag: () => void;
+  autoFlag: boolean;
 }
 
-export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings, autoReveal, switchAutoReveal }: GameOptionsI) => {
+export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings, autoReveal, switchAutoReveal, switchAutoFlag, autoFlag }: GameOptionsI) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -63,7 +66,13 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
   }
 
   const handleClickAutoReveal = () => {
+    if (isPlaying) return;
     switchAutoReveal();
+  }
+
+  const handleClickAutoFlag = () => {
+    if (isPlaying) return;
+    switchAutoFlag();
   }
 
   return (
@@ -131,14 +140,15 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
               </OptionItem>
               <OptionItem>
                 <label htmlFor="auto-reveal">Auto Reveal</label>
-                <input
-                  type="checkbox"
-                  onChange={handleClickAutoReveal}
-                  disabled={isPlaying}
-                  name="auto-reveal"
-                  id="auto-reveal"
-                  checked={autoReveal}
-                />
+                <CheckBox onClick={handleClickAutoReveal} id="auto-flag">
+                  {autoReveal ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
+                </CheckBox>
+              </OptionItem>
+              <OptionItem>
+                <label htmlFor="auto-flag">Auto Flag</label>
+                <CheckBox onClick={handleClickAutoFlag} >
+                  {autoFlag ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
+                </CheckBox>
               </OptionItem>
             </OptionsContainer>
             : null
@@ -147,6 +157,12 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
     </>
   )
 }
+
+const CheckBox = styled.div`
+  margin: 0 auto;
+  font-size: 1.45em;
+  color: black;
+`
 
 const GameConfiguration = styled.div`
   justify-content: center;
@@ -176,18 +192,10 @@ const OptionItem = styled.div`
     font-size: 1.25em;
     user-select: none;
   }
-  input[type='number'] {
+  input {
     width: 90px;
     font-size: 1.25em;
     height: 1.75em;
-  }
-  input[type='checkbox'] {
-    margin: 5px auto;
-    width: 1.75em;
-	  height: 1.75em;
-    :disabled {
-      outline: 2px solid black;
-    }
   }
   select {
     font-size: 1em;
@@ -199,4 +207,5 @@ const OptionItem = styled.div`
   flex-direction: column;
   justify-content: center;
   vertical-align: center;
+  text-align: center;
 `

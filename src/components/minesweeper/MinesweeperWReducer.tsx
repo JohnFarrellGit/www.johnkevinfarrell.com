@@ -19,43 +19,32 @@ const initialGameState = {
   timer: 0,
   flagsPlaced: 0,
   display: false,
-  autoReveal: true
+  autoReveal: true,
+  autoFlag: false
 };
 
 interface MinesweeperI {
-  localDifficulty: GameDifficulty;
-  setLocalStorageValue: React.Dispatch<React.SetStateAction<GameDifficulty>>;
-  localFaceType: FaceType;
-  setLocalFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
-  localCustomSettings: MinesweeperCustomSettings;
-  setLocalCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
-  localAutoReveal: boolean;
-  setLocalAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
+  localStorage: {
+    difficulty: GameDifficulty;
+    setDifficulty: React.Dispatch<React.SetStateAction<GameDifficulty>>;
+    faceType: FaceType;
+    setFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
+    customSettings: MinesweeperCustomSettings;
+    setCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
+    autoReveal: boolean;
+    setAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
+    autoFlag: boolean;
+    setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
+  }
 }
 
-export const MinesweeperWReducer = ({
-  localDifficulty,
-  setLocalStorageValue,
-  localFaceType,
-  setLocalFaceType,
-  localCustomSettings,
-  setLocalCustomSettings,
-  localAutoReveal,
-  setLocalAutoReveal
-}: MinesweeperI) => {
+export const MinesweeperWReducer = ({ localStorage }: MinesweeperI) => {
 
   const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
 
   return (
     <Minesweeper
-      localDifficulty={localDifficulty}
-      setLocalStorageValue={setLocalStorageValue}
-      localFaceType={localFaceType}
-      setLocalFaceType={setLocalFaceType}
-      localCustomSettings={localCustomSettings}
-      setLocalCustomSettings={setLocalCustomSettings}
-      localAutoReveal={localAutoReveal}
-      setLocalAutoReveal={setLocalAutoReveal}
+      localStorage={localStorage}
       gameState={gameState}
       dispatch={dispatch}
     />

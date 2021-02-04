@@ -6,6 +6,7 @@ import { updateConfiguration } from './updateConfiguration';
 import { updateFaceType } from './updateFaceType';
 import { updateTimer } from './updateTimer';
 import { autoReveal } from './autoReveal';
+import { autoFlag } from './autoFlag';
 
 export {
   clickCell,
@@ -15,5 +16,6 @@ export {
   updateConfiguration,
   updateFaceType,
   updateTimer,
-  autoReveal
+  autoReveal,
+  autoFlag
 };

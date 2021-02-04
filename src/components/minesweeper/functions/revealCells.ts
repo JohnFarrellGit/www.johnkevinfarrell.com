@@ -1,6 +1,7 @@
 import { Cell } from "../types";
+import { autoFlag as autoFlagger } from "."
 
-export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean): {
+export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean, autoFlag: boolean): {
   board: Cell[],
   hasWon: boolean,
   hasLost: boolean
@@ -57,6 +58,10 @@ export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolea
         isCovered: false
       };
     }
+  }
+
+  if (autoFlag) {
+    board = autoFlagger(board);
   }
 
   return {

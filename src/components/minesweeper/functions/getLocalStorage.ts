@@ -69,3 +69,10 @@ export const getAutoReveal = (autoReveal: boolean): boolean => {
   }
   return autoReveal;
 }
+
+export const getAutoFlag = (autoReveal: boolean): boolean => {
+  if (typeof autoReveal !== 'boolean') {
+    return false;
+  }
+  return autoReveal;
+}

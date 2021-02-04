@@ -8,53 +8,53 @@ import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
+import { getAutoFlag } from "./functions/getLocalStorage";
 import { Action, State } from "./reducer";
 import { FaceType, GameDifficulty } from "./types";
 
 interface MinesweeperI {
-  localDifficulty: GameDifficulty;
-  setLocalStorageValue: React.Dispatch<React.SetStateAction<GameDifficulty>>;
-  localFaceType: FaceType;
-  setLocalFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
-  localCustomSettings: MinesweeperCustomSettings;
-  setLocalCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
-  localAutoReveal: boolean;
-  setLocalAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
+  localStorage: {
+    difficulty: GameDifficulty;
+    setDifficulty: React.Dispatch<React.SetStateAction<GameDifficulty>>;
+    faceType: FaceType;
+    setFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
+    customSettings: MinesweeperCustomSettings;
+    setCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
+    autoReveal: boolean;
+    setAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
+    autoFlag: boolean;
+    setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   gameState: State;
   dispatch: React.Dispatch<Action>;
 };
 
 export const Minesweeper = ({
-  localDifficulty,
-  setLocalStorageValue,
-  localFaceType,
-  setLocalFaceType,
-  localCustomSettings,
-  setLocalCustomSettings,
-  localAutoReveal,
-  setLocalAutoReveal,
+  localStorage,
   gameState,
   dispatch
 }: MinesweeperI) => {
 
   useEffect(() => {
 
-    const gameDifficulty = getGameDifficulty(localDifficulty);
+    const gameDifficulty = getGameDifficulty(localStorage.difficulty);
 
     if (gameDifficulty === GameDifficulty.Custom) {
       dispatch({
         type: 'Init',
         gameDifficulty,
-        customDifficulty: getCustomBoardConfig(gameDifficulty, localCustomSettings),
-        faceType: getFaceType(localFaceType),
-        autoReveal: getAutoReveal(localAutoReveal)
+        customDifficulty: getCustomBoardConfig(gameDifficulty, localStorage.customSettings),
+        faceType: getFaceType(localStorage.faceType),
+        autoReveal: getAutoReveal(localStorage.autoReveal),
+        autoFlag: getAutoFlag(localStorage.autoFlag)
       })
     } else {
       dispatch({
         type: 'Init',
         gameDifficulty,
-        faceType: getFaceType(localFaceType),
-        autoReveal: getAutoReveal(localAutoReveal)
+        faceType: getFaceType(localStorage.faceType),
+        autoReveal: getAutoReveal(localStorage.autoFlag),
+        autoFlag: getAutoFlag(localStorage.autoFlag)
       })
     }
   }, []);
@@ -74,10 +74,10 @@ export const Minesweeper = ({
   }, []);
 
   const updateDifficulty = useCallback((gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => {
-    setLocalStorageValue(gameDifficulty);
+    localStorage.setDifficulty(gameDifficulty);
     if (gameDifficulty === GameDifficulty.Custom) {
       if (rows && columns && numberOfBombs) {
-        setLocalCustomSettings({
+        localStorage.setCustomSettings({
           rows,
           columns,
           numberOfBombs
@@ -90,14 +90,19 @@ export const Minesweeper = ({
   }, []);
 
   const rightClickFace = useCallback(() => {
-    setLocalFaceType(gameState.faceType === FaceType.Regular ? FaceType.Cat : FaceType.Regular);
+    localStorage.setFaceType(gameState.faceType === FaceType.Regular ? FaceType.Cat : FaceType.Regular);
     dispatch({ type: 'UpdateFaceType' });
   }, []);
 
   const switchAutoReveal = useCallback(() => {
-    setLocalAutoReveal((prev) => !prev);
+    localStorage.setAutoReveal((prev) => !prev);
     dispatch({ type: 'AutoReveal' });
   }, []);
+
+  const switchAutoFlag = useCallback(() => {
+    localStorage.setAutoFlag((prev) => !prev);
+    dispatch({ type: 'AutoFlag' })
+  }, [])
 
   const gameCells = useMemo(() => gameState.display ?
     <PlayingContainer>
@@ -138,11 +143,13 @@ export const Minesweeper = ({
       columns={gameState.columns}
       numberOfBombs={gameState.numberOfBombs}
       updateDifficulty={updateDifficulty}
-      customSettings={localCustomSettings}
+      customSettings={localStorage.customSettings}
       switchAutoReveal={switchAutoReveal}
-      autoReveal={localAutoReveal}
+      autoReveal={localStorage.autoReveal}
+      switchAutoFlag={switchAutoFlag}
+      autoFlag={localStorage.autoFlag}
     />
-  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs, gameState.autoReveal]);
+  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs, gameState.autoReveal, gameState.autoFlag]);
 
   const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
     <PreviousResults
