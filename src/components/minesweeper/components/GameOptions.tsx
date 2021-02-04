@@ -17,9 +17,24 @@ interface GameOptionsI {
   autoReveal: boolean;
   switchAutoFlag: () => void;
   autoFlag: boolean;
+  switchAutoPlay: () => void;
+  autoPlay: boolean;
 }
 
-export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBombs, updateDifficulty, customSettings, autoReveal, switchAutoReveal, switchAutoFlag, autoFlag }: GameOptionsI) => {
+export const GameOptions = ({
+  isPlaying,
+  difficulty,
+  rows,
+  columns,
+  numberOfBombs,
+  updateDifficulty,
+  customSettings,
+  switchAutoReveal,
+  autoReveal,
+  switchAutoFlag,
+  autoFlag,
+  switchAutoPlay,
+  autoPlay }: GameOptionsI) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -73,6 +88,11 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
   const handleClickAutoFlag = () => {
     if (isPlaying) return;
     switchAutoFlag();
+  }
+
+  const handleClickAutoPlay = () => {
+    if (isPlaying) return;
+    switchAutoPlay();
   }
 
   return (
@@ -148,6 +168,12 @@ export const GameOptions = ({ isPlaying, difficulty, rows, columns, numberOfBomb
                 <label htmlFor="auto-flag">Auto Flag</label>
                 <CheckBox onClick={handleClickAutoFlag} >
                   {autoFlag ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
+                </CheckBox>
+              </OptionItem>
+              <OptionItem>
+                <label htmlFor="auto-play">Auto Play</label>
+                <CheckBox onClick={handleClickAutoPlay} >
+                  {autoPlay ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
                 </CheckBox>
               </OptionItem>
             </OptionsContainer>

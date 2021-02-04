@@ -70,9 +70,16 @@ export const getAutoReveal = (autoReveal: boolean): boolean => {
   return autoReveal;
 }
 
-export const getAutoFlag = (autoReveal: boolean): boolean => {
-  if (typeof autoReveal !== 'boolean') {
+export const getAutoFlag = (autoFlag: boolean): boolean => {
+  if (typeof autoFlag !== 'boolean') {
     return false;
   }
-  return autoReveal;
+  return autoFlag;
+}
+
+export const getAutoPlay = (autoPlay: boolean): boolean => {
+  if (typeof autoPlay !== 'boolean') {
+    return false;
+  }
+  return autoPlay;
 }

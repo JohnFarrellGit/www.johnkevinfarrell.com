@@ -14,6 +14,5 @@ export const placeFlag = (state: State, action: { type: 'PlaceFlag', cellIndex: 
   return {
     ...state,
     board: newBoard,
-    flagsPlaced: state.flagsPlaced + (newBoard[action.cellIndex].isFlagged ? 1 : -1),
   };
 };

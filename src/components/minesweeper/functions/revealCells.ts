@@ -1,7 +1,7 @@
 import { Cell } from "../types";
-import { autoFlag as autoFlagger } from "."
+import { clickCell } from "./clickCell";
 
-export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean, autoFlag: boolean): {
+export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean, autoFlag: boolean, autoPlay: boolean): {
   board: Cell[],
   hasWon: boolean,
   hasLost: boolean
@@ -21,34 +21,7 @@ export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolea
     }
   }
 
-  const queue: number[] = [cellIndex];
-  const visitedCells: Set<number> = new Set([cellIndex, ...board.filter(el => !el.isCovered || el.isFlagged).map(el => el.id)]);
-
-  while (queue.length > 0) {
-    const currentCellIndex = queue.pop() as number;
-
-    const newCell = {
-      ...board[currentCellIndex],
-      isCovered: false
-    }
-
-    let numberOfBombs = 0;
-    for (let i = 0; i < newCell.neighbors.length; i++) {
-      if (board[newCell.neighbors[i]]?.isBomb) numberOfBombs++;
-    }
-    newCell.neighborBombs = numberOfBombs;
-
-    if (newCell.neighborBombs === 0) {
-      for (let i = 0; i < newCell.neighbors.length; i++) {
-        if (!visitedCells.has(newCell.neighbors[i]) && autoReveal) {
-          visitedCells.add(newCell.neighbors[i]);
-          queue.push(newCell.neighbors[i]);
-        }
-      }
-    }
-
-    board[currentCellIndex] = newCell;
-  }
+  board = clickCell(board, cellIndex, autoReveal, autoFlag, autoPlay);
 
   const hasWon = board.filter(cell => !cell.isCovered).length === board.length - board.filter(cell => cell.isBomb).length;
   if (hasWon) {
@@ -58,10 +31,6 @@ export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolea
         isCovered: false
       };
     }
-  }
-
-  if (autoFlag) {
-    board = autoFlagger(board);
   }
 
   return {

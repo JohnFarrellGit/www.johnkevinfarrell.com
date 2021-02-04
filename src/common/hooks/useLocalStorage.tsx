@@ -20,7 +20,8 @@ export enum LocalStorageKeys {
   MinesweeperFace = 'minesweeper-face',
   MinesweeperCustomSettings = 'minesweeper-custom-settings',
   AutoReveal = 'minesweeper-auto-reveal',
-  AutoFlag = 'minesweeper-auto-flag'
+  AutoFlag = 'minesweeper-auto-flag',
+  AutoPlay = 'minesweeper-auto-play'
 }
 
 interface Minesweeper {
@@ -30,6 +31,7 @@ interface Minesweeper {
   [LocalStorageKeys.MinesweeperCustomSettings]: MinesweeperCustomSettings;
   [LocalStorageKeys.AutoReveal]: boolean;
   [LocalStorageKeys.AutoFlag]: boolean;
+  [LocalStorageKeys.AutoPlay]: boolean;
 }
 
 export interface LocalStorage extends Minesweeper {
@@ -55,7 +57,8 @@ const LOCAL_STORAGE_DEFAULTS = {
     numberOfBombs: 200
   },
   [LocalStorageKeys.AutoReveal]: true,
-  [LocalStorageKeys.AutoFlag]: false
+  [LocalStorageKeys.AutoFlag]: false,
+  [LocalStorageKeys.AutoPlay]: false
 };
 
 export const useLocalStorage = <T extends keyof LocalStorage>(key: T): LocalStorageReturnType<T> => {

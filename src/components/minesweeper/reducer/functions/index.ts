@@ -7,6 +7,7 @@ import { updateFaceType } from './updateFaceType';
 import { updateTimer } from './updateTimer';
 import { autoReveal } from './autoReveal';
 import { autoFlag } from './autoFlag';
+import { autoPlay } from './autoPlay';
 
 export {
   clickCell,
@@ -17,5 +18,6 @@ export {
   updateFaceType,
   updateTimer,
   autoReveal,
-  autoFlag
+  autoFlag,
+  autoPlay
 };

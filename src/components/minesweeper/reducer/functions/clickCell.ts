@@ -48,7 +48,7 @@ export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: 
       bombsLeft--;
     }
 
-    const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag);
+    const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag, state.autoPlay);
 
     return {
       ...state,
@@ -62,7 +62,7 @@ export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: 
     }
   }
 
-  const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag);
+  const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag, state.autoPlay);
 
   return {
     ...state,

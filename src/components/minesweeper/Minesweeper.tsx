@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useReducer } from "react";
 import styled from "styled-components";
 
 import useInterval from "../../common/hooks/useInterval";
@@ -7,10 +7,10 @@ import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
-import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
-import { getAutoFlag } from "./functions/getLocalStorage";
-import { Action, State } from "./reducer";
-import { FaceType, GameDifficulty } from "./types";
+import { generateBoard, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
+import { getAutoFlag, getAutoPlay } from "./functions/getLocalStorage";
+import { minesweeperReducer } from "./reducer";
+import { Faces, FaceType, GameDifficulty } from "./types";
 
 interface MinesweeperI {
   localStorage: {
@@ -24,16 +24,33 @@ interface MinesweeperI {
     setAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
     autoFlag: boolean;
     setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
+    autoPlay: boolean;
+    setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
   };
-  gameState: State;
-  dispatch: React.Dispatch<Action>;
 };
 
-export const Minesweeper = ({
-  localStorage,
-  gameState,
-  dispatch
-}: MinesweeperI) => {
+const initialGameState = {
+  gameDifficulty: GameDifficulty.Beginner,
+  rows: 10,
+  columns: 10,
+  numberOfBombs: 10,
+  board: generateBoard(10, 10),
+  isPlaying: false,
+  isDead: false,
+  isWinner: false,
+  face: Faces.Blank,
+  faceType: FaceType.Regular,
+  timer: 0,
+  flagsPlaced: 0,
+  display: false,
+  autoReveal: true,
+  autoFlag: false,
+  autoPlay: false
+};
+
+export const Minesweeper = ({ localStorage }: MinesweeperI) => {
+
+  const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
 
   useEffect(() => {
 
@@ -46,7 +63,8 @@ export const Minesweeper = ({
         customDifficulty: getCustomBoardConfig(gameDifficulty, localStorage.customSettings),
         faceType: getFaceType(localStorage.faceType),
         autoReveal: getAutoReveal(localStorage.autoReveal),
-        autoFlag: getAutoFlag(localStorage.autoFlag)
+        autoFlag: getAutoFlag(localStorage.autoFlag),
+        autoPlay: getAutoPlay(localStorage.autoPlay)
       })
     } else {
       dispatch({
@@ -54,7 +72,8 @@ export const Minesweeper = ({
         gameDifficulty,
         faceType: getFaceType(localStorage.faceType),
         autoReveal: getAutoReveal(localStorage.autoFlag),
-        autoFlag: getAutoFlag(localStorage.autoFlag)
+        autoFlag: getAutoFlag(localStorage.autoFlag),
+        autoPlay: getAutoPlay(localStorage.autoPlay)
       })
     }
   }, []);
@@ -104,6 +123,11 @@ export const Minesweeper = ({
     dispatch({ type: 'AutoFlag' })
   }, [])
 
+  const switchAutoPlay = useCallback(() => {
+    localStorage.setAutoPlay((prev) => !prev);
+    dispatch({ type: 'AutoPlay' })
+  }, []);
+
   const gameCells = useMemo(() => gameState.display ?
     <PlayingContainer>
       <GridContainer columns={gameState.columns}>
@@ -148,8 +172,10 @@ export const Minesweeper = ({
       autoReveal={localStorage.autoReveal}
       switchAutoFlag={switchAutoFlag}
       autoFlag={localStorage.autoFlag}
+      switchAutoPlay={switchAutoPlay}
+      autoPlay={localStorage.autoPlay}
     />
-  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs, gameState.autoReveal, gameState.autoFlag]);
+  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs, gameState.autoReveal, gameState.autoFlag, gameState.autoPlay]);
 
   const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
     <PreviousResults
@@ -168,7 +194,7 @@ export const Minesweeper = ({
         <GameContainer columns={gameState.columns}>
           {gameOptions}
           <GameStatus
-            bombsLeft={gameState.numberOfBombs - gameState.flagsPlaced}
+            bombsLeft={gameState.numberOfBombs - gameState.board.filter((el) => el.isFlagged).length}
             totalBombs={gameState.numberOfBombs}
             faceType={gameState.faceType}
             face={gameState.face}

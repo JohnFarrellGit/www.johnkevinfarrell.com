@@ -1,8 +1,8 @@
 
-import { autoFlag } from "./autoFlag";
+import { autoFlag } from "./autoFlagger";
 import { generateBoard } from "./generateBoard";
 import { generateNeighbors } from "./generateNeighbors";
-import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
+import { getAutoPlay, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
 import { revealCells } from "./revealCells";
 
 export {
@@ -13,5 +13,6 @@ export {
   getGameDifficulty,
   getFaceType,
   getCustomBoardConfig,
-  getAutoReveal
+  getAutoReveal,
+  getAutoPlay
 }

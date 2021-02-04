@@ -1,5 +1,5 @@
 import { Cell, Faces, FaceType, GameDifficulty } from "../types";
-import { autoFlag, autoReveal, clickCell, holdCell, init, placeFlag, updateConfiguration, updateFaceType, updateTimer } from "./functions";
+import { autoFlag, autoPlay, autoReveal, clickCell, holdCell, init, placeFlag, updateConfiguration, updateFaceType, updateTimer } from "./functions";
 
 export interface State {
   rows: number,
@@ -7,7 +7,6 @@ export interface State {
   board: Cell[];
   numberOfBombs: number;
   gameDifficulty: GameDifficulty;
-  flagsPlaced: number;
   isPlaying: boolean;
   isDead: boolean;
   isWinner: boolean,
@@ -17,10 +16,11 @@ export interface State {
   display: boolean;
   autoReveal: boolean;
   autoFlag: boolean;
+  autoPlay: boolean;
 };
 
 export type Action =
-  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, autoReveal: boolean, autoFlag: boolean, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }
+  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }
   | { type: 'UpdateTimer' }
   | { type: 'HoldCell', cellIndex: number }
   | { type: 'ClickCell', cellIndex: number }
@@ -31,6 +31,7 @@ export type Action =
   | { type: 'AddToScores' }
   | { type: 'AutoReveal' }
   | { type: 'AutoFlag' }
+  | { type: 'AutoPlay' }
 
 export const minesweeperReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -43,6 +44,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     case 'UpdateFaceType': return updateFaceType(state);
     case 'AutoReveal': return autoReveal(state);
     case 'AutoFlag': return autoFlag(state);
+    case 'AutoPlay': return autoPlay(state);
     default: return state;
   };
 };

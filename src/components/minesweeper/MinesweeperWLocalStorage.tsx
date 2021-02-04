@@ -1,6 +1,6 @@
 import React from 'react'
 import { LocalStorageKeys, MinesweeperCustomSettings, useLocalStorage } from '../../common/hooks/useLocalStorage';
-import { MinesweeperWReducer } from './MinesweeperWReducer';
+import { Minesweeper } from './Minesweeper';
 import { FaceType, GameDifficulty } from './types';
 
 export const MinesweeperWLocalStorage = () => {
@@ -10,6 +10,7 @@ export const MinesweeperWLocalStorage = () => {
   const { localStorageValue: customSettings, setLocalStorageValue: setCustomSettings } = useLocalStorage(LocalStorageKeys.MinesweeperCustomSettings);
   const { localStorageValue: autoReveal, setLocalStorageValue: setAutoReveal } = useLocalStorage(LocalStorageKeys.AutoReveal);
   const { localStorageValue: autoFlag, setLocalStorageValue: setAutoFlag } = useLocalStorage(LocalStorageKeys.AutoFlag);
+  const { localStorageValue: autoPlay, setLocalStorageValue: setAutoPlay } = useLocalStorage(LocalStorageKeys.AutoPlay);
 
   const localStorage: {
     difficulty: GameDifficulty;
@@ -22,6 +23,8 @@ export const MinesweeperWLocalStorage = () => {
     setAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
     autoFlag: boolean;
     setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
+    autoPlay: boolean;
+    setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
   } = {
     difficulty,
     setDifficulty,
@@ -32,11 +35,13 @@ export const MinesweeperWLocalStorage = () => {
     autoReveal,
     setAutoReveal,
     autoFlag,
-    setAutoFlag
+    setAutoFlag,
+    autoPlay,
+    setAutoPlay
   }
 
   return (
-    <MinesweeperWReducer
+    <Minesweeper
       localStorage={localStorage}
     />
   );
