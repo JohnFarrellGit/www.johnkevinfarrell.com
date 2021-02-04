@@ -32,7 +32,6 @@ export const init = (action: { type: 'Init', gameDifficulty: GameDifficulty, fac
     isWinner: false,
     face: Faces.Blank,
     timer: 0,
-    flagsPlaced: 0,
     display: true,
     autoReveal: action.autoReveal,
     autoFlag: action.autoFlag,

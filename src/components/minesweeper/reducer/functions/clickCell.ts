@@ -3,9 +3,9 @@ import { generateBoard, revealCells } from "../../functions";
 import { Faces } from "../../types";
 
 export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: number }) => {
-  const newBoard = [...state.board!];
+  const newBoard = [...state.board];
 
-  if (state.isPlaying && state.board && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged)) {
+  if (state.isPlaying && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged)) {
     return {
       ...state,
       face: Faces.Happy
@@ -48,6 +48,18 @@ export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: 
       bombsLeft--;
     }
 
+    // calculate how many bombs each cell is surrounded by
+    for (let i = 0; i < newBoard.length; i++) {
+      const newCell = { ...newBoard[i] };
+      let numberOfBombs = 0;
+      for (let j = 0; j < newCell.neighbors.length; j++) {
+        const neighborIndex = newCell.neighbors[j];
+        if (newBoard[neighborIndex].isBomb) numberOfBombs++;
+      }
+      newCell.neighborBombs = numberOfBombs;
+      newBoard[i] = newCell;
+    }
+
     const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag, state.autoPlay);
 
     return {
@@ -57,7 +69,7 @@ export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: 
       isPlaying: boardWithCellsRevealed.hasWon ? false : true,
       isDead: boardWithCellsRevealed.hasLost,
       isWinner: boardWithCellsRevealed.hasWon,
-      face: Faces.Happy,
+      face: boardWithCellsRevealed.hasWon ? Faces.Celebration : Faces.Happy,
       timer: 0
     }
   }

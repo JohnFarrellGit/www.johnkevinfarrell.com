@@ -1,6 +1,5 @@
+import { autoPlayer, autoFlagger } from ".";
 import { Cell } from "../types";
-import { autoFlagger } from "./autoFlagger";
-import { autoPlayer } from "./autoPlayer";
 
 export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean) => {
   const queue: number[] = [cellIndex];
@@ -14,12 +13,6 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
       isCovered: false
     }
 
-    let numberOfBombs = 0;
-    for (let i = 0; i < newCell.neighbors.length; i++) {
-      if (board[newCell.neighbors[i]]?.isBomb) numberOfBombs++;
-    }
-    newCell.neighborBombs = numberOfBombs;
-
     if (newCell.neighborBombs === 0) {
       for (let i = 0; i < newCell.neighbors.length; i++) {
         if (!visitedCells.has(newCell.neighbors[i]) && autoReveal) {
@@ -30,24 +23,19 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
     }
 
     board[currentCellIndex] = newCell;
-  }
 
-  if (autoFlag) {
-    board = autoFlagger(board);
-  }
+    if (autoFlag) {
+      board = [...autoFlagger(board)]
+    }
 
-  if (autoPlay) {
-    let keepPlaying = true;
-    while (keepPlaying) {
-      keepPlaying = false;
-
-      const { autoPlayedBoard, isUpdated } = autoPlayer(board);
-      keepPlaying = isUpdated;
-      board = [...autoPlayedBoard];
-      // some if condition that can set keep playing back to true
-      // what condition do we decide to uncover a cell?
-      // if we already know for sure that it's total number of bombs have already been found, we can uncover the other neighbors
-
+    if (autoPlay) {
+      const { newCellsToReveal } = autoPlayer(board)
+      newCellsToReveal.forEach(cell => {
+        if (!visitedCells.has(cell)) {
+          queue.push(cell);
+          visitedCells.add(cell)
+        }
+      });
     }
   }
 

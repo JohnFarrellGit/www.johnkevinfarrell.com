@@ -1,29 +1,39 @@
 import { Cell } from "../types";
-import { revealCells } from "./revealCells";
 
 export const autoPlayer = (board: Cell[]): {
-  autoPlayedBoard: Cell[],
-  isUpdated: boolean
+  autoPlayedBoard: Cell[], newCellsToReveal: number[]
 } => {
-  let isUpdated = false;
-  for (let i = 0; i < board.length; i++) {
-    const cell = board[i];
-    let neighborsFlagged = 0;
+  const newCellsToReveal: number[] = [];
 
-    for (let i = 0; i < cell.neighbors.length; i++) {
-      const neighborIndex = cell.neighbors[i];
-      if (board[neighborIndex].isFlagged) neighborsFlagged++;
+  for (let i = 0; i < board.length; i++) {
+
+    const cell = board[i];
+
+    if (cell.isCovered) continue;
+
+    if (!cell.isCovered && cell.neighborBombs === 0) {
+      newCellsToReveal.push(...cell.neighbors);
+      continue;
     }
 
-    if (cell.neighborBombs > 0 && neighborsFlagged === cell.neighborBombs) {
-      for (let i = 0; i < cell.neighbors.length; i++) {
-        const neighborIndex = cell.neighbors[i];
-        revealCells(neighborIndex, board, true, true, true)
+    let flaggedNeighbors = 0;
+    for (let j = 0; j < cell.neighbors.length; j++) {
+      const neighborCell = board[cell.neighbors[j]];
+      if (neighborCell.isFlagged) flaggedNeighbors++;
+    }
+
+    if (cell.neighborBombs === flaggedNeighbors) {
+      for (let j = 0; j < cell.neighbors.length; j++) {
+        const neighborCell = board[cell.neighbors[j]];
+        if (!neighborCell.isFlagged) {
+          newCellsToReveal.push(cell.neighbors[j])
+        }
       }
     }
   }
+
   return {
     autoPlayedBoard: board,
-    isUpdated
+    newCellsToReveal
   };
 }
