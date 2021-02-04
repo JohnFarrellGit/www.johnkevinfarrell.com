@@ -16,7 +16,7 @@ interface ProjectProps {
 
 const Project = ({ description, title, github, slug, projectImage, ariaLabel, index, tags }: ProjectProps) => {
   return (
-    <Link to={slug}>
+    <Link to={slug} aria-label={`link to project ${title}`}>
       <article className="project">
         <Image fluid={projectImage} className="project-img" alt={ariaLabel} />
         <div className="project-info">
@@ -33,12 +33,9 @@ const Project = ({ description, title, github, slug, projectImage, ariaLabel, in
             }
           </div>
           <div className="project-links">
-            <a href={github}>
-              <FaGithubSquare className="project-icon" />
+            <a href={github} >
+              <FaGithubSquare className="project-icon" aria-label="link to project code on github" />
             </a>
-            <Link to={slug}>
-              <FaShareSquare className="project-icon" />
-            </Link>
           </div>
         </div>
       </article>
