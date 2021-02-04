@@ -18,6 +18,8 @@ interface MinesweeperI {
   setLocalFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
   localCustomSettings: MinesweeperCustomSettings;
   setLocalCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
+  localAutoReveal: boolean;
+  setLocalAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
   gameState: State;
   dispatch: React.Dispatch<Action>;
 };
@@ -29,6 +31,8 @@ export const Minesweeper = ({
   setLocalFaceType,
   localCustomSettings,
   setLocalCustomSettings,
+  localAutoReveal,
+  setLocalAutoReveal,
   gameState,
   dispatch
 }: MinesweeperI) => {
@@ -88,6 +92,11 @@ export const Minesweeper = ({
     dispatch({ type: 'UpdateFaceType' });
   }, []);
 
+  const switchAutoReveal = useCallback(() => {
+    setLocalAutoReveal(!gameState.autoReveal);
+    dispatch({ type: 'AutoReveal' });
+  }, []);
+
   const gameCells = useMemo(() => gameState.display ?
     <PlayingContainer>
       <GridContainer columns={gameState.columns}>
@@ -128,8 +137,10 @@ export const Minesweeper = ({
       numberOfBombs={gameState.numberOfBombs}
       updateDifficulty={updateDifficulty}
       customSettings={localCustomSettings}
+      switchAutoReveal={switchAutoReveal}
+      autoReveal={localAutoReveal}
     />
-  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs]);
+  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs, gameState.autoReveal]);
 
   const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
     <PreviousResults

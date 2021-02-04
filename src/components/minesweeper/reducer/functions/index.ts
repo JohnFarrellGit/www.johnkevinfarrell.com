@@ -5,6 +5,7 @@ import { placeFlag } from './placeFlag';
 import { updateConfiguration } from './updateConfiguration';
 import { updateFaceType } from './updateFaceType';
 import { updateTimer } from './updateTimer';
+import { autoReveal } from './autoReveal';
 
 export {
   clickCell,
@@ -13,5 +14,6 @@ export {
   placeFlag,
   updateConfiguration,
   updateFaceType,
-  updateTimer
+  updateTimer,
+  autoReveal
 };

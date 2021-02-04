@@ -1,5 +1,5 @@
 import { Cell, Faces, FaceType, GameDifficulty } from "../types";
-import { clickCell, holdCell, init, placeFlag, updateConfiguration, updateFaceType, updateTimer } from "./functions";
+import { autoReveal, clickCell, holdCell, init, placeFlag, updateConfiguration, updateFaceType, updateTimer } from "./functions";
 
 export interface State {
   rows: number,
@@ -15,6 +15,7 @@ export interface State {
   faceType: FaceType;
   timer: number;
   display: boolean;
+  autoReveal: boolean;
 };
 
 export type Action =
@@ -27,6 +28,7 @@ export type Action =
   | { type: 'UpdateConfiguration', gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number }
   | { type: 'UpdateFaceType' }
   | { type: 'AddToScores' }
+  | { type: 'AutoReveal' }
 
 export const minesweeperReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -37,6 +39,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     case 'PlaceFlag': return placeFlag(state, action);
     case 'UpdateConfiguration': return updateConfiguration(state, action);
     case 'UpdateFaceType': return updateFaceType(state);
+    case 'AutoReveal': return autoReveal(state);
     default: return state;
   };
 };

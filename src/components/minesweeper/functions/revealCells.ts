@@ -1,6 +1,6 @@
 import { Cell } from "../types";
 
-export const revealCells = (cellIndex: number, board: Cell[]): {
+export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean): {
   board: Cell[],
   hasWon: boolean,
   hasLost: boolean
@@ -39,7 +39,7 @@ export const revealCells = (cellIndex: number, board: Cell[]): {
 
     if (newCell.neighborBombs === 0) {
       for (let i = 0; i < newCell.neighbors.length; i++) {
-        if (!visitedCells.has(newCell.neighbors[i])) {
+        if (!visitedCells.has(newCell.neighbors[i]) && autoReveal) {
           visitedCells.add(newCell.neighbors[i]);
           queue.push(newCell.neighbors[i]);
         }

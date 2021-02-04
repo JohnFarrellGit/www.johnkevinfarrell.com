@@ -18,7 +18,8 @@ export enum LocalStorageKeys {
   MinesweeperResults = 'minesweeper-results',
   MinesweeperDifficulty = 'minesweeper-difficulty',
   MinesweeperFace = 'minesweeper-face',
-  MinesweeperCustomSettings = 'minesweeper-custom-settings'
+  MinesweeperCustomSettings = 'minesweeper-custom-settings',
+  AutoReveal = 'minesweeper-auto-reveal'
 }
 
 interface Minesweeper {
@@ -26,6 +27,7 @@ interface Minesweeper {
   [LocalStorageKeys.MinesweeperDifficulty]: GameDifficulty;
   [LocalStorageKeys.MinesweeperFace]: FaceType;
   [LocalStorageKeys.MinesweeperCustomSettings]: MinesweeperCustomSettings;
+  [LocalStorageKeys.AutoReveal]: boolean;
 }
 
 export interface LocalStorage extends Minesweeper {
@@ -49,7 +51,8 @@ const LOCAL_STORAGE_DEFAULTS = {
     rows: 30,
     columns: 30,
     numberOfBombs: 200
-  }
+  },
+  [LocalStorageKeys.AutoReveal]: true
 };
 
 export const useLocalStorage = <T extends keyof LocalStorage>(key: T): LocalStorageReturnType<T> => {

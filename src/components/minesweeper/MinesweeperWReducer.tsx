@@ -18,7 +18,8 @@ const initialGameState = {
   faceType: FaceType.Regular,
   timer: 0,
   flagsPlaced: 0,
-  display: false
+  display: false,
+  autoReveal: true
 };
 
 interface MinesweeperI {
@@ -28,7 +29,9 @@ interface MinesweeperI {
   setLocalFaceType: React.Dispatch<React.SetStateAction<FaceType>>;
   localCustomSettings: MinesweeperCustomSettings;
   setLocalCustomSettings: React.Dispatch<React.SetStateAction<MinesweeperCustomSettings>>;
-};
+  localAutoReveal: boolean;
+  setLocalAutoReveal: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export const MinesweeperWReducer = ({
   localDifficulty,
@@ -36,7 +39,10 @@ export const MinesweeperWReducer = ({
   localFaceType,
   setLocalFaceType,
   localCustomSettings,
-  setLocalCustomSettings }: MinesweeperI) => {
+  setLocalCustomSettings,
+  localAutoReveal,
+  setLocalAutoReveal
+}: MinesweeperI) => {
 
   const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
 
@@ -48,6 +54,8 @@ export const MinesweeperWReducer = ({
       setLocalFaceType={setLocalFaceType}
       localCustomSettings={localCustomSettings}
       setLocalCustomSettings={setLocalCustomSettings}
+      localAutoReveal={localAutoReveal}
+      setLocalAutoReveal={setLocalAutoReveal}
       gameState={gameState}
       dispatch={dispatch}
     />

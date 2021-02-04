@@ -33,6 +33,7 @@ export const init = (action: { type: 'Init', gameDifficulty: GameDifficulty, fac
     face: Faces.Blank,
     timer: 0,
     flagsPlaced: 0,
-    display: true
+    display: true,
+    autoReveal: true
   };
 };
