@@ -8,7 +8,7 @@ import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { generateBoard, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
-import { getAutoFlag, getAutoPlay } from "./functions/getLocalStorage";
+import { getAutoFlag, getAutoPlay, getVisualize } from "./functions/getLocalStorage";
 import { minesweeperReducer } from "./reducer";
 import { Faces, FaceType, GameDifficulty } from "./types";
 
@@ -26,6 +26,8 @@ interface MinesweeperI {
     setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
     autoPlay: boolean;
     setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
+    visualize: boolean;
+    setVisualize: React.Dispatch<React.SetStateAction<boolean>>;
   };
 };
 
@@ -45,7 +47,8 @@ const initialGameState = {
   display: false,
   autoReveal: true,
   autoFlag: false,
-  autoPlay: false
+  autoPlay: false,
+  visualize: false
 };
 
 export const Minesweeper = ({ localStorage }: MinesweeperI) => {
@@ -64,7 +67,8 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
         faceType: getFaceType(localStorage.faceType),
         autoReveal: getAutoReveal(localStorage.autoReveal),
         autoFlag: getAutoFlag(localStorage.autoFlag),
-        autoPlay: getAutoPlay(localStorage.autoPlay)
+        autoPlay: getAutoPlay(localStorage.autoPlay),
+        visualize: getVisualize(localStorage.visualize)
       })
     } else {
       dispatch({
@@ -73,7 +77,8 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
         faceType: getFaceType(localStorage.faceType),
         autoReveal: getAutoReveal(localStorage.autoFlag),
         autoFlag: getAutoFlag(localStorage.autoFlag),
-        autoPlay: getAutoPlay(localStorage.autoPlay)
+        autoPlay: getAutoPlay(localStorage.autoPlay),
+        visualize: getVisualize(localStorage.visualize)
       })
     }
   }, []);
@@ -128,6 +133,11 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     dispatch({ type: 'AutoPlay' })
   }, []);
 
+  const switchVisualize = useCallback(() => {
+    localStorage.setVisualize((prev) => !prev);
+    dispatch({ type: 'Visualize' })
+  }, [])
+
   const gameCells = useMemo(() => gameState.display ?
     <PlayingContainer>
       <GridContainer columns={gameState.columns}>
@@ -174,8 +184,19 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
       autoFlag={localStorage.autoFlag}
       switchAutoPlay={switchAutoPlay}
       autoPlay={localStorage.autoPlay}
+      switchVisualize={switchVisualize}
+      visualize={localStorage.visualize}
     />
-  ), [gameState.isPlaying, gameState.rows, gameState.columns, gameState.numberOfBombs, gameState.autoReveal, gameState.autoFlag, gameState.autoPlay]);
+  ), [
+    gameState.isPlaying,
+    gameState.rows,
+    gameState.columns,
+    gameState.numberOfBombs,
+    gameState.autoReveal,
+    gameState.autoFlag,
+    gameState.autoPlay,
+    gameState.visualize
+  ]);
 
   const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
     <PreviousResults

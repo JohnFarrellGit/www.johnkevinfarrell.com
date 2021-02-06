@@ -19,6 +19,8 @@ interface GameOptionsI {
   autoFlag: boolean;
   switchAutoPlay: () => void;
   autoPlay: boolean;
+  switchVisualize: () => void;
+  visualize: boolean;
 }
 
 export const GameOptions = ({
@@ -34,7 +36,10 @@ export const GameOptions = ({
   switchAutoFlag,
   autoFlag,
   switchAutoPlay,
-  autoPlay }: GameOptionsI) => {
+  autoPlay,
+  visualize,
+  switchVisualize
+}: GameOptionsI) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -174,6 +179,12 @@ export const GameOptions = ({
                 <label htmlFor="auto-play">Auto Play</label>
                 <CheckBox onClick={handleClickAutoPlay} >
                   {autoPlay ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
+                </CheckBox>
+              </OptionItem>
+              <OptionItem>
+                <label htmlFor="visualize">Visualizer</label>
+                <CheckBox onClick={switchVisualize} >
+                  {visualize ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
                 </CheckBox>
               </OptionItem>
             </OptionsContainer>

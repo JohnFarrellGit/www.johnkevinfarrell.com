@@ -1,8 +1,6 @@
 import { Cell } from "../types";
 
-export const autoPlayer = (board: Cell[]): {
-  autoPlayedBoard: Cell[], newCellsToReveal: number[]
-} => {
+export const autoPlayer = (board: Cell[]): { newCellsToReveal: number[] } => {
   const newCellsToReveal: number[] = [];
 
   for (let i = 0; i < board.length; i++) {
@@ -33,7 +31,6 @@ export const autoPlayer = (board: Cell[]): {
   }
 
   return {
-    autoPlayedBoard: board,
     newCellsToReveal
   };
 }

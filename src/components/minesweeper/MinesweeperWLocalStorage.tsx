@@ -11,6 +11,7 @@ export const MinesweeperWLocalStorage = () => {
   const { localStorageValue: autoReveal, setLocalStorageValue: setAutoReveal } = useLocalStorage(LocalStorageKeys.AutoReveal);
   const { localStorageValue: autoFlag, setLocalStorageValue: setAutoFlag } = useLocalStorage(LocalStorageKeys.AutoFlag);
   const { localStorageValue: autoPlay, setLocalStorageValue: setAutoPlay } = useLocalStorage(LocalStorageKeys.AutoPlay);
+  const { localStorageValue: visualize, setLocalStorageValue: setVisualize } = useLocalStorage(LocalStorageKeys.Visualize);
 
   const localStorage: {
     difficulty: GameDifficulty;
@@ -25,6 +26,8 @@ export const MinesweeperWLocalStorage = () => {
     setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
     autoPlay: boolean;
     setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
+    visualize: boolean;
+    setVisualize: React.Dispatch<React.SetStateAction<boolean>>;
   } = {
     difficulty,
     setDifficulty,
@@ -37,7 +40,9 @@ export const MinesweeperWLocalStorage = () => {
     autoFlag,
     setAutoFlag,
     autoPlay,
-    setAutoPlay
+    setAutoPlay,
+    visualize,
+    setVisualize
   }
 
   return (

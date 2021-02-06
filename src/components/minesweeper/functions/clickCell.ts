@@ -1,4 +1,4 @@
-import { autoPlayer, autoFlagger } from ".";
+import { autoPlayer, autoFlagger, autoPlayerProbabilistic } from ".";
 import { Cell } from "../types";
 
 export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean) => {
@@ -38,6 +38,8 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
       });
     }
   }
+
+  autoPlayerProbabilistic(board);
 
   return board;
 }
