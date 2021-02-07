@@ -10,7 +10,7 @@ export const init = (action: {
   autoReveal: boolean,
   autoFlag: boolean,
   autoPlay: boolean,
-  visualize: boolean,
+  showVisual: boolean,
   customDifficulty?: { rows: number, columns: number, numberOfBombs: number }
 }): State => {
   let rows: number;
@@ -27,7 +27,7 @@ export const init = (action: {
     numberOfBombs = mapDifficultyToGameBoard[action.gameDifficulty].numberOfBombs;
   }
 
-  const board = generateBoard(rows, columns);
+  const { board } = generateBoard(rows, columns, false);
 
   return {
     gameDifficulty: action.gameDifficulty,
@@ -45,6 +45,7 @@ export const init = (action: {
     autoReveal: action.autoReveal,
     autoFlag: action.autoFlag,
     autoPlay: action.autoPlay,
-    visualize: action.visualize
+    showVisual: action.showVisual,
+    visualSteps: []
   };
 };

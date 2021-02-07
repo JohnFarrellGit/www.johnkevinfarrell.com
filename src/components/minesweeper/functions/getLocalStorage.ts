@@ -1,6 +1,5 @@
 import { MinesweeperCustomSettings } from "../../../common/hooks/useLocalStorage";
 import { mapDifficultyToGameBoard } from "../constants";
-import { visualize } from "../reducer/functions";
 import { FaceType, GameDifficulty } from "../types";
 
 export const getGameDifficulty = (gameDifficulty: GameDifficulty): GameDifficulty => {
@@ -85,7 +84,7 @@ export const getAutoPlay = (autoPlay: boolean): boolean => {
   return autoPlay;
 }
 
-export const getVisualize = (visualize: boolean): boolean => {
+export const getShowVisual = (visualize: boolean): boolean => {
   if (typeof visualize !== 'boolean') {
     return false;
   }

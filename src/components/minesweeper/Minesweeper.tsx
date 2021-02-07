@@ -7,8 +7,8 @@ import Layout from "../Layout";
 import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
-import { generateBoard, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./functions";
-import { getAutoFlag, getAutoPlay, getVisualize } from "./functions/getLocalStorage";
+import { VisualizerInformation } from "./components/VisualizerInformation";
+import { generateBoard, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty, getAutoFlag, getAutoPlay, getShowVisual } from "./functions";
 import { minesweeperReducer } from "./reducer";
 import { Faces, FaceType, GameDifficulty } from "./types";
 
@@ -36,7 +36,7 @@ const initialGameState = {
   rows: 10,
   columns: 10,
   numberOfBombs: 10,
-  board: generateBoard(10, 10),
+  board: generateBoard(10, 10, false).board,
   isPlaying: false,
   isDead: false,
   isWinner: false,
@@ -48,7 +48,8 @@ const initialGameState = {
   autoReveal: true,
   autoFlag: false,
   autoPlay: false,
-  visualize: false
+  showVisual: false,
+  visualSteps: []
 };
 
 export const Minesweeper = ({ localStorage }: MinesweeperI) => {
@@ -68,7 +69,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
         autoReveal: getAutoReveal(localStorage.autoReveal),
         autoFlag: getAutoFlag(localStorage.autoFlag),
         autoPlay: getAutoPlay(localStorage.autoPlay),
-        visualize: getVisualize(localStorage.visualize)
+        showVisual: getShowVisual(localStorage.visualize)
       })
     } else {
       dispatch({
@@ -78,10 +79,26 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
         autoReveal: getAutoReveal(localStorage.autoFlag),
         autoFlag: getAutoFlag(localStorage.autoFlag),
         autoPlay: getAutoPlay(localStorage.autoPlay),
-        visualize: getVisualize(localStorage.visualize)
+        showVisual: getShowVisual(localStorage.visualize)
       })
     }
   }, []);
+
+  useEffect(() => {
+    if (gameState.visualSteps?.length >= 0) {
+      // set interval loop through them whilst sending correct updates to our reducer!
+      // if visual display is on we don't actually want to make the changes until here,
+      // basically bank them all then loop through them in order displaying!
+      // post cell display you also apply the change!
+      if (gameState.visualSteps[0]) {
+        setTimeout(() => {
+          dispatch({ type: 'VisualDisplay', visualSteps: gameState.visualSteps });
+        }, gameState.visualSteps[0].baseIntervalTimeMs)
+      } else {
+        // we might want to clear but not too quickly?
+      }
+    }
+  }, [gameState.visualSteps?.length])
 
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 
@@ -135,8 +152,10 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
 
   const switchVisualize = useCallback(() => {
     localStorage.setVisualize((prev) => !prev);
-    dispatch({ type: 'Visualize' })
+    dispatch({ type: 'SwitchShowVisual' })
   }, [])
+
+  const visualizerInformation = useMemo(() => gameState.showVisual ? <VisualizerInformation changeType={gameState.visualSteps[0]?.changeType} /> : null, [gameState.visualSteps?.length])
 
   const gameCells = useMemo(() => gameState.display ?
     <PlayingContainer>
@@ -154,6 +173,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
               rightClick={rightClickCell}
               holdCell={holdCell}
               key={gameCell.id}
+              color={gameCell.visualCellOptions ? gameCell.visualCellOptions.color : undefined}
             />
           ))
         }
@@ -195,7 +215,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     gameState.autoReveal,
     gameState.autoFlag,
     gameState.autoPlay,
-    gameState.visualize
+    gameState.showVisual
   ]);
 
   const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
@@ -214,6 +234,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
       <Main>
         <GameContainer columns={gameState.columns}>
           {gameOptions}
+          {visualizerInformation}
           <GameStatus
             bombsLeft={gameState.numberOfBombs - gameState.board.filter((el) => el.isFlagged).length}
             totalBombs={gameState.numberOfBombs}

@@ -1,4 +1,11 @@
-import { Cell, Faces, FaceType, GameDifficulty } from "../types";
+import {
+  Cell,
+  Faces,
+  FaceType,
+  GameDifficulty,
+  VisualOption
+} from "../types";
+
 import {
   autoFlag,
   autoPlay,
@@ -10,7 +17,8 @@ import {
   updateConfiguration,
   updateFaceType,
   updateTimer,
-  visualize
+  switchShowVisual,
+  visualDisplay
 } from "./functions";
 
 export interface State {
@@ -29,11 +37,12 @@ export interface State {
   autoReveal: boolean;
   autoFlag: boolean;
   autoPlay: boolean;
-  visualize: boolean;
+  showVisual: boolean;
+  visualSteps: VisualOption[];
 };
 
 export type Action =
-  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, visualize: boolean, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }
+  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, showVisual: boolean, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }
   | { type: 'UpdateTimer' }
   | { type: 'HoldCell', cellIndex: number }
   | { type: 'ClickCell', cellIndex: number }
@@ -45,7 +54,8 @@ export type Action =
   | { type: 'AutoReveal' }
   | { type: 'AutoFlag' }
   | { type: 'AutoPlay' }
-  | { type: 'Visualize' }
+  | { type: 'SwitchShowVisual' }
+  | { type: 'VisualDisplay', visualSteps: VisualOption[] }
 
 export const minesweeperReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -59,7 +69,8 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     case 'AutoReveal': return autoReveal(state);
     case 'AutoFlag': return autoFlag(state);
     case 'AutoPlay': return autoPlay(state);
-    case 'Visualize': return visualize(state);
+    case 'SwitchShowVisual': return switchShowVisual(state);
+    case 'VisualDisplay': return visualDisplay(state, action);
     default: return state;
   };
 };

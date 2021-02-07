@@ -8,7 +8,8 @@ import { updateTimer } from './updateTimer';
 import { autoReveal } from './autoReveal';
 import { autoFlag } from './autoFlag';
 import { autoPlay } from './autoPlay';
-import { visualize } from './visualize';
+import { switchShowVisual } from './switchShowVisual';
+import { visualDisplay } from './visualDisplay';
 
 export {
   clickCell,
@@ -21,5 +22,6 @@ export {
   autoReveal,
   autoFlag,
   autoPlay,
-  visualize
+  switchShowVisual,
+  visualDisplay
 };

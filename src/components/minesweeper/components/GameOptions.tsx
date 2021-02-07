@@ -100,6 +100,11 @@ export const GameOptions = ({
     switchAutoPlay();
   }
 
+  const handleClickVisualize = () => {
+    if (isPlaying) return;
+    switchVisualize();
+  }
+
   return (
     <>
       <GameConfiguration>
@@ -183,7 +188,7 @@ export const GameOptions = ({
               </OptionItem>
               <OptionItem>
                 <label htmlFor="visualize">Visualizer</label>
-                <CheckBox onClick={switchVisualize} >
+                <CheckBox onClick={handleClickVisualize} >
                   {visualize ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
                 </CheckBox>
               </OptionItem>

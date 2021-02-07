@@ -1,3 +1,7 @@
+interface VisualCellOptions {
+  color: string;
+}
+
 export interface Cell {
   id: number;
   isBomb: boolean;
@@ -5,6 +9,7 @@ export interface Cell {
   isFlagged: boolean;
   neighbors: number[];
   neighborBombs: number;
+  visualCellOptions?: VisualCellOptions;
 }
 
 export enum GameDifficulty {
@@ -25,4 +30,25 @@ export enum Faces {
   Happy,
   Dizzy,
   Celebration
+}
+
+export interface VisualCellInformation {
+  cellIndex: number;
+  color: string;
+}
+
+export enum ChangeType {
+  GenerateBoard,
+  GenerateNeighbors,
+  ShuffleBombs,
+  CalculateNeighborBombs,
+  RevealClickedCell,
+  RevealClickedCellAndNeighbors
+}
+
+export interface VisualOption {
+  baseIntervalTimeMs: number;
+  cells: VisualCellInformation[];
+  changeType: ChangeType;
+  board?: Cell[];
 }

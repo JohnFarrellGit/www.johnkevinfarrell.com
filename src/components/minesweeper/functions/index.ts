@@ -4,7 +4,7 @@ import { autoPlayer } from "./autoPlayer";
 import { autoPlayerProbabilistic } from "./autoPlayerProbabilistic";
 import { generateBoard } from "./generateBoard";
 import { generateNeighbors } from "./generateNeighbors";
-import { getAutoPlay, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty } from "./getLocalStorage";
+import { getAutoFlag, getAutoPlay, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty, getShowVisual } from "./getLocalStorage";
 import { revealCells } from "./revealCells";
 
 export {
@@ -18,5 +18,7 @@ export {
   getFaceType,
   getCustomBoardConfig,
   getAutoReveal,
-  getAutoPlay
+  getAutoPlay,
+  getAutoFlag,
+  getShowVisual
 }

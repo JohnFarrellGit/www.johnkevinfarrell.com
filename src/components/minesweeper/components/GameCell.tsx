@@ -8,12 +8,13 @@ interface GameCellI {
   isFlagged: boolean;
   isWinner: boolean;
   neighborBombs: number;
+  color?: string;
   leftClick: (cellIndex: number) => void;
   holdCell: (cellIndex: number) => void;
   rightClick: (cellIndex: number) => void;
 }
 
-export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs, id, leftClick, holdCell, rightClick }: GameCellI) => {
+export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs, id, color, leftClick, holdCell, rightClick }: GameCellI) => {
 
   const leftClickCell = useCallback(() => {
     leftClick(id);
@@ -42,6 +43,7 @@ export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs
       onClick={leftClickCell}
       onMouseDown={mouseDownCell}
       onContextMenu={rightClickCell}
+      color={color}
     >
       <CellDisplay
         neighborBombs={neighborBombs}
@@ -57,6 +59,7 @@ export const GameCell = ({ isCovered, isBomb, isFlagged, isWinner, neighborBombs
 interface CellContainerI {
   isCovered: boolean;
   isBomb: boolean;
+  color?: string;
 };
 
 const CellContainer = styled.div`
@@ -70,9 +73,10 @@ const CellContainer = styled.div`
   border-bottom: ${(props: CellContainerI) => (props.isCovered ? '2px solid 7B7B7B' : '1px solid #7B7B7B')};
 
   background-color: ${(props: CellContainerI) => (
-    props.isCovered ? '#BDBDBD' :
-      props.isBomb ? '#FF6666'
-        : '#C2C2C2'
+    props.color ? props.color :
+      props.isCovered ? '#BDBDBD' :
+        props.isBomb ? '#FF6666'
+          : '#C2C2C2'
   )};
 
   display: flex;

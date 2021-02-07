@@ -38,7 +38,7 @@ export const autoPlayerProbabilistic = (board: Cell[]): { newCellsToReveal: numb
       }
     }
 
-    console.log("🚀 ~ file: autoPlayerProbabilistic.ts ~ line 49 ~ permutationCells", permutationCells)
+    // console.log("🚀 ~ file: autoPlayerProbabilistic.ts ~ line 49 ~ permutationCells", permutationCells)
   }
 
   // we then create every permutation of bomb spots possible, we count the number of valid permutations, we count how often bombs appeared in each cell
