@@ -90,6 +90,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
       // if visual display is on we don't actually want to make the changes until here,
       // basically bank them all then loop through them in order displaying!
       // post cell display you also apply the change!
+
       if (gameState.visualSteps[0]) {
         setTimeout(() => {
           dispatch({ type: 'VisualDisplay', visualSteps: gameState.visualSteps });
@@ -98,7 +99,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
         // we might want to clear but not too quickly?
       }
     }
-  }, [gameState.visualSteps?.length])
+  }, [gameState.visualSteps.length])
 
   useInterval(() => dispatch({ type: 'UpdateTimer' }), 1000);
 

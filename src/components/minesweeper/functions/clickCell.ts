@@ -25,15 +25,17 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
       ...board[currentCellIndex],
       isCovered: false
     }
+    board[currentCellIndex] = newCell;
 
     if (newCell.neighborBombs === 0) {
       for (let i = 0; i < newCell.neighbors.length; i++) {
         // only recursively reveal empty neighbor cells if autoReveal is toggled on by user
         if (!visitedCells.has(newCell.neighbors[i]) && autoReveal) {
-          visitedCells.add(newCell.neighbors[i]);
-          queue.push(newCell.neighbors[i]);
 
           if (returnVisualSteps) {
+            visitedCells.add(newCell.neighbors[i]);
+            queue.push(newCell.neighbors[i]);
+
             recursivelyReveal.push(newCell.neighbors[i])
             visualSteps.push({
               baseIntervalTimeMs: 100,
@@ -44,17 +46,38 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
                 cellIndex,
                 color: '#54d18c'
               }))],
-              changeType: ChangeType.RevealClickedCellAndNeighbors
+              changeType: ChangeType.RevealClickedCellAndNeighbors,
+              board
             })
           }
         }
       }
     }
 
-    board[currentCellIndex] = newCell;
+    // if (returnVisualSteps) {
+    //   visualSteps.push({
+    //     baseIntervalTimeMs: 100,
+    //     cells: [{
+    //       cellIndex: cellIndex,
+    //       color: '#1f7344'
+    //     }, ...recursivelyReveal.map((cellIndex) => ({
+    //       cellIndex,
+    //       color: '#54d18c'
+    //     }))],
+    //     changeType: ChangeType.RevealClickedCellAndNeighbors,
+    //     board
+    //   })
+    // }
+
+    if (!returnVisualSteps) {
+      board[currentCellIndex] = newCell;
+    }
 
     if (autoFlag) {
-      board = [...autoFlagger(board)]
+      const { board: flaggedBoard, visualSteps: flaggedVisualSteps } = autoFlagger(board, returnVisualSteps);
+      console.log("🚀 ~ file: clickCell.ts ~ line 58 ~ clickCell ~ flaggedVisualSteps", flaggedVisualSteps)
+      board = [...flaggedBoard]
+      visualSteps.push(...flaggedVisualSteps)
     }
 
     if (autoPlay) {
@@ -68,7 +91,7 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
     }
   }
 
-  autoPlayerProbabilistic(board);
+  // autoPlayerProbabilistic(board);
 
   return {
     board,

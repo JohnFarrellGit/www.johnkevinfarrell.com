@@ -43,7 +43,8 @@ export enum ChangeType {
   ShuffleBombs,
   CalculateNeighborBombs,
   RevealClickedCell,
-  RevealClickedCellAndNeighbors
+  RevealClickedCellAndNeighbors,
+  LookForCellsToFlag
 }
 
 export interface VisualOption {

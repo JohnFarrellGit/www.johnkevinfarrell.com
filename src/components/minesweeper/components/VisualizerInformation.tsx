@@ -12,6 +12,7 @@ const mapChangeTypeToText = {
   [ChangeType.CalculateNeighborBombs]: 'Calculate Number of Bombs in Neighbor Cells',
   [ChangeType.RevealClickedCell]: 'Revealing Clicked Cell',
   [ChangeType.RevealClickedCellAndNeighbors]: 'Revealing Clicked Cell and recursively surrounding cells if 0 bombs present',
+  [ChangeType.LookForCellsToFlag]: 'Looking for bombs to flag'
 }
 
 export const VisualizerInformation = ({ changeType }: VisualizerInformationI) => {

@@ -1,5 +1,5 @@
-import { Cell, VisualOption } from "../types";
-import { clickCell } from "./clickCell";
+import { Cell, VisualOption } from "../../types";
+import { clickCell } from "../clickCell";
 
 export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, returnVisualSteps: boolean): {
   board: Cell[],
@@ -23,12 +23,14 @@ export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolea
     }
   }
 
-  const { board: board1, visualSteps } = clickCell(board, cellIndex, autoReveal, autoFlag, autoPlay, returnVisualSteps);
+  const { board: revealedBoard, visualSteps } = clickCell(board, cellIndex, autoReveal, autoFlag, autoPlay, returnVisualSteps);
 
-  board = board1;
+  if (returnVisualSteps) {
+    board = revealedBoard;
+  }
 
   const hasWon = board.filter(cell => !cell.isCovered).length === board.filter(cell => !cell.isBomb).length;
-  if (hasWon) {
+  if (hasWon && !returnVisualSteps) {
     for (let i = 0; i < board.length; i++) {
       board[i] = {
         ...board[i],

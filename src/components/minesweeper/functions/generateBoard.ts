@@ -14,6 +14,7 @@ export const generateBoard = (rows: number, columns: number, returnVisualSteps: 
 
   const visualSteps: VisualOption[] = [];
   if (returnVisualSteps) {
+
     for (let cellIndex = 0; cellIndex < board.length; cellIndex++) {
       visualSteps.push({
         baseIntervalTimeMs: 5,
@@ -29,25 +30,26 @@ export const generateBoard = (rows: number, columns: number, returnVisualSteps: 
 
       const neighbors = generateNeighbors(cellIndex, columns, rows)
 
-      const cells = [{
-        cellIndex,
-        color: '#00aeff',
-      }]
+      if (returnVisualSteps) {
+        const cells = [{
+          cellIndex,
+          color: '#00aeff',
+        }]
 
-      for (let i = 0; i < neighbors.length; i++) {
-        cells.push({
-          cellIndex: neighbors[i],
-          color: '#957DAD'
+        for (let i = 0; i < neighbors.length; i++) {
+          cells.push({
+            cellIndex: neighbors[i],
+            color: '#957DAD'
+          })
+        }
+
+        visualSteps.push({
+          baseIntervalTimeMs: 10,
+          cells,
+          changeType: ChangeType.GenerateNeighbors
         })
       }
-
-      visualSteps.push({
-        baseIntervalTimeMs: 10,
-        cells,
-        changeType: ChangeType.GenerateNeighbors
-      })
     }
-
   }
 
   return {

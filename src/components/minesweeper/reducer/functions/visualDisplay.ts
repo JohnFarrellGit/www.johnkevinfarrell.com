@@ -4,12 +4,6 @@ import { VisualOption } from "../../types";
 export const visualDisplay = (state: State, action: { visualSteps: VisualOption[] }) => {
 
   const [newVisual, ...remainingVisualSteps] = action.visualSteps;
-  console.log("🚀 ~ file: visualDisplay.ts ~ line 7 ~ visualDisplay ~ newVisual", newVisual)
-
-  // so loop over board, remove old visual choice
-  // apply new visual choice
-  // return new board
-  // return new visual steps with 0th item removed
 
   const newBoard = newVisual?.board !== undefined ? [...newVisual.board] : [...state.board];
 
