@@ -20,7 +20,8 @@ export const generateBoard = (rows: number, columns: number, returnVisualSteps: 
           cellIndex,
           color: '#00aeff',
         }],
-        changeType: ChangeType.GenerateBoard
+        changeType: ChangeType.GenerateBoard,
+        board
       })
     }
   }
