@@ -36,7 +36,7 @@ const initialGameState = {
   rows: 10,
   columns: 10,
   numberOfBombs: 10,
-  board: generateBoard(10, 10, false).board,
+  board: [],
   isPlaying: false,
   isDead: false,
   isWinner: false,
@@ -97,6 +97,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
         }, gameState.visualSteps[0].baseIntervalTimeMs)
       } else {
         // we might want to clear but not too quickly?
+        console.log("end of visualiser")
       }
     }
   }, [gameState.visualSteps.length])

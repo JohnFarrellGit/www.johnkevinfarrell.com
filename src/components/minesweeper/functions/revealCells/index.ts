@@ -25,10 +25,6 @@ export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolea
 
   const { board: revealedBoard, visualSteps } = clickCell(board, cellIndex, autoReveal, autoFlag, autoPlay, returnVisualSteps);
 
-  if (returnVisualSteps) {
-    board = revealedBoard;
-  }
-
   const hasWon = board.filter(cell => !cell.isCovered).length === board.filter(cell => !cell.isBomb).length;
   if (hasWon && !returnVisualSteps) {
     for (let i = 0; i < board.length; i++) {

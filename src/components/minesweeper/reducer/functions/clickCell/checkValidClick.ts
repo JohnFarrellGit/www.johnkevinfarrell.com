@@ -5,13 +5,16 @@ export const checkValidClick = (state: State, action: { type: 'ClickCell', cellI
   if (state.isPlaying && (!state.board[action.cellIndex].isCovered || state.board[action.cellIndex].isFlagged)) {
     return {
       validClick: false,
-      newState: {
+      gameState: {
         ...state,
         face: Faces.Happy
       }
     }
   }
   return {
-    validClick: true
+    validClick: true,
+    gameState: {
+      ...state
+    }
   }
 }

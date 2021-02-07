@@ -1,7 +1,6 @@
 import { Cell, ChangeType, VisualOption } from "../types";
 
 export const autoFlagger = (board: Cell[], returnVisualSteps: boolean) => {
-  console.log("🚀 ~ file: autoFlagger.ts ~ line 4 ~ autoFlagger ~ returnVisualSteps", returnVisualSteps)
 
   const visualSteps: VisualOption[] = [];
 
@@ -23,7 +22,6 @@ export const autoFlagger = (board: Cell[], returnVisualSteps: boolean) => {
             if (board[neighborIndex].isCovered) {
               board[neighborIndex].isFlagged = true;
               flaggedIndexes.push(neighborIndex);
-              console.log("🚀 ~ file: autoFlagger.ts ~ line 26 ~ autoFlagger ~ flaggedIndexes", flaggedIndexes)
             }
           }
         }
@@ -47,7 +45,6 @@ export const autoFlagger = (board: Cell[], returnVisualSteps: boolean) => {
     }
   }
 
-  console.log("🚀 ~ file: autoFlagger.ts ~ line 35 ~ autoFlagger ~ visualSteps", visualSteps)
   return {
     board,
     visualSteps

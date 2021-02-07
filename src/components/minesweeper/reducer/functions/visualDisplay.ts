@@ -7,14 +7,17 @@ export const visualDisplay = (state: State, action: { visualSteps: VisualOption[
 
   const newBoard = newVisual?.board !== undefined ? [...newVisual.board] : [...state.board];
 
+  // clear all visual display options on every render (faster if we don't do this(?))
   for (let i = 0; i < newBoard.length; i++) {
     newBoard[i].visualCellOptions = undefined;
   }
 
   for (let i = 0; i < newVisual?.cells.length; i++) {
     const cellIndex = newVisual.cells[i].cellIndex;
-    newBoard[cellIndex].visualCellOptions = {
-      color: newVisual.cells[i].color
+    if (newBoard[cellIndex]) {
+      newBoard[cellIndex].visualCellOptions = {
+        color: newVisual.cells[i].color
+      }
     }
   }
 

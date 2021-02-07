@@ -5,7 +5,7 @@ export const countNeighborBombs = (state: State, board: Cell[]) => {
   const visualSteps: VisualOption[] = []
 
   for (let i = 0; i < board.length; i++) {
-    const newCell = { ...board[i] };
+    const newCell = board[i];
     let numberOfBombs = 0;
 
     const cells: VisualCellInformation[] = [];

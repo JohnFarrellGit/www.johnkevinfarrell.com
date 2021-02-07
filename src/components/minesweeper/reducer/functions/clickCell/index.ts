@@ -8,14 +8,9 @@ import { resetGame } from "./resetGame";
 export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: number }) => {
   const newBoard = [...state.board];
 
-  const { validClick, newState } = checkValidClick(state, action);
+  const { validClick, gameState } = checkValidClick(state, action);
   if (!validClick) {
-    if (newState !== undefined) {
-      return newState;
-    }
-    return {
-      ...state
-    };
+    return gameState;
   }
 
   if (state.isDead || state.isWinner) {
