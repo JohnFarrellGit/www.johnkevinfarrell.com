@@ -13,7 +13,9 @@ export const countNeighborBombs = (state: State, board: Cell[]) => {
     if (state.showVisual) {
       cells.push({
         cellIndex: i,
-        color: '#00aeff'
+        color: '#00aeff',
+        uncover: false,
+        neighborBombs: 0
       })
     }
 
@@ -25,7 +27,9 @@ export const countNeighborBombs = (state: State, board: Cell[]) => {
       if (state.showVisual) {
         cells.push({
           cellIndex: neighborIndex,
-          color: neighborIsBomb ? '#FF6666' : '#3CB371'
+          color: neighborIsBomb ? '#FF6666' : '#3CB371',
+          uncover: false,
+          neighborBombs: 0
         })
       }
     }

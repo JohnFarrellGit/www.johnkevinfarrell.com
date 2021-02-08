@@ -35,6 +35,8 @@ export enum Faces {
 export interface VisualCellInformation {
   cellIndex: number;
   color: string;
+  uncover: boolean;
+  neighborBombs: number;
 }
 
 export enum ChangeType {
@@ -50,6 +52,5 @@ export enum ChangeType {
 export interface VisualOption {
   baseIntervalTimeMs: number;
   cells: VisualCellInformation[];
-  changeType: ChangeType;
-  board?: Cell[];
+  changeType: ChangeType
 }

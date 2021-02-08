@@ -1,4 +1,5 @@
 import { autoPlayer, autoFlagger, autoPlayerProbabilistic } from ".";
+import { CLICK_CELL_COLOR, CLICK_CELL_TIME, RECURSIVELY_REVEAL_CELL_COLOR, RECURSIVE_REVEAL_TIME } from "../constants";
 import { Cell, ChangeType, VisualOption } from "../types";
 
 export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, returnVisualSteps: boolean) => {
@@ -10,10 +11,12 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
 
   if (returnVisualSteps) {
     visualSteps.push({
-      baseIntervalTimeMs: 250,
+      baseIntervalTimeMs: CLICK_CELL_TIME,
       cells: [{
         cellIndex: cellIndex,
-        color: '#1f7344'
+        color: CLICK_CELL_COLOR,
+        uncover: true,
+        neighborBombs: board[cellIndex].neighborBombs
       }],
       changeType: ChangeType.RevealClickedCell
     });
@@ -32,25 +35,29 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
 
       if (newCell.neighborBombs === 0) {
         for (let i = 0; i < newCell.neighbors.length; i++) {
-          // only recursively reveal empty neighbor cells if autoReveal is toggled on by user
+
           if (!visitedCells.has(newCell.neighbors[i]) && autoReveal) {
 
             if (returnVisualSteps) {
               visitedCells.add(newCell.neighbors[i]);
               queue.push(newCell.neighbors[i]);
+              recursivelyReveal.push(newCell.neighbors[i]);
 
-              recursivelyReveal.push(newCell.neighbors[i])
               visualSteps.push({
-                baseIntervalTimeMs: 100,
+                baseIntervalTimeMs: RECURSIVE_REVEAL_TIME,
                 cells: [{
-                  cellIndex: cellIndex,
-                  color: '#1f7344'
+                  cellIndex,
+                  color: CLICK_CELL_COLOR,
+                  uncover: true,
+                  neighborBombs: board[currentCellIndex].neighborBombs
                 }, ...recursivelyReveal.map((cellIndex) => ({
                   cellIndex,
-                  color: '#54d18c'
+                  color: RECURSIVELY_REVEAL_CELL_COLOR,
+                  uncover: true,
+                  neighborBombs: board[cellIndex].neighborBombs
                 }))],
                 changeType: ChangeType.RevealClickedCellAndNeighbors
-              })
+              });
             }
           }
         }
@@ -96,8 +103,6 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
   }
 
   // autoPlayerProbabilistic(board);
-
-  console.log("🚀 ~ file: clickCell.ts ~ line 10 ~ clickCell ~ visualSteps", visualSteps)
 
   return {
     board,

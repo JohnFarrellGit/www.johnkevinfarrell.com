@@ -5,27 +5,28 @@ export const visualDisplay = (state: State, action: { visualSteps: VisualOption[
 
   const [newVisual, ...remainingVisualSteps] = action.visualSteps;
 
-  const newBoard = newVisual?.board !== undefined ? [...newVisual.board] : [...state.board];
+  const board = [...state.board];
 
-  // clear all visual display options on every render (faster if we don't do this(?))
-  for (let i = 0; i < newBoard.length; i++) {
-    newBoard[i].visualCellOptions = undefined;
+  for (let i = 0; i < board.length; i++) {
+    board[i].visualCellOptions = undefined;
   }
 
-  for (let i = 0; i < newVisual?.cells.length; i++) {
-    const cellIndex = newVisual.cells[i].cellIndex;
-    if (newBoard[cellIndex]) {
-      newBoard[cellIndex].visualCellOptions = {
+  if (newVisual && newVisual.cells.length > 0) {
+    for (let i = 0; i < newVisual.cells.length; i++) {
+      const cellIndex = newVisual.cells[i].cellIndex;
+      board[cellIndex].visualCellOptions = {
         color: newVisual.cells[i].color
       }
+      if (newVisual.cells[i].uncover) {
+        board[cellIndex].isCovered = false;
+      }
+      board[cellIndex].neighborBombs = newVisual.cells[i].neighborBombs;
     }
   }
 
-  // we should pass the new board everytime we make the visual change, then when visual display steps is length of 0 we can actually update the board to what it is
-
   return {
     ...state,
-    board: newBoard,
+    board,
     visualSteps: remainingVisualSteps
   }
 }

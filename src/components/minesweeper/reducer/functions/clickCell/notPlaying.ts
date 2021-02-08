@@ -8,8 +8,6 @@ import { placeBombs } from "./placeBombs";
 export const notPlaying = (state: State, action: { type: 'ClickCell', cellIndex: number }) => {
   const visualSteps: VisualOption[] = [];
 
-  console.log("not playing")
-
   const { board: boardAfterGenerate, visualSteps: generateBoardVisualSteps } = generateBoard(state.rows, state.columns, state.showVisual);
   // console.log("🚀 ~ file: notPlaying.ts ~ line 12 ~ notPlaying ~ boardAfterGenerate", boardAfterGenerate)
   visualSteps.push(...generateBoardVisualSteps);

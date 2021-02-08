@@ -32,11 +32,15 @@ export const autoFlagger = (board: Cell[], returnVisualSteps: boolean) => {
       visualSteps.push({
         cells: [{
           cellIndex: i,
-          color: '#00aeff'
+          color: '#00aeff',
+          uncover: false,
+          neighborBombs: 0
         },
         ...flaggedIndexes.map((cellIndex) => ({
           cellIndex,
-          color: '#FF6666'
+          color: '#FF6666',
+          uncover: false,
+          neighborBombs: 0
         }))
         ],
         baseIntervalTimeMs: 50,

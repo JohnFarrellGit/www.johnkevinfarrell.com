@@ -19,9 +19,10 @@ export const generateBoard = (rows: number, columns: number, returnVisualSteps: 
         cells: [{
           cellIndex,
           color: '#00aeff',
+          uncover: false,
+          neighborBombs: 0
         }],
-        changeType: ChangeType.GenerateBoard,
-        board
+        changeType: ChangeType.GenerateBoard
       })
     }
   }
