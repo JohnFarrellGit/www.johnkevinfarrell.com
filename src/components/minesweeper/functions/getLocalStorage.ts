@@ -90,3 +90,10 @@ export const getShowVisual = (visualize: boolean): boolean => {
   }
   return visualize;
 }
+
+export const getEdgelessMode = (edgelessMode: boolean): boolean => {
+  if (typeof edgelessMode !== 'boolean') {
+    return false;
+  }
+  return edgelessMode;
+}

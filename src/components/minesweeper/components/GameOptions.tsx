@@ -5,6 +5,7 @@ import { mapDifficultyToGameBoard } from '../constants'
 import { GameDifficulty } from '../types'
 import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi'
 import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im'
+
 interface GameOptionsI {
   isPlaying: boolean;
   difficulty: GameDifficulty;
@@ -21,6 +22,8 @@ interface GameOptionsI {
   autoPlay: boolean;
   switchVisualize: () => void;
   visualize: boolean;
+  switchEdgeless: () => void;
+  edgelessMode: boolean;
 }
 
 export const GameOptions = ({
@@ -38,7 +41,9 @@ export const GameOptions = ({
   switchAutoPlay,
   autoPlay,
   visualize,
-  switchVisualize
+  switchVisualize,
+  edgelessMode,
+  switchEdgeless
 }: GameOptionsI) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -103,6 +108,11 @@ export const GameOptions = ({
   const handleClickVisualize = () => {
     if (isPlaying) return;
     switchVisualize();
+  }
+
+  const handleClickEdgeless = () => {
+    if (isPlaying) return;
+    switchEdgeless();
   }
 
   return (
@@ -190,6 +200,12 @@ export const GameOptions = ({
                 <label htmlFor="visualize">Visualizer</label>
                 <CheckBox onClick={handleClickVisualize} >
                   {visualize ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
+                </CheckBox>
+              </OptionItem>
+              <OptionItem>
+                <label htmlFor="edgeless">Edgeless Mode</label>
+                <CheckBox onClick={handleClickEdgeless} >
+                  {edgelessMode ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
                 </CheckBox>
               </OptionItem>
             </OptionsContainer>

@@ -15,7 +15,8 @@ export const countNeighborBombs = (state: State, board: Cell[]) => {
         cellIndex: i,
         color: '#00aeff',
         uncover: false,
-        neighborBombs: 0
+        neighborBombs: 0,
+        flag: false
       })
     }
 
@@ -29,7 +30,8 @@ export const countNeighborBombs = (state: State, board: Cell[]) => {
           cellIndex: neighborIndex,
           color: neighborIsBomb ? '#FF6666' : '#3CB371',
           uncover: false,
-          neighborBombs: 0
+          neighborBombs: 0,
+          flag: false
         })
       }
     }

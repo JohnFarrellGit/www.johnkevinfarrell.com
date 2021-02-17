@@ -18,7 +18,8 @@ import {
   updateFaceType,
   updateTimer,
   switchShowVisual,
-  visualDisplay
+  visualDisplay,
+  switchEdgelessMode
 } from "./functions";
 
 export interface State {
@@ -39,10 +40,22 @@ export interface State {
   autoPlay: boolean;
   showVisual: boolean;
   visualSteps: VisualOption[];
+  edgelessMode: boolean;
 };
 
 export type Action =
-  | { type: 'Init', gameDifficulty: GameDifficulty, faceType: FaceType, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, showVisual: boolean, customDifficulty?: { rows: number, columns: number, numberOfBombs: number } }
+  |
+  {
+    type: 'Init',
+    gameDifficulty: GameDifficulty,
+    faceType: FaceType,
+    autoReveal: boolean,
+    autoFlag: boolean,
+    autoPlay: boolean,
+    showVisual: boolean,
+    edgelessMode: boolean,
+    customDifficulty?: { rows: number, columns: number, numberOfBombs: number }
+  }
   | { type: 'UpdateTimer' }
   | { type: 'HoldCell', cellIndex: number }
   | { type: 'ClickCell', cellIndex: number }
@@ -56,6 +69,7 @@ export type Action =
   | { type: 'AutoPlay' }
   | { type: 'SwitchShowVisual' }
   | { type: 'VisualDisplay', visualSteps: VisualOption[] }
+  | { type: 'SwitchEdgelessMode' }
 
 export const minesweeperReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -71,6 +85,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     case 'AutoPlay': return autoPlay(state);
     case 'SwitchShowVisual': return switchShowVisual(state);
     case 'VisualDisplay': return visualDisplay(state, action);
+    case 'SwitchEdgelessMode': return switchEdgelessMode(state);
     default: return state;
   };
 };

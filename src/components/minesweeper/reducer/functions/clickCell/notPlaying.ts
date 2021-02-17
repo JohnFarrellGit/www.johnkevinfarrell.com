@@ -5,7 +5,7 @@ import { VisualOption } from "../../../types";
 import { countNeighborBombs } from "./countNeighborBombs";
 import { placeBombs } from "./placeBombs";
 
-export const notPlaying = (state: State, action: { type: 'ClickCell', cellIndex: number }) => {
+export const notPlaying = (state: State, action: { type: 'ClickCell', cellIndex: number, edgelessMode: boolean }) => {
   const visualSteps: VisualOption[] = [];
 
   const { board: boardAfterGenerate, visualSteps: generateBoardVisualSteps } = generateBoard(state.rows, state.columns, state.showVisual);

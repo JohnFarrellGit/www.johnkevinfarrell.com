@@ -10,6 +10,7 @@ import { autoFlag } from './autoFlag';
 import { autoPlay } from './autoPlay';
 import { switchShowVisual } from './switchShowVisual';
 import { visualDisplay } from './visualDisplay';
+import { switchEdgelessMode } from './switchEdgelessMode';
 
 export {
   clickCell,
@@ -23,5 +24,6 @@ export {
   autoFlag,
   autoPlay,
   switchShowVisual,
-  visualDisplay
+  visualDisplay,
+  switchEdgelessMode
 };

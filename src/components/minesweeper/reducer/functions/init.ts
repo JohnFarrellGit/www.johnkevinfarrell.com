@@ -11,6 +11,7 @@ export const init = (action: {
   autoFlag: boolean,
   autoPlay: boolean,
   showVisual: boolean,
+  edgelessMode: boolean,
   customDifficulty?: { rows: number, columns: number, numberOfBombs: number }
 }): State => {
   let rows: number;
@@ -46,6 +47,7 @@ export const init = (action: {
     autoFlag: action.autoFlag,
     autoPlay: action.autoPlay,
     showVisual: action.showVisual,
+    edgelessMode: action.edgelessMode,
     visualSteps: []
   };
 };

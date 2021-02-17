@@ -8,7 +8,7 @@ export const calculateNeighborPositions = (state: State, board: Cell[]) => {
 
   for (let cellIndex = 0; cellIndex < board.length; cellIndex++) {
 
-    board[cellIndex].neighbors = generateNeighbors(cellIndex, state.columns, state.rows);
+    board[cellIndex].neighbors = generateNeighbors(cellIndex, state.columns, state.rows, state.edgelessMode);
 
     if (state.showVisual) {
       const cells: VisualCellInformation[] = [{
@@ -30,7 +30,7 @@ export const calculateNeighborPositions = (state: State, board: Cell[]) => {
       }
 
       visualSteps.push({
-        baseIntervalTimeMs: 5,
+        baseIntervalTimeMs: 15,
         cells,
         changeType: ChangeType.GenerateNeighbors
       })
