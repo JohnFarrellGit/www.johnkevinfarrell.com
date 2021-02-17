@@ -1,11 +1,13 @@
-import { Cell } from "../types";
+import { MARK_FOR_CLEARING_COLOR, VISIT_CELL_COLOR } from "../constants";
+import { Cell, ChangeType, VisualOption } from "../types";
 
-export const autoPlayer = (board: Cell[]): { newCellsToReveal: number[] } => {
+export const autoPlayer = (board: Cell[]) => {
   const newCellsToReveal: number[] = [];
+  const visualSteps: VisualOption[] = [];
 
-  for (let i = 0; i < board.length; i++) {
+  for (let cellIndex = 0; cellIndex < board.length; cellIndex++) {
 
-    const cell = board[i];
+    const cell = board[cellIndex];
 
     if (cell.isCovered) continue;
 
@@ -13,6 +15,18 @@ export const autoPlayer = (board: Cell[]): { newCellsToReveal: number[] } => {
       newCellsToReveal.push(...cell.neighbors);
       continue;
     }
+
+    visualSteps.push({
+      baseIntervalTimeMs: 50,
+      changeType: ChangeType.LookForCellsToReveal,
+      cells: [{
+        cellIndex,
+        color: VISIT_CELL_COLOR,
+        uncover: false,
+        flag: false,
+        neighborBombs: cell.neighborBombs
+      }],
+    })
 
     let flaggedNeighbors = 0;
     for (let j = 0; j < cell.neighbors.length; j++) {
@@ -24,13 +38,34 @@ export const autoPlayer = (board: Cell[]): { newCellsToReveal: number[] } => {
       for (let j = 0; j < cell.neighbors.length; j++) {
         const neighborCell = board[cell.neighbors[j]];
         if (!neighborCell.isFlagged) {
-          newCellsToReveal.push(cell.neighbors[j])
+          newCellsToReveal.push(cell.neighbors[j]);
+
+          visualSteps.push({
+            baseIntervalTimeMs: 50,
+            changeType: ChangeType.LookForCellsToReveal,
+            cells: [{
+              cellIndex,
+              color: VISIT_CELL_COLOR,
+              uncover: false,
+              flag: false,
+              neighborBombs: cell.neighborBombs
+            },
+            ...newCellsToReveal.map((cellRevealIndex) => ({
+              cellIndex: cellRevealIndex,
+              color: MARK_FOR_CLEARING_COLOR,
+              uncover: true,
+              flag: false,
+              neighborBombs: board[cellIndex].neighborBombs
+            }))
+            ],
+          })
         }
       }
     }
   }
 
   return {
-    newCellsToReveal
+    newCellsToReveal,
+    visualSteps
   };
 }

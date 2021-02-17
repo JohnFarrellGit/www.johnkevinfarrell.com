@@ -16,6 +16,7 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
         cellIndex: cellIndex,
         color: CLICK_CELL_COLOR,
         uncover: true,
+        flag: board[cellIndex].isFlagged,
         neighborBombs: board[cellIndex].neighborBombs
       }],
       changeType: ChangeType.RevealClickedCell
@@ -49,11 +50,13 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
                   cellIndex,
                   color: CLICK_CELL_COLOR,
                   uncover: true,
+                  flag: board[currentCellIndex].isFlagged,
                   neighborBombs: board[currentCellIndex].neighborBombs
                 }, ...recursivelyReveal.map((cellIndex) => ({
                   cellIndex,
                   color: RECURSIVELY_REVEAL_CELL_COLOR,
                   uncover: true,
+                  flag: board[currentCellIndex].isFlagged,
                   neighborBombs: board[cellIndex].neighborBombs
                 }))],
                 changeType: ChangeType.RevealClickedCellAndNeighbors
@@ -62,44 +65,29 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
           }
         }
       }
-
     }
 
-    // if (returnVisualSteps) {
-    //   visualSteps.push({
-    //     baseIntervalTimeMs: 100,
-    //     cells: [{
-    //       cellIndex: cellIndex,
-    //       color: '#1f7344'
-    //     }, ...recursivelyReveal.map((cellIndex) => ({
-    //       cellIndex,
-    //       color: '#54d18c'
-    //     }))],
-    //     changeType: ChangeType.RevealClickedCellAndNeighbors,
-    //     board
-    //   })
-    // }
+    if (autoFlag) {
+      const { board: flaggedBoard, visualSteps: flaggedVisualSteps } = autoFlagger(board, returnVisualSteps);
+      board = flaggedBoard
+      visualSteps.push(...flaggedVisualSteps)
+    }
+
+    if (autoPlay) {
+      const { newCellsToReveal, visualSteps: autoPlayVisualSteps } = autoPlayer(board)
+      newCellsToReveal.forEach(cell => {
+        if (!visitedCells.has(cell)) {
+          queue.push(cell);
+          visitedCells.add(cell)
+        }
+      });
+    }
 
     // if (!returnVisualSteps) {
     //   board[currentCellIndex] = newCell;
     // }
 
-    // if (autoFlag) {
-    //   const { board: flaggedBoard, visualSteps: flaggedVisualSteps } = autoFlagger(board, returnVisualSteps);
-    //   console.log("🚀 ~ file: clickCell.ts ~ line 58 ~ clickCell ~ flaggedVisualSteps", flaggedVisualSteps)
-    //   board = [...flaggedBoard]
-    //   visualSteps.push(...flaggedVisualSteps)
-    // }
 
-    // if (autoPlay) {
-    //   const { newCellsToReveal } = autoPlayer(board)
-    //   newCellsToReveal.forEach(cell => {
-    //     if (!visitedCells.has(cell)) {
-    //       queue.push(cell);
-    //       visitedCells.add(cell)
-    //     }
-    //   });
-    // }
   }
 
   // autoPlayerProbabilistic(board);

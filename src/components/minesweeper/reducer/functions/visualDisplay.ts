@@ -3,7 +3,7 @@ import { VisualOption } from "../../types";
 
 export const visualDisplay = (state: State, action: { visualSteps: VisualOption[] }) => {
 
-  const [newVisual, ...remainingVisualSteps] = action.visualSteps;
+  const newVisual = action.visualSteps.pop();
 
   const board = [...state.board];
 
@@ -14,19 +14,22 @@ export const visualDisplay = (state: State, action: { visualSteps: VisualOption[
   if (newVisual && newVisual.cells.length > 0) {
     for (let i = 0; i < newVisual.cells.length; i++) {
       const cellIndex = newVisual.cells[i].cellIndex;
-      board[cellIndex].visualCellOptions = {
-        color: newVisual.cells[i].color
+      if (board[cellIndex]) {
+        board[cellIndex].visualCellOptions = {
+          color: newVisual.cells[i].color
+        }
+        if (newVisual.cells[i].uncover) {
+          board[cellIndex].isCovered = false;
+        }
+        board[cellIndex].neighborBombs = newVisual.cells[i].neighborBombs;
+        board[cellIndex].isFlagged = newVisual.cells[i].flag;
       }
-      if (newVisual.cells[i].uncover) {
-        board[cellIndex].isCovered = false;
-      }
-      board[cellIndex].neighborBombs = newVisual.cells[i].neighborBombs;
     }
   }
 
   return {
     ...state,
     board,
-    visualSteps: remainingVisualSteps
+    visualSteps: action.visualSteps
   }
 }

@@ -15,6 +15,7 @@ export const calculateNeighborPositions = (state: State, board: Cell[]) => {
         cellIndex,
         color: '#00aeff',
         uncover: false,
+        flag: board[cellIndex].isFlagged,
         neighborBombs: 0
       }]
 
@@ -23,6 +24,7 @@ export const calculateNeighborPositions = (state: State, board: Cell[]) => {
           cellIndex: board[cellIndex].neighbors[i],
           color: '#957DAD',
           uncover: false,
+          flag: board[cellIndex].isFlagged,
           neighborBombs: 0
         })
       }

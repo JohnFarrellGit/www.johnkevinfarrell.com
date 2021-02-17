@@ -36,6 +36,7 @@ export interface VisualCellInformation {
   cellIndex: number;
   color: string;
   uncover: boolean;
+  flag: boolean;
   neighborBombs: number;
 }
 
@@ -46,7 +47,8 @@ export enum ChangeType {
   CalculateNeighborBombs,
   RevealClickedCell,
   RevealClickedCellAndNeighbors,
-  LookForCellsToFlag
+  LookForCellsToFlag,
+  LookForCellsToReveal
 }
 
 export interface VisualOption {

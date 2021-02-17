@@ -29,6 +29,10 @@ export const notPlaying = (state: State, action: { type: 'ClickCell', cellIndex:
     hasLost, } = revealCells(action.cellIndex, boardAfterCountingNeighborBombs, state.autoReveal, state.autoFlag, state.autoPlay, state.showVisual);
   visualSteps.push(...boardWithCellsRevealedVisualSteps);
 
+  // this is to allow us to push new steps in O(1) and pop steps in O(1) from visualDisplay.ts
+  // visualDisplay.ts already looping over all steps so this converts an O(N^2) operation to O(N)
+  visualSteps.reverse();
+
   if (state.showVisual) {
     return {
       ...state,

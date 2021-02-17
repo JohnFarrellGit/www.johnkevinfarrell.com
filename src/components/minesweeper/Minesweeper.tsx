@@ -8,7 +8,7 @@ import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { VisualizerInformation } from "./components/VisualizerInformation";
-import { generateBoard, getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty, getAutoFlag, getAutoPlay, getShowVisual } from "./functions";
+import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty, getAutoFlag, getAutoPlay, getShowVisual } from "./functions";
 import { minesweeperReducer } from "./reducer";
 import { Faces, FaceType, GameDifficulty } from "./types";
 
@@ -85,16 +85,16 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
   }, []);
 
   useEffect(() => {
-    if (gameState.visualSteps?.length >= 0) {
+    if (gameState.visualSteps.length >= 0) {
       // set interval loop through them whilst sending correct updates to our reducer!
       // if visual display is on we don't actually want to make the changes until here,
       // basically bank them all then loop through them in order displaying!
       // post cell display you also apply the change!
 
-      if (gameState.visualSteps[0]) {
+      if (gameState.visualSteps[gameState.visualSteps.length - 1]) {
         setTimeout(() => {
           dispatch({ type: 'VisualDisplay', visualSteps: gameState.visualSteps });
-        }, gameState.visualSteps[0].baseIntervalTimeMs)
+        }, gameState.visualSteps[gameState.visualSteps.length - 1].baseIntervalTimeMs)
       } else {
         // we might want to clear but not too quickly?
         console.log("end of visualiser")
