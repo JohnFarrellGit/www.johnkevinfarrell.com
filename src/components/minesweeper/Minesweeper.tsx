@@ -60,17 +60,16 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
   const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
 
   useEffect(() => {
-    const gameDifficulty = getGameDifficulty(localStorage.difficulty);
     dispatch({
       type: 'Init',
-      gameDifficulty,
+      gameDifficulty: getGameDifficulty(localStorage.difficulty),
       faceType: getFaceType(localStorage.faceType),
       autoReveal: getAutoReveal(localStorage.autoFlag),
       autoFlag: getAutoFlag(localStorage.autoFlag),
       autoPlay: getAutoPlay(localStorage.autoPlay),
       showVisual: getShowVisual(localStorage.visualize),
       edgelessMode: getEdgelessMode(localStorage.edgelessMode)
-    })
+    });
   }, []);
 
   useEffect(() => {
@@ -139,7 +138,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     dispatch({ type: 'SwitchEdgelessMode' })
   }, [])
 
-  const visualizerInformation = useMemo(() => gameState.showVisual ? <VisualizerInformation changeType={gameState.visualSteps[0]?.changeType} /> : null, [gameState.visualSteps?.length])
+  const visualizerInformation = useMemo(() => gameState.showVisual ? <VisualizerInformation changeType={gameState.visualSteps[0]?.changeType} /> : null, [gameState.visualSteps.length])
 
   const gameCells = useMemo(() => gameState.display ?
     <PlayingContainer>

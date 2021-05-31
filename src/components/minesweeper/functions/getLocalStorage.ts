@@ -1,4 +1,3 @@
-import { MinesweeperCustomSettings } from "../../../common/hooks/useLocalStorage";
 import { mapDifficultyToGameBoard } from "../constants";
 import { FaceType, GameDifficulty } from "../types";
 
@@ -16,51 +15,27 @@ export const getFaceType = (faceType: FaceType): FaceType => {
   return FaceType.Regular
 }
 
-export const getCustomBoardConfig = (gameDifficulty: GameDifficulty, customSettings: MinesweeperCustomSettings) => {
+export const getCustomBoardConfig = (gameDifficulty: GameDifficulty) => {
   return {
-    columns: getNumberOfColumns(gameDifficulty, customSettings),
-    rows: getNumberOfRows(gameDifficulty, customSettings),
-    numberOfBombs: getNumberOfBombs(gameDifficulty, customSettings),
+    columns: getNumberOfColumns(gameDifficulty),
+    rows: getNumberOfRows(gameDifficulty),
+    numberOfBombs: getNumberOfBombs(gameDifficulty),
   }
 }
 
-const getNumberOfRows = (gameDifficulty: GameDifficulty, customSettings: MinesweeperCustomSettings) => {
+const getNumberOfRows = (gameDifficulty: GameDifficulty) => {
   const difficulty = getGameDifficulty(gameDifficulty)
-  if (difficulty === GameDifficulty.Custom) {
-    if (customSettings) {
-      return customSettings.rows
-    } else {
-      return 10;
-    }
-  } else {
-    return mapDifficultyToGameBoard[difficulty].rows;
-  }
+  return mapDifficultyToGameBoard[difficulty].rows;
 }
 
-const getNumberOfColumns = (gameDifficulty: GameDifficulty, customSettings: MinesweeperCustomSettings) => {
+const getNumberOfColumns = (gameDifficulty: GameDifficulty) => {
   const difficulty = getGameDifficulty(gameDifficulty)
-  if (difficulty === GameDifficulty.Custom) {
-    if (customSettings) {
-      return customSettings.columns;
-    } else {
-      return 10;
-    }
-  } else {
-    return mapDifficultyToGameBoard[difficulty].columns;
-  }
+  return mapDifficultyToGameBoard[difficulty].columns;
 }
 
-const getNumberOfBombs = (gameDifficulty: GameDifficulty, customSettings: MinesweeperCustomSettings) => {
+const getNumberOfBombs = (gameDifficulty: GameDifficulty) => {
   const difficulty = getGameDifficulty(gameDifficulty)
-  if (difficulty === GameDifficulty.Custom) {
-    if (customSettings) {
-      return customSettings.numberOfBombs;
-    } else {
-      return 10;
-    }
-  } else {
-    return mapDifficultyToGameBoard[difficulty].numberOfBombs;
-  }
+  return mapDifficultyToGameBoard[difficulty].numberOfBombs;
 }
 
 export const getAutoReveal = (autoReveal: boolean): boolean => {

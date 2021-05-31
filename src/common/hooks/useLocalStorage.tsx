@@ -5,7 +5,6 @@ interface MinesweeperResults {
   [GameDifficulty.Beginner]: number[];
   [GameDifficulty.Intermediate]: number[];
   [GameDifficulty.Expert]: number[];
-  [GameDifficulty.Custom]: number[];
 }
 
 export interface MinesweeperCustomSettings {

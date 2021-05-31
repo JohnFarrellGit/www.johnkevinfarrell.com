@@ -28,7 +28,6 @@ export const generateNeighbors = (cellNumber: number, columns: number, rows: num
       gridN.push(cellNumber + x + y * columns);
     }
   } else {
-
     if (hasLeft) {
       if (hasAbove) {
         neighborCoords.push([-1, -1])

@@ -15,7 +15,7 @@ const Results = ({ isWinner, gameDifficulty, timer }: ResultsI) => {
   const fastest10 = results[gameDifficulty].slice(0, 10);
 
   useEffect(() => {
-    if (isWinner && gameDifficulty !== GameDifficulty.Custom) {
+    if (isWinner) {
       const newResults = { ...results };
       const difficultySetting = gameDifficulty;
       const newResultsDifficulty = [...newResults[difficultySetting]];

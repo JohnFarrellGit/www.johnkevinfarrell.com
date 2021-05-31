@@ -10,26 +10,6 @@ export const updateConfiguration = (state: State, action: { type: 'UpdateConfigu
     };
   };
 
-  if (action.gameDifficulty === GameDifficulty.Custom && action.rows && action.columns && action.numberOfBombs) {
-
-    const { board } = generateBoard(state.rows, state.columns, false)
-
-    return {
-      ...state,
-      gameDifficulty: action.gameDifficulty,
-      rows: action.rows,
-      columns: action.columns,
-      numberOfBombs: action.numberOfBombs,
-      board,
-      flagsPlaced: 0,
-      timer: 0,
-      face: Faces.Blank,
-      isPlaying: false,
-      isDead: false,
-      isWinner: false
-    };
-  };
-
   const { rows, columns, numberOfBombs } = mapDifficultyToGameBoard[action.gameDifficulty];
   const { board } = generateBoard(rows, columns, false)
 

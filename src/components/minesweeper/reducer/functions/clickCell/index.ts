@@ -33,4 +33,8 @@ export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: 
       face: boardWithCellsRevealed.hasLost ? Faces.Dizzy : boardWithCellsRevealed.hasWon ? Faces.Celebration : Faces.Happy,
     }
   }
+
+  return {
+    ...state
+  }
 }

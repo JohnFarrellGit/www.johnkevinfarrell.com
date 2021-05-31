@@ -11,22 +11,15 @@ export const init = (action: {
   autoFlag: boolean,
   autoPlay: boolean,
   showVisual: boolean,
-  edgelessMode: boolean,
-  customDifficulty?: { rows: number, columns: number, numberOfBombs: number }
+  edgelessMode: boolean
 }): State => {
   let rows: number;
   let columns: number;
   let numberOfBombs: number;
 
-  if (action.customDifficulty !== undefined) {
-    rows = action.customDifficulty.rows;
-    columns = action.customDifficulty.columns;
-    numberOfBombs = action.customDifficulty.numberOfBombs;
-  } else {
-    rows = mapDifficultyToGameBoard[action.gameDifficulty].rows;
-    columns = mapDifficultyToGameBoard[action.gameDifficulty].columns;
-    numberOfBombs = mapDifficultyToGameBoard[action.gameDifficulty].numberOfBombs;
-  }
+  rows = mapDifficultyToGameBoard[action.gameDifficulty].rows;
+  columns = mapDifficultyToGameBoard[action.gameDifficulty].columns;
+  numberOfBombs = mapDifficultyToGameBoard[action.gameDifficulty].numberOfBombs;
 
   const { board } = generateBoard(rows, columns, false);
 

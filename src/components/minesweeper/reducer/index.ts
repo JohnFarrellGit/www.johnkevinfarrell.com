@@ -76,7 +76,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     case 'Init': return init(action);
     case 'UpdateTimer': return updateTimer(state);
     case 'HoldCell': return holdCell(state, action);
-    case 'ClickCell': return clickCell(state, action)!;
+    case 'ClickCell': return clickCell(state, action);
     case 'PlaceFlag': return placeFlag(state, action);
     case 'UpdateConfiguration': return updateConfiguration(state, action);
     case 'UpdateFaceType': return updateFaceType(state);
