@@ -15,8 +15,7 @@ export interface Cell {
 export enum GameDifficulty {
   Beginner,
   Intermediate,
-  Expert,
-  Custom
+  Expert
 }
 
 export enum FaceType {

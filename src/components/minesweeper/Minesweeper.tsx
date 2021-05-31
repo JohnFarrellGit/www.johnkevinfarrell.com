@@ -8,7 +8,7 @@ import SEO from "../SEO";
 import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { VisualizerInformation } from "./components/VisualizerInformation";
-import { getAutoReveal, getCustomBoardConfig, getFaceType, getGameDifficulty, getAutoFlag, getAutoPlay, getShowVisual, getEdgelessMode } from "./functions";
+import { getAutoReveal, getFaceType, getGameDifficulty, getAutoFlag, getAutoPlay, getShowVisual, getEdgelessMode } from "./functions";
 import { minesweeperReducer } from "./reducer";
 import { Faces, FaceType, GameDifficulty } from "./types";
 
@@ -60,34 +60,17 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
   const [gameState, dispatch] = useReducer(minesweeperReducer, initialGameState);
 
   useEffect(() => {
-
     const gameDifficulty = getGameDifficulty(localStorage.difficulty);
-
-    // getEdgelessMode()
-    if (gameDifficulty === GameDifficulty.Custom) {
-      dispatch({
-        type: 'Init',
-        gameDifficulty,
-        customDifficulty: getCustomBoardConfig(gameDifficulty, localStorage.customSettings),
-        faceType: getFaceType(localStorage.faceType),
-        autoReveal: getAutoReveal(localStorage.autoReveal),
-        autoFlag: getAutoFlag(localStorage.autoFlag),
-        autoPlay: getAutoPlay(localStorage.autoPlay),
-        showVisual: getShowVisual(localStorage.visualize),
-        edgelessMode: getEdgelessMode(localStorage.edgelessMode)
-      })
-    } else {
-      dispatch({
-        type: 'Init',
-        gameDifficulty,
-        faceType: getFaceType(localStorage.faceType),
-        autoReveal: getAutoReveal(localStorage.autoFlag),
-        autoFlag: getAutoFlag(localStorage.autoFlag),
-        autoPlay: getAutoPlay(localStorage.autoPlay),
-        showVisual: getShowVisual(localStorage.visualize),
-        edgelessMode: getEdgelessMode(localStorage.edgelessMode)
-      })
-    }
+    dispatch({
+      type: 'Init',
+      gameDifficulty,
+      faceType: getFaceType(localStorage.faceType),
+      autoReveal: getAutoReveal(localStorage.autoFlag),
+      autoFlag: getAutoFlag(localStorage.autoFlag),
+      autoPlay: getAutoPlay(localStorage.autoPlay),
+      showVisual: getShowVisual(localStorage.visualize),
+      edgelessMode: getEdgelessMode(localStorage.edgelessMode)
+    })
   }, []);
 
   useEffect(() => {
@@ -122,20 +105,8 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     dispatch({ type: 'HoldCell', cellIndex })
   }, []);
 
-  const updateDifficulty = useCallback((gameDifficulty: GameDifficulty, rows?: number, columns?: number, numberOfBombs?: number) => {
-    localStorage.setDifficulty(gameDifficulty);
-    if (gameDifficulty === GameDifficulty.Custom) {
-      if (rows && columns && numberOfBombs) {
-        localStorage.setCustomSettings({
-          rows,
-          columns,
-          numberOfBombs
-        });
-        dispatch({ type: 'UpdateConfiguration', gameDifficulty, rows, columns, numberOfBombs });
-      }
-    } else {
-      dispatch({ type: 'UpdateConfiguration', gameDifficulty });
-    }
+  const updateDifficulty = useCallback((gameDifficulty: GameDifficulty) => {
+    dispatch({ type: 'UpdateConfiguration', gameDifficulty });
   }, []);
 
   const rightClickFace = useCallback(() => {
@@ -234,13 +205,12 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     gameState.edgelessMode
   ]);
 
-  const previousResults = useMemo(() => gameState.gameDifficulty !== GameDifficulty.Custom ?
+  const previousResults = useMemo(() =>
     <PreviousResults
       isWinner={gameState.isWinner}
       gameDifficulty={gameState.gameDifficulty}
       timer={gameState.timer}
-    /> :
-    null
+    />
     , [gameState.isWinner, gameState.gameDifficulty]);
 
   return (

@@ -33,7 +33,6 @@ export const GameOptions = ({
   columns,
   numberOfBombs,
   updateDifficulty,
-  customSettings,
   switchAutoReveal,
   autoReveal,
   switchAutoFlag,
@@ -49,9 +48,7 @@ export const GameOptions = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDifficultyChange = ((event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (event.target.value === 'Custom') {
-      updateDifficulty(GameDifficulty.Custom, customSettings.rows, customSettings.columns, customSettings.numberOfBombs);
-    } else if (event.target.value === 'Beginner') {
+    if (event.target.value === 'Beginner') {
       updateDifficulty(GameDifficulty.Beginner);
     } else if (event.target.value === 'Intermediate') {
       updateDifficulty(GameDifficulty.Intermediate);
@@ -59,36 +56,6 @@ export const GameOptions = ({
       updateDifficulty(GameDifficulty.Expert);
     }
   })
-
-  const changeRows = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const rows = Number(event.target.value);
-    if (rows < 1 || rows > 99 || difficulty !== GameDifficulty.Custom) return;
-    let numberOfBombs: number;
-    if (customSettings.numberOfBombs >= rows * customSettings.columns) {
-      numberOfBombs = (rows * customSettings.columns) - 1;
-    } else {
-      numberOfBombs = customSettings.numberOfBombs;
-    }
-    updateDifficulty(GameDifficulty.Custom, rows, customSettings.columns, numberOfBombs);
-  }
-
-  const changeColumns = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const columns = Number(event.target.value);
-    if (columns < 1 || columns > 99 || difficulty !== GameDifficulty.Custom) return;
-    let numberOfBombs: number;
-    if (customSettings.numberOfBombs >= customSettings.rows * columns) {
-      numberOfBombs = (customSettings.rows * columns) - 1;
-    } else {
-      numberOfBombs = customSettings.numberOfBombs;
-    }
-    updateDifficulty(GameDifficulty.Custom, customSettings.rows, columns, numberOfBombs);
-  }
-
-  const changeBombs = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const numberOfBombs = Number(event.target.value);
-    if (numberOfBombs < 1 || numberOfBombs > rows * columns - 1 || difficulty !== GameDifficulty.Custom) return;
-    updateDifficulty(GameDifficulty.Custom, customSettings.rows, customSettings.columns, numberOfBombs);
-  }
 
   const handleClickAutoReveal = () => {
     if (isPlaying) return;
@@ -136,18 +103,14 @@ export const GameOptions = ({
                   <option value={"Beginner"}>Beginner</option>
                   <option value={"Intermediate"}>Intermediate</option>
                   <option value={"Expert"}>Expert</option>
-                  <option value={"Custom"}>Custom</option>
                 </select>
               </OptionItem>
               <OptionItem>
                 <label htmlFor="rows">Rows</label>
                 <input
                   type="number"
-                  min={1}
-                  max={100}
                   value={rows}
-                  disabled={difficulty !== GameDifficulty.Custom || isPlaying}
-                  onChange={changeRows}
+                  disabled={true}
                   name="rows"
                   id="rows"
                 />
@@ -156,11 +119,8 @@ export const GameOptions = ({
                 <label htmlFor="columns">Columns</label>
                 <input
                   type="number"
-                  min={1}
-                  max={100}
                   value={columns}
-                  disabled={difficulty !== GameDifficulty.Custom || isPlaying}
-                  onChange={changeColumns}
+                  disabled={true}
                   name="columns"
                   id="columns"
                 />
@@ -169,11 +129,8 @@ export const GameOptions = ({
                 <label htmlFor="bombs">Bombs</label>
                 <input
                   type="number"
-                  min={1}
-                  max={(rows * columns) - 1}
                   value={numberOfBombs}
-                  disabled={difficulty !== GameDifficulty.Custom || isPlaying}
-                  onChange={changeBombs}
+                  disabled={true}
                   name="bombs"
                   id="bombs"
                 />
