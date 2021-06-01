@@ -4,7 +4,6 @@ import { VisualOption } from "../../types";
 export const visualDisplay = (state: State, action: { visualSteps: VisualOption[] }) => {
 
   const newVisual = action.visualSteps.pop();
-  console.log("🚀 ~ file: visualDisplay.ts ~ line 7 ~ visualDisplay ~ newVisual", newVisual)
 
   const board = [...state.board];
 

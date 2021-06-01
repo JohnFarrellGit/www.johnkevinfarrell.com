@@ -1,10 +1,11 @@
 import { autoPlayer, autoFlagger, autoPlayerProbabilistic } from ".";
-import { CLICK_CELL_COLOR, CLICK_CELL_TIME, RECURSIVELY_REVEAL_CELL_COLOR, RECURSIVE_REVEAL_TIME } from "../constants";
+import { CLICK_CELL_COLOR, CLICK_CELL_TIME } from "../constants";
 import { Cell, ChangeType, VisualOption } from "../types";
+import { autoRevealer } from "./autoRevealer";
 
-export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, returnVisualSteps: boolean) => {
+export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, advancedAutoPlay: boolean, returnVisualSteps: boolean) => {
   const queue: number[] = [cellIndex];
-  const visitedCells: Set<number> = new Set([cellIndex, ...board.filter(el => !el.isCovered || el.isFlagged).map(el => el.id)]);
+  let visitedCells: Set<number> = new Set([cellIndex, ...board.filter(el => !el.isCovered || el.isFlagged).map(el => el.id)]);
   const recursivelyReveal: number[] = []
 
   const visualSteps: VisualOption[] = []
@@ -25,72 +26,24 @@ export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean,
 
   while (queue.length > 0) {
 
-    while (queue.length > 0) {
-      const currentCellIndex = queue.pop() as number;
-
-      const newCell = {
-        ...board[currentCellIndex],
-        isCovered: false
-      }
-      board[currentCellIndex] = newCell;
-
-      if (newCell.neighborBombs === 0) {
-        for (let i = 0; i < newCell.neighbors.length; i++) {
-
-          if (!visitedCells.has(newCell.neighbors[i]) && autoReveal) {
-
-            if (returnVisualSteps) {
-              visitedCells.add(newCell.neighbors[i]);
-              queue.push(newCell.neighbors[i]);
-              recursivelyReveal.push(newCell.neighbors[i]);
-
-              visualSteps.push({
-                baseIntervalTimeMs: RECURSIVE_REVEAL_TIME,
-                cells: [{
-                  cellIndex,
-                  color: CLICK_CELL_COLOR,
-                  uncover: true,
-                  flag: board[currentCellIndex].isFlagged,
-                  neighborBombs: board[currentCellIndex].neighborBombs
-                }, ...recursivelyReveal.map((cellIndex) => ({
-                  cellIndex,
-                  color: RECURSIVELY_REVEAL_CELL_COLOR,
-                  uncover: true,
-                  flag: board[currentCellIndex].isFlagged,
-                  neighborBombs: board[cellIndex].neighborBombs
-                }))],
-                changeType: ChangeType.RevealClickedCellAndNeighbors
-              });
-            }
-          }
-        }
-      }
+    if (autoReveal) {
+      autoRevealer(queue, board, visualSteps, cellIndex, visitedCells, recursivelyReveal, autoReveal, returnVisualSteps);
     }
 
     if (autoFlag) {
-      const { board: flaggedBoard, visualSteps: flaggedVisualSteps } = autoFlagger(board, returnVisualSteps);
-      board = flaggedBoard
-      visualSteps.push(...flaggedVisualSteps)
+      autoFlagger(board, visualSteps, returnVisualSteps);
     }
 
     if (autoPlay) {
-      const { newCellsToReveal, visualSteps: autoPlayVisualSteps } = autoPlayer(board)
-      newCellsToReveal.forEach(cell => {
-        if (!visitedCells.has(cell)) {
-          queue.push(cell);
-          visitedCells.add(cell)
-        }
-      });
+      autoPlayer(queue, visitedCells, board, visualSteps, returnVisualSteps);
     }
 
-    // if (!returnVisualSteps) {
-    //   board[currentCellIndex] = newCell;
-    // }
+    if (advancedAutoPlay) {
+      autoPlayerProbabilistic(board, returnVisualSteps);
+    }
 
-
+    visitedCells = new Set([cellIndex, ...visitedCells, ...board.filter(el => !el.isCovered || el.isFlagged).map(el => el.id)]);
   }
-
-  // autoPlayerProbabilistic(board);
 
   return {
     board,

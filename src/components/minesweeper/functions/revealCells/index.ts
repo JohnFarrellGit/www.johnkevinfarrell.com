@@ -1,7 +1,7 @@
 import { Cell, VisualOption } from "../../types";
 import { clickCell } from "../clickCell";
 
-export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, returnVisualSteps: boolean): {
+export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, advancedAutoPlay: boolean, returnVisualSteps: boolean): {
   board: Cell[],
   hasWon: boolean,
   hasLost: boolean,
@@ -23,7 +23,7 @@ export const revealCells = (cellIndex: number, board: Cell[], autoReveal: boolea
     }
   }
 
-  const { board: revealedBoard, visualSteps } = clickCell(board, cellIndex, autoReveal, autoFlag, autoPlay, returnVisualSteps);
+  const { board: revealedBoard, visualSteps } = clickCell(board, cellIndex, autoReveal, autoFlag, autoPlay, advancedAutoPlay, returnVisualSteps);
 
   const hasWon = board.filter(cell => !cell.isCovered).length === board.filter(cell => !cell.isBomb).length;
   if (hasWon && !returnVisualSteps) {

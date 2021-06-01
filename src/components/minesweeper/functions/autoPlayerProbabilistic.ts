@@ -1,6 +1,6 @@
 import { Cell } from "../types";
 
-export const autoPlayerProbabilistic = (board: Cell[]): { newCellsToReveal: number[] } => {
+export const autoPlayerProbabilistic = (board: Cell[], returnVisualSteps: boolean): { newCellsToReveal: number[] } => {
 
   for (let i = 0; i < board.length; i++) {
 

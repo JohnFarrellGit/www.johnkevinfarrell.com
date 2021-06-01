@@ -21,8 +21,8 @@ export const clickCell = (state: State, action: { type: 'ClickCell', cellIndex: 
     return notPlaying(state, action)
   }
 
-  if (state.isPlaying && (!state.isDead || state.isWinner)) {
-    const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag, state.autoPlay, state.showVisual);
+  if (state.isPlaying) {
+    const boardWithCellsRevealed = revealCells(action.cellIndex, newBoard, state.autoReveal, state.autoFlag, state.autoPlay, state.advancedAutoPlay, state.showVisual);
 
     return {
       ...state,
