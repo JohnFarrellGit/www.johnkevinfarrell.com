@@ -21,6 +21,7 @@ export enum LocalStorageKeys {
   AutoReveal = 'minesweeper-auto-reveal',
   AutoFlag = 'minesweeper-auto-flag',
   AutoPlay = 'minesweeper-auto-play',
+  AdvancedAutoPlay = 'advanced-auto-play',
   Visualize = 'minesweeper-visualize',
   EdgelessMode = 'minesweeper-edgeless-mode'
 }
@@ -33,6 +34,7 @@ interface Minesweeper {
   [LocalStorageKeys.AutoReveal]: boolean;
   [LocalStorageKeys.AutoFlag]: boolean;
   [LocalStorageKeys.AutoPlay]: boolean;
+  [LocalStorageKeys.AdvancedAutoPlay]: boolean;
   [LocalStorageKeys.Visualize]: boolean;
   [LocalStorageKeys.EdgelessMode]: boolean;
 }
@@ -62,6 +64,7 @@ const LOCAL_STORAGE_DEFAULTS = {
   [LocalStorageKeys.AutoReveal]: true,
   [LocalStorageKeys.AutoFlag]: false,
   [LocalStorageKeys.AutoPlay]: false,
+  [LocalStorageKeys.AdvancedAutoPlay]: false,
   [LocalStorageKeys.Visualize]: false,
   [LocalStorageKeys.EdgelessMode]: false
 };

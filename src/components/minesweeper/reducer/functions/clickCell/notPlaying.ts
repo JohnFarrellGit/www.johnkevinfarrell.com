@@ -35,13 +35,9 @@ export const notPlaying = (state: State, action: { type: 'ClickCell', cellIndex:
   const visualSteps: VisualOption[] = [];
 
   visualSteps.push(...generateBoardVisualSteps);
-
   visualSteps.push(...placeBombsVisualState);
-
   visualSteps.push(...calculateNeighborsVisualState);
-
   visualSteps.push(...countNeighborBombsVisualState);
-
   visualSteps.push(...boardWithCellsRevealedVisualSteps);
 
   // this is to allow us to push new steps in O(1) and pop steps in O(1) from visualDisplay.ts

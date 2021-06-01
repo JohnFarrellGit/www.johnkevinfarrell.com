@@ -10,6 +10,7 @@ export const init = (action: {
   autoReveal: boolean,
   autoFlag: boolean,
   autoPlay: boolean,
+  advancedAutoPlay: boolean,
   showVisual: boolean,
   edgelessMode: boolean
 }): State => {
@@ -39,6 +40,7 @@ export const init = (action: {
     autoReveal: action.autoReveal,
     autoFlag: action.autoFlag,
     autoPlay: action.autoPlay,
+    advancedAutoPlay: action.advancedAutoPlay,
     showVisual: action.showVisual,
     edgelessMode: action.edgelessMode,
     visualSteps: []

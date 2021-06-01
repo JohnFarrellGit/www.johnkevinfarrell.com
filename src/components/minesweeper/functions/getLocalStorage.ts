@@ -59,6 +59,13 @@ export const getAutoPlay = (autoPlay: boolean): boolean => {
   return autoPlay;
 }
 
+export const getAdvancedAutoPlay = (autoPlay: boolean): boolean => {
+  if (typeof autoPlay !== 'boolean') {
+    return false;
+  }
+  return autoPlay;
+}
+
 export const getShowVisual = (visualize: boolean): boolean => {
   if (typeof visualize !== 'boolean') {
     return false;

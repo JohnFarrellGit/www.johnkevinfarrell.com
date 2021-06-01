@@ -21,6 +21,7 @@ import {
   visualDisplay,
   switchEdgelessMode
 } from "./functions";
+import { advancedAutoPlay } from "./functions/advancedAutoPlay";
 
 export interface State {
   rows: number,
@@ -38,6 +39,7 @@ export interface State {
   autoReveal: boolean;
   autoFlag: boolean;
   autoPlay: boolean;
+  advancedAutoPlay: boolean;
   showVisual: boolean;
   visualSteps: VisualOption[];
   edgelessMode: boolean;
@@ -52,6 +54,7 @@ export type Action =
     autoReveal: boolean,
     autoFlag: boolean,
     autoPlay: boolean,
+    advancedAutoPlay: boolean,
     showVisual: boolean,
     edgelessMode: boolean,
     customDifficulty?: { rows: number, columns: number, numberOfBombs: number }
@@ -67,6 +70,7 @@ export type Action =
   | { type: 'AutoReveal' }
   | { type: 'AutoFlag' }
   | { type: 'AutoPlay' }
+  | { type: 'AdvancedAutoPlay' }
   | { type: 'SwitchShowVisual' }
   | { type: 'VisualDisplay', visualSteps: VisualOption[] }
   | { type: 'SwitchEdgelessMode' }
@@ -83,6 +87,7 @@ export const minesweeperReducer = (state: State, action: Action): State => {
     case 'AutoReveal': return autoReveal(state);
     case 'AutoFlag': return autoFlag(state);
     case 'AutoPlay': return autoPlay(state);
+    case 'AdvancedAutoPlay': return advancedAutoPlay(state);
     case 'SwitchShowVisual': return switchShowVisual(state);
     case 'VisualDisplay': return visualDisplay(state, action);
     case 'SwitchEdgelessMode': return switchEdgelessMode(state);

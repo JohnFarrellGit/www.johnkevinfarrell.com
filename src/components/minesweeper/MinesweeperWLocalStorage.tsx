@@ -11,6 +11,7 @@ export const MinesweeperWLocalStorage = () => {
   const { localStorageValue: autoReveal, setLocalStorageValue: setAutoReveal } = useLocalStorage(LocalStorageKeys.AutoReveal);
   const { localStorageValue: autoFlag, setLocalStorageValue: setAutoFlag } = useLocalStorage(LocalStorageKeys.AutoFlag);
   const { localStorageValue: autoPlay, setLocalStorageValue: setAutoPlay } = useLocalStorage(LocalStorageKeys.AutoPlay);
+  const { localStorageValue: advancedAutoPlay, setLocalStorageValue: setAdvancedAutoPlay } = useLocalStorage(LocalStorageKeys.AdvancedAutoPlay);
   const { localStorageValue: visualize, setLocalStorageValue: setVisualize } = useLocalStorage(LocalStorageKeys.Visualize);
   const { localStorageValue: edgelessMode, setLocalStorageValue: setEdgelessMode } = useLocalStorage(LocalStorageKeys.EdgelessMode);
 
@@ -27,6 +28,8 @@ export const MinesweeperWLocalStorage = () => {
     setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
     autoPlay: boolean;
     setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
+    advancedAutoPlay: boolean;
+    setAdvancedAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
     visualize: boolean;
     setVisualize: React.Dispatch<React.SetStateAction<boolean>>;
     edgelessMode: boolean;
@@ -44,6 +47,8 @@ export const MinesweeperWLocalStorage = () => {
     setAutoFlag,
     autoPlay,
     setAutoPlay,
+    advancedAutoPlay,
+    setAdvancedAutoPlay,
     visualize,
     setVisualize,
     edgelessMode,

@@ -20,6 +20,8 @@ interface GameOptionsI {
   autoFlag: boolean;
   switchAutoPlay: () => void;
   autoPlay: boolean;
+  switchAdvancedAutoPlay: () => void;
+  advancedAutoPlay: boolean;
   switchVisualize: () => void;
   visualize: boolean;
   switchEdgeless: () => void;
@@ -39,6 +41,8 @@ export const GameOptions = ({
   autoFlag,
   switchAutoPlay,
   autoPlay,
+  switchAdvancedAutoPlay,
+  advancedAutoPlay,
   visualize,
   switchVisualize,
   edgelessMode,
@@ -70,6 +74,11 @@ export const GameOptions = ({
   const handleClickAutoPlay = () => {
     if (isPlaying) return;
     switchAutoPlay();
+  }
+
+  const handleClickAdvancedAutoPlay = () => {
+    if (isPlaying) return;
+    switchAdvancedAutoPlay();
   }
 
   const handleClickVisualize = () => {
@@ -151,6 +160,12 @@ export const GameOptions = ({
                 <label htmlFor="auto-play">Auto Play</label>
                 <CheckBox onClick={handleClickAutoPlay} >
                   {autoPlay ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
+                </CheckBox>
+              </OptionItem>
+              <OptionItem>
+                <label htmlFor="advanced-auto-play">Auto Play++</label>
+                <CheckBox onClick={handleClickAdvancedAutoPlay} >
+                  {advancedAutoPlay ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}
                 </CheckBox>
               </OptionItem>
               <OptionItem>

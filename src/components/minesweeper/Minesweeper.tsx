@@ -9,6 +9,7 @@ import Title from "../Title";
 import { GameCell, GameStatus, GameOptions, PreviousResults } from "./components";
 import { VisualizerInformation } from "./components/VisualizerInformation";
 import { getAutoReveal, getFaceType, getGameDifficulty, getAutoFlag, getAutoPlay, getShowVisual, getEdgelessMode } from "./functions";
+import { getAdvancedAutoPlay } from "./functions/getLocalStorage";
 import { minesweeperReducer } from "./reducer";
 import { Faces, FaceType, GameDifficulty } from "./types";
 
@@ -26,6 +27,8 @@ interface MinesweeperI {
     setAutoFlag: React.Dispatch<React.SetStateAction<boolean>>;
     autoPlay: boolean;
     setAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
+    advancedAutoPlay: boolean;
+    setAdvancedAutoPlay: React.Dispatch<React.SetStateAction<boolean>>;
     visualize: boolean;
     setVisualize: React.Dispatch<React.SetStateAction<boolean>>;
     edgelessMode: boolean;
@@ -50,6 +53,7 @@ const initialGameState = {
   autoReveal: true,
   autoFlag: false,
   autoPlay: false,
+  advancedAutoPlay: false,
   showVisual: false,
   visualSteps: [],
   edgelessMode: false
@@ -67,6 +71,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
       autoReveal: getAutoReveal(localStorage.autoFlag),
       autoFlag: getAutoFlag(localStorage.autoFlag),
       autoPlay: getAutoPlay(localStorage.autoPlay),
+      advancedAutoPlay: getAdvancedAutoPlay(localStorage.advancedAutoPlay),
       showVisual: getShowVisual(localStorage.visualize),
       edgelessMode: getEdgelessMode(localStorage.edgelessMode)
     });
@@ -128,6 +133,11 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     dispatch({ type: 'AutoPlay' })
   }, []);
 
+  const switchAdvancedAutoPlay = useCallback(() => {
+    localStorage.setAdvancedAutoPlay((prev) => !prev);
+    dispatch({ type: 'AdvancedAutoPlay' })
+  }, [])
+
   const switchVisualize = useCallback(() => {
     localStorage.setVisualize((prev) => !prev);
     dispatch({ type: 'SwitchShowVisual' })
@@ -188,6 +198,8 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
       switchAutoPlay={switchAutoPlay}
       autoPlay={localStorage.autoPlay}
       switchVisualize={switchVisualize}
+      advancedAutoPlay={localStorage.advancedAutoPlay}
+      switchAdvancedAutoPlay={switchAdvancedAutoPlay}
       visualize={localStorage.visualize}
       edgelessMode={localStorage.edgelessMode}
       switchEdgeless={switchEdgelessMode}
@@ -200,6 +212,7 @@ export const Minesweeper = ({ localStorage }: MinesweeperI) => {
     gameState.autoReveal,
     gameState.autoFlag,
     gameState.autoPlay,
+    gameState.advancedAutoPlay,
     gameState.showVisual,
     gameState.edgelessMode
   ]);
