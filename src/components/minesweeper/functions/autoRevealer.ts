@@ -7,12 +7,12 @@ export const autoRevealer = (
   visualSteps: VisualOption[],
   cellIndex: number,
   visitedCells: Set<number>,
-  recursivelyReveal: number[],
   autoReveal: boolean,
   returnVisualSteps: boolean) => {
 
   while (queue.length > 0) {
     const currentCellIndex = queue.pop() as number;
+    const recursivelyReveal: number[] = []
 
     const newCell = {
       ...board[currentCellIndex],

@@ -6,28 +6,23 @@ import { autoRevealer } from "./autoRevealer";
 export const clickCell = (board: Cell[], cellIndex: number, autoReveal: boolean, autoFlag: boolean, autoPlay: boolean, advancedAutoPlay: boolean, returnVisualSteps: boolean) => {
   const queue: number[] = [cellIndex];
   let visitedCells: Set<number> = new Set([cellIndex, ...board.filter(el => !el.isCovered || el.isFlagged).map(el => el.id)]);
-  const recursivelyReveal: number[] = []
 
-  const visualSteps: VisualOption[] = []
-
-  if (returnVisualSteps) {
-    visualSteps.push({
-      baseIntervalTimeMs: CLICK_CELL_TIME,
-      cells: [{
-        cellIndex: cellIndex,
-        color: CLICK_CELL_COLOR,
-        uncover: true,
-        flag: board[cellIndex].isFlagged,
-        neighborBombs: board[cellIndex].neighborBombs
-      }],
-      changeType: ChangeType.RevealClickedCell
-    });
-  }
+  const visualSteps: VisualOption[] = returnVisualSteps ? [{
+    baseIntervalTimeMs: CLICK_CELL_TIME,
+    cells: [{
+      cellIndex: cellIndex,
+      color: CLICK_CELL_COLOR,
+      uncover: true,
+      flag: board[cellIndex].isFlagged,
+      neighborBombs: board[cellIndex].neighborBombs
+    }],
+    changeType: ChangeType.RevealClickedCell
+  }] : []
 
   while (queue.length > 0) {
 
     if (autoReveal) {
-      autoRevealer(queue, board, visualSteps, cellIndex, visitedCells, recursivelyReveal, autoReveal, returnVisualSteps);
+      autoRevealer(queue, board, visualSteps, cellIndex, visitedCells, autoReveal, returnVisualSteps);
     }
 
     if (autoFlag) {
