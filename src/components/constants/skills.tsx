@@ -1,5 +1,5 @@
 import React from 'react'
-import { SiJavascript, SiTypescript, SiReact, SiJava, SiSpring, SiNodeDotJs } from 'react-icons/si'
+import { SiJavascript, SiTypescript, SiReact, SiNodeDotJs, SiCsharp, SiDotNet } from 'react-icons/si'
 import { AiFillGithub } from 'react-icons/ai'
 
 export default [
@@ -8,7 +8,7 @@ export default [
     icon: <SiJavascript className="skill-icon" />,
     title: 'JavaScript',
     description:
-      'JavaScript is a language I have been using professionally for over a year, I love it because I love the internet. ' +
+      'JavaScript is a language I have been using professionally for a few years, I love it because I love the internet. ' +
       'I love the internet because it is the most user friendly way to share information or build applications.'
   },
   {
@@ -17,37 +17,36 @@ export default [
     title: 'TypeScript',
     description:
       'TypeScript is fantastic as it makes my development experience a lot easier, the static type checking helps reduce ' +
-      'easily implemented bugs. The type system is truly beautiful when you get generics working correctly.'
+      'easily implemented bugs. The type system is truly beautiful.'
   },
   {
     id: 3,
+    icon: <SiCsharp className="skill-icon" />,
+    title: 'C#',
+    description: 'I find C# great for enterprise development when working as part of a team. C# enables good software development patterns' +
+      ' that makes it relatively simple to produce useful applications.'
+  },
+  {
+    id: 4,
     icon: <SiReact className="skill-icon" />,
     title: 'React',
     description:
       'React is my current favourite web framework (I have used Angular and Vue professionally), I find modern functional React makes ' +
-      'reactive web-development a lot less painful. I built this site using Gatsby which is a framework built on top of React.'
+      'stateful web-development a lot less painful. I built this site using Gatsby which is a framework built on top of React.'
   },
   {
-    id: 4,
+    id: 5,
+    icon: <SiDotNet className="skill-icon" />,
+    title: 'ASP.net',
+    description: "I've worked with ASP.net to build backend web APIs utlising RESTful architecture exposing underlying database CRUD functionality."
+  },
+  {
+    id: 6,
     icon: <SiNodeDotJs className="skill-icon" />,
     title: 'Node',
     description:
       "I'm a big fan of the node ecosystem. I love using one language across the whole development stack. I find with node I can get a " +
       "project started extremely quickly. It's also nice that when working in a team everybody knows the languages used across the stack."
-  },
-  {
-    id: 5,
-    icon: <SiJava className="skill-icon" />,
-    title: 'Java',
-    description: 'I find Java great for large scale enterprise development. I am interested in alternatives though (Python, Go, C, C++, C#)'
-  },
-  {
-    id: 6,
-    icon: <SiSpring className="skill-icon" />,
-    title: 'Spring',
-    description:
-      "I've used Spring whilst working on professional web applications, Spring made the backend/server-side development " +
-      'simple with its many pre-configurations.'
   },
   {
     id: 7,
